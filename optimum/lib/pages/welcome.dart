@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:optimum/pages/start.dart';
+import 'package:optimum/pages/wrapper.dart';
+import 'package:optimum/services/auth.dart';
 
 
 class Welcome extends StatefulWidget {
@@ -15,7 +18,7 @@ class _WelcomeState extends State<Welcome> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/welc.png'),
+            image: AssetImage('assets/images/welc.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -68,7 +71,10 @@ class _WelcomeState extends State<Welcome> {
                     ),
                   ),
                   onPressed: (){
-                    Navigator.pushNamed(context, '/start');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Wrapper()),
+                      );
                   },
                   child: Text(
                     'Get Started',

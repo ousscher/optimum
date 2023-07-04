@@ -1,22 +1,35 @@
 
 import 'package:flutter/material.dart';
+import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/welcome.dart';
-import 'package:optimum/pages/create_account_page.dart';
-import 'package:optimum/pages/sign_page.dart';
-import 'package:optimum/pages/start.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:optimum/pages/wrapper.dart';
+import 'package:optimum/services/auth.dart';
+import 'package:provider/provider.dart';
 
 
 
-void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/':(context) => Welcome(),
-      '/start': (context) => Start(),
-      '/sign': (context) => Sign(),
-      '/createaccount': (context) => Createaccount(),
-    },
-  ));
+void main()async {
+  // Initialize Firebase app
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(const MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<Utilisateur?>.value(
+      initialData: null,
+      value: AuthService.user,
+      child: MaterialApp(
+        home:Welcome(),
+      ),
+    );
+  }
+}
 
