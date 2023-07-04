@@ -21,11 +21,6 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    // final  = Provider.of<Utilisateur?>(context);
-    // print("------- ${user} ----------");
-    //return either home or authenticate widget
-    // return user == null ? Start() : Home();
-    print(widget.utilisateur);
-    return widget.utilisateur == null ? Start() : Home();
+    return widget.utilisateur == null ? Start() : Home() ;
   }
 }
