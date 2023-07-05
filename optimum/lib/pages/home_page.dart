@@ -1,28 +1,74 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:optimum/pages/Wrapper.dart';
+import 'package:optimum/services/auth.dart';
+import 'package:optimum/services/database.dart';
 
 class Home extends StatefulWidget {
-
   @override
   State<Home> createState() => _HomeState();
+  
 }
 
 class _HomeState extends State<Home> {
+  String userName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  Future<void> fetchUserName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      String uid = user.uid;
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get();
+
+      if (snapshot.exists) {
+        String name = snapshot.get('name');
+        setState(() {
+          userName = name;
+        });
+      } else {
+        print('L\'utilisateur n\'existe pas dans Firestore');
+      }
+    } else {
+      print('Aucun utilisateur connecté');
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    User? utilisateur = AuthService.getAuth().currentUser;
+    final Size screenSize = MediaQuery.of(context).size;
+    final nom =  DatabaseService(uid: utilisateur!.uid).getUserName();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/home_page.png'),
+            image: AssetImage('assets/images/home_page.png'),
             fit: BoxFit.cover,
           ),
         ),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 36.0, 270, 0),
+              padding: EdgeInsets.fromLTRB(
+                  0, screenSize.height * 0.05, screenSize.width * 0.7, 0),
               child: FloatingActionButton(
-                onPressed: () {},          //Menu button
+                onPressed: () async {
+                  await AuthService.signOut();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => Wrapper()),
+                    (Route<dynamic> route) =>
+                        false, // Supprime toutes les routes précédentes
+                  );
+                }, // Menu button
                 child: Icon(
                   Icons.menu,
                   color: Color(0xFFD37777),
@@ -30,130 +76,137 @@ class _HomeState extends State<Home> {
                 backgroundColor: Colors.grey[100],
               ),
             ),
-            SizedBox(height: 200.0,),
+            SizedBox(height: screenSize.height * 0.3),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 70.0, 40.0, 0),
+              padding: EdgeInsets.fromLTRB(
+                  0, screenSize.height * 0.06, screenSize.width * 0.2, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Hi, Amine!',
+                    'Hi, ${this.userName}!',
                     style: TextStyle(
                       color: Color(0xFF66B3FF),
-                      fontSize: 40.0,
+                      fontSize: screenSize.width * 0.11,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2.0,
                       fontFamily: 'Oswald',
                     ),
                   ),
-
-              SizedBox(height: 10.0,),
-              Text(
-                'We hope that you are well!',
-                style: TextStyle(
-                  color: Color(0xFFD9D9D9),
-                  fontSize: 15.0,
-                  letterSpacing: 1.0,
-                  fontFamily: 'poppins',
-                ),
-              ),
-              SizedBox(height: 2.0,),
-              Text(
-                'So, how can we help you?',
-                style: TextStyle(
-                  color: Color(0xFFD9D9D9),
-                  fontSize: 15.0,
-                  letterSpacing: 1.0,
-                  fontFamily: 'poppins',
-                ),
-              ),
+                  SizedBox(height: screenSize.height * 0.009),
+                  Text(
+                    'We hope that you are well!',
+                    style: TextStyle(
+                      color: Color(0xFFD9D9D9),
+                      fontSize: screenSize.width * 0.045,
+                      letterSpacing: 1.0,
+                      fontFamily: 'poppins',
+                    ),
+                  ),
+                  SizedBox(height: screenSize.height * 0.0045),
+                  Text(
+                    'So, how can we help you?',
+                    style: TextStyle(
+                      color: Color(0xFFD9D9D9),
+                      fontSize: screenSize.width * 0.04,
+                      letterSpacing: 1.0,
+                      fontFamily: 'poppins',
+                    ),
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 30.0,),
+            SizedBox(height: screenSize.height * 0.03),
             Padding(
-              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              padding: EdgeInsets.fromLTRB(
+                  screenSize.width * 0.07, 0, screenSize.width * 0.12, 0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 70.0,
-                        height: 70.0,
+                        width: screenSize.width * 0.22,
+                        height: screenSize.width * 0.22,
                         child: TextButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 return Colors.white;
                               },
                             ),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.circular(
+                                    screenSize.width * 0.15),
                                 side: BorderSide(
                                   color: Color(0xFFD37777),
-                                  //style: BorderStyle.solid,
-                                ), // Add the desired border color
+                                ),
                               ),
                             ),
                           ),
-                          onPressed: (){},
-                          child: Icon(
-                            Icons.schedule,
-                            color: Color(0xFFD37777),
+                          onPressed: () {},
+                          child: Image.asset(
+                            'assets/images/schedule_icon.png',
+                            width: screenSize.width * 0.15,
+                            height: screenSize.height * 0.15,
                           ),
                         ),
                       ),
-                      SizedBox(height: 6.0,),
+                      SizedBox(height: screenSize.height * 0.015),
                       Text(
                         'Book appointment',
                         style: TextStyle(
                           color: Color(0xFFD9D9D9),
-                          fontSize: 15.0,
+                          fontSize: screenSize.width * 0.04,
                           letterSpacing: 1.0,
                           fontFamily: 'poppins',
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 30.0,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 70.0,
-                        height: 70.0,
+                        width: screenSize.width * 0.22,
+                        height: screenSize.width * 0.22,
                         child: TextButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 return Colors.white;
                               },
                             ),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.circular(
+                                    screenSize.width * 0.15),
                                 side: BorderSide(
                                   color: Color(0xFFD37777),
-                                  //style: BorderStyle.solid,
-                                ), // Add the desired border color
+                                ),
                               ),
                             ),
                           ),
-                          onPressed: (){},
-                          child: Icon(
-                            Icons.phone,
-                            color: Color(0xFFD37777),
+                          onPressed: () {},
+                          child: Image.asset(
+                            'assets/images/phone_icon.png',
+                            width: screenSize.width * 0.07,
+                            height: screenSize.height * 0.07,
                           ),
                         ),
                       ),
-                      SizedBox(height: 8.0,),
+                      SizedBox(height: screenSize.height * 0.015),
                       Text(
                         'Contact Us',
                         style: TextStyle(
                           color: Color(0xFFD9D9D9),
-                          fontSize: 15.0,
+                          fontSize: screenSize.width * 0.04,
                           letterSpacing: 1.0,
                           fontFamily: 'poppins',
                         ),
@@ -163,90 +216,96 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            SizedBox(height: 10.0,),
+            SizedBox(height: screenSize.height * 0.02),
             Padding(
-              padding: const EdgeInsets.fromLTRB(65, 0, 0, 0),
+              padding: EdgeInsets.fromLTRB(screenSize.width * 0.19, 0, 0, 0),
               child: Row(
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 70.0,
-                        height: 70.0,
+                        width: screenSize.width * 0.22,
+                        height: screenSize.width * 0.22,
                         child: TextButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 return Colors.white;
                               },
                             ),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.circular(
+                                    screenSize.width * 0.15),
                                 side: BorderSide(
                                   color: Color(0xFFD37777),
-                                  //style: BorderStyle.solid,
-                                ), // Add the desired border color
+                                ),
                               ),
                             ),
                           ),
-                          onPressed: (){},
-                          child: Icon(
-                            Icons.location_on_outlined,
-                            color: Color(0xFFD37777),
+                          onPressed: () {},
+                          child: Image.asset(
+                            'assets/images/location_icon.png',
+                            width: screenSize.width * 0.07,
+                            height: screenSize.height * 0.07,
                           ),
                         ),
                       ),
-                      SizedBox(height: 6.0,),
+                      SizedBox(height: screenSize.height * 0.015),
                       Text(
                         'Location',
                         style: TextStyle(
                           color: Color(0xFFD9D9D9),
-                          fontSize: 15.0,
+                          fontSize: screenSize.width * 0.04,
                           letterSpacing: 1.0,
                           fontFamily: 'poppins',
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 80.0,),
+                  SizedBox(width: screenSize.width * 0.19),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 70.0,
-                        height: 70.0,
+                        width: screenSize.width * 0.22,
+                        height: screenSize.width * 0.22,
                         child: TextButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 return Colors.white;
                               },
                             ),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0),
+                                borderRadius: BorderRadius.circular(
+                                    screenSize.width * 0.15),
                                 side: BorderSide(
                                   color: Color(0xFFD37777),
-                                  //style: BorderStyle.solid,
-                                ), // Add the desired border color
+                                ),
                               ),
                             ),
                           ),
-                          onPressed: (){},
-                          child: Icon(
-                            Icons.medical_services,
-                            color: Color(0xFFD37777),
+                          onPressed: () {},
+                          child: Image.asset(
+                            'assets/images/dr_icon.png',
+                            width: screenSize.width * 0.11,
+                            height: screenSize.height * 0.11,
                           ),
                         ),
                       ),
-                      SizedBox(height: 8.0,),
+                      SizedBox(height: screenSize.height * 0.015),
                       Text(
                         'About Dr',
                         style: TextStyle(
                           color: Color(0xFFD9D9D9),
-                          fontSize: 15.0,
+                          fontSize: screenSize.width * 0.04,
                           letterSpacing: 1.0,
                           fontFamily: 'poppins',
                         ),

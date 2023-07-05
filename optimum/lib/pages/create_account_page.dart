@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/services/auth.dart';
+import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class Createaccount extends StatefulWidget {
-  final Function toggleView; //il reste à ajouter le boutton de sign in
+  final Function toggleView;
   Createaccount({required this.toggleView});
+
   @override
   State<Createaccount> createState() => _CreateaccountState();
 }
@@ -19,22 +21,23 @@ class _CreateaccountState extends State<Createaccount> {
   String email = '';
   String password = '';
   String confirmPasswd = '';
-  String error =
-      ''; //pour afficher dans l'ui un message d'erreur s'il y'en a un probleme
+  String error = '';
+  bool loading = false;
+
   String? validateName(String value) {
     String trimmedValue = value.trim();
     if (trimmedValue.isEmpty) {
-      return 'Veuillez entrer votre prenom.';
+      return 'Veuillez entrer votre prénom.';
     }
-    return null; // Validation réussie
+    return null;
   }
 
   String? validateLastName(String value) {
     String trimmedValue = value.trim();
     if (trimmedValue.isEmpty) {
-      return 'Veuillez entrer votre nom .';
+      return 'Veuillez entrer votre nom.';
     }
-    return null; // Validation réussie
+    return null;
   }
 
   String? validateEmail(String value) {
@@ -51,305 +54,367 @@ class _CreateaccountState extends State<Createaccount> {
     if (value.isEmpty) {
       return 'Veuillez entrer votre mot de passe';
     }
-    // Autres conditions de validation si nécessaire
-    return null; // Retourne null si la validation réussit
+    return null;
   }
 
   String? validateConfirmPassword(String value) {
     if (value.isEmpty) {
       return 'Veuillez confirmer votre mot de passe';
     }
-    // Vérifier si le mot de passe correspond à la confirmation
     if (value != password) {
       return 'Les mots de passe ne correspondent pas';
     }
-    return null; // Retourne null si la validation réussit
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     final user = Provider.of<Utilisateur?>(context);
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/sign.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 220.0, 10.0, 0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 80, 0),
-                  child: Text(
-                    'Create Account',
-                    style: TextStyle(
-                      color: Color(0xFF66B3FF),
-                      fontSize: 35.0,
-                      letterSpacing: 2.0,
-                      fontFamily: 'Oswald',
-                    ),
+
+    return loading
+        ? Loading()
+        : Scaffold(
+            body: SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/sign.png'),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: 30.0),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
-                  child: Form(
-                    key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    screenWidth * 0.04,
+                    screenHeight * 0.29,
+                    screenWidth * 0.04,
+                    0,
+                  ),
+                  child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              prenom = value;
-                            });
-                            prenom = prenom.trim();
-                          },
-                          validator: (value) {
-                            return validateName(value!);
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'First Name',
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            0,
+                            0,
+                            screenWidth * 0.2,
+                            0,
+                          ),
+                          child: Text(
+                            'Create Account',
+                            style: TextStyle(
+                              color: Color(0xFF66B3FF),
+                              fontSize: screenWidth * 0.09,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2.0,
+                              fontFamily: 'Oswald',
                             ),
                           ),
                         ),
-                        SizedBox(height: 10.0),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              nom = value;
-                            });
-                            nom = nom.trim();
-                          },
-                          validator: (value) {
-                            return validateLastName(value!);
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Last Name',
-                            hintStyle: const TextStyle(
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
+                        SizedBox(height: screenHeight * 0.01),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            screenWidth * 0.05,
+                            0,
+                            screenWidth * 0.05,
+                            0,
                           ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              email = value;
-                            });
-                            email = email.trim();
-                          },
-                          validator: (value) {
-                            return validateEmail(value!);
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              password = value;
-                            });
-                          },
-                          validator: (value) {
-                            return validatePassword(value!);
-                          },
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
-                        TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              confirmPasswd = value;
-                            });
-                          },
-                          validator: (value) {
-                            return validateConfirmPassword(value!);
-                          },
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Confirm Password',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFD9D9D9),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                              borderSide: BorderSide(
-                                color: Color(0xFFD9D9D9),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 40.0),
-                        Container(
-                          width: 280.0,
-                          height: 60.0,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                                  return Color(0xFFD37777);
-                                },
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      prenom = value;
+                                    });
+                                    prenom = prenom.trim();
+                                  },
+                                  validator: (value) {
+                                    return validateName(value!);
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'First Name',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(height: screenHeight * 0.02),
+                                TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      nom = value;
+                                    });
+                                    nom = nom.trim();
+                                  },
+                                  validator: (value) {
+                                    return validateLastName(value!);
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'Last Name',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.02),
+                                TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      email = value;
+                                    });
+                                    email = email.trim();
+                                  },
+                                  validator: (value) {
+                                    return validateEmail(value!);
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.02),
+                                TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      password = value;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    return validatePassword(value!);
+                                  },
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    hintText: 'Password',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.02),
+                                TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      confirmPasswd = value;
+                                    });
+                                  },
+                                  validator: (value) {
+                                    return validateConfirmPassword(value!);
+                                  },
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    hintText: 'Confirm Password',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.03),
+                                Container(
+                                  width: screenWidth * 0.5,
+                                  height: screenHeight * 0.065,
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty
+                                          .resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          return Color(0xFFD37777);
+                                        },
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      //la validation avant la requete
+                                      setState(() {
+                                        loading = true;
+                                      });
+                                      if (_formKey.currentState!.validate()) {
+                                        dynamic result = await AuthService
+                                            .registerWithEmailAndPasswd(
+                                                email, password, prenom , nom);
+                                        if (result == null) {
+                                          setState(() {
+                                            error =
+                                                "please supply a valid email";
+                                            loading = false;
+                                          });
+                                        } else {
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Wrapper()),
+                                            (Route<dynamic> route) =>
+                                                false, // Supprime toutes les routes précédentes
+                                          );
+                                        }
+                                      }
+                                    },
+                                    child: const Text(
+                                      'Create',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Oswald',
+                                        fontSize: 30.0,
+                                        letterSpacing: 2.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.01),
+                                Text(
+                                  error,
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                SizedBox(height: screenHeight * 0.01),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    screenWidth * 0.12,
+                                    0,
+                                    0,
+                                    screenWidth * 0.025,
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'You have Account?',
+                                        style: TextStyle(
+                                          fontSize: screenWidth * 0.043,
+                                          fontFamily: 'Poppins',
+                                          letterSpacing: 1,
+                                          color: Color(0xFFD9D9D9),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          widget.toggleView();
+                                        },
+                                        child: Text(
+                                          'Sign in',
+                                          style: TextStyle(
+                                            color: Color(0xFF66B3FF),
+                                            fontSize: screenWidth * 0.043,
+                                            fontFamily: 'Poppins',
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            onPressed: () async {
-                              //la validation avant la requete
-                              if (_formKey.currentState!.validate()) {
-                                dynamic result = await AuthService
-                                    .registerWithEmailAndPasswd(
-                                        email, password);
-                                if (result == null) {
-                                  setState(() {
-                                    error = "please supply a valid email";
-                                  });
-                                } else {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Wrapper()),
-                                    (Route<dynamic> route) =>
-                                        false, // Supprime toutes les routes précédentes
-                                  );
-                                }
-                              }
-                            },
-                            child: const Text(
-                              'Create',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Oswald',
-                                fontSize: 30.0,
-                                letterSpacing: 2.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12.0,
-                        ),
-                        Text(
-                          error,
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontSize: 14.0,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

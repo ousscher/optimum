@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:optimum/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/create_account_page.dart';
-import 'package:optimum/pages/home.dart';
+import 'package:optimum/pages/home_page.dart';
 import 'package:optimum/pages/start.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:provider/provider.dart';

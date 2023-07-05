@@ -1,5 +1,6 @@
 import 'package:optimum/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:optimum/services/database.dart';
 
 class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -38,7 +39,7 @@ class AuthService {
 
 //sign in with email & pass
 
-static Future signInWithEmailAndPasswd(String email, String passwd) async {
+  static Future signInWithEmailAndPasswd(String email, String passwd) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: passwd);
@@ -52,11 +53,15 @@ static Future signInWithEmailAndPasswd(String email, String passwd) async {
 
 //register with email & pass
 
-  static Future registerWithEmailAndPasswd(String email, String passwd) async {
+  static Future registerWithEmailAndPasswd(String email, String passwd , String name, String lastName) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: passwd);
       User user = result.user!;
+
+      //create a new document for the user with the id
+      await DatabaseService(uid: user.uid).updateUserData(name, lastName);
+
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
