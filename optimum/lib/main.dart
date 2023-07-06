@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
+import 'package:optimum/pages/menu.dart';
 import 'package:optimum/pages/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:optimum/pages/wrapper.dart';

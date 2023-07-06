@@ -5,110 +5,124 @@ import 'package:optimum/pages/authenticate.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:provider/provider.dart';
 
-class Start extends StatefulWidget {
-  @override
-  State<Start> createState() => _StartState();
-}
-
-class _StartState extends State<Start> {
+class Start extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenHeight = screenSize.height;
+    final double screenWidth = screenSize.width;
+
     return StreamProvider<Utilisateur?>.value(
       initialData: null,
       value: AuthService.user,
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/start.png'),
-              fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/start.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 200.0, 0, 0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(110.0, 0, 40.0, 0),
-                  child: Text(
-                    ' Find a Medical Service',
-                    style: TextStyle(
-                      fontSize: 50.0,
-                      letterSpacing: 2.0,
-                      color: Colors.white,
-                      fontFamily: 'Oswald',
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                0,
+                screenHeight * 0.26,
+                0,
+                0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      screenWidth * 0.3,
+                      0,
+                      screenWidth * 0.08,
+                      0,
                     ),
-                  ),
-                ),
-                SizedBox(height: 120.0),
-                Container(
-                  width: 165.0,
-                  height: 40.0,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          return Color(0xFFD37777);
-                        },
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => Authenticate(showSignIn:true),),);
-                    },
                     child: Text(
-                      'Log in',
+                      ' Find a Medical Service',
                       style: TextStyle(
+                        fontSize: screenWidth * 0.13,
+                        letterSpacing: 3,
                         color: Colors.white,
                         fontFamily: 'Oswald',
-                        fontSize: 15.0,
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10.0),
-                Container(
-                  width: 165.0,
-                  height: 40.0,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          return Color(0xFF00437A);
-                        },
+                  SizedBox(height: screenHeight * 0.18),
+                  Container(
+                    width: screenWidth * 0.4,
+                    height: screenHeight * 0.055,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            return Color(0xFFD37777);
+                          },
+                        ),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(screenWidth * 0.1),
+                          ),
+                        ),
                       ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                          side: BorderSide(
-                            color: Color(0xFFD37777),
-                            //style: BorderStyle.solid,
-                          ), // Add the desired border color
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Authenticate(showSignIn: true)),
+                        );
+                      },
+                      child: Text(
+                        'Log in',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Oswald',
+                          fontSize: screenWidth * 0.05,
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => Authenticate(showSignIn:false),),);
-                    },
-                    child: Text(
-                      'Create account',
-                      style: TextStyle(
-                        color: Color(0xFFD37777),
-                        fontFamily: 'Oswald',
-                        fontSize: 15.0,
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  Container(
+                    width: screenWidth * 0.4,
+                    height: screenHeight * 0.055,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            return Color(0xFF00437A);
+                          },
+                        ),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(screenWidth * 0.1),
+                            side: BorderSide(
+                              color: Color(0xFFD37777),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Authenticate(showSignIn: false)),
+                        );
+                      },
+                      child: Text(
+                        'Create account',
+                        style: TextStyle(
+                          color: Color(0xFFD37777),
+                          fontFamily: 'Oswald',
+                          fontSize: screenWidth * 0.042,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
       ),
     );
   }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/services/auth.dart';
-import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
+
+import '../shared/loading.dart';
 
 class Createaccount extends StatefulWidget {
   final Function toggleView;
@@ -303,7 +304,7 @@ class _CreateaccountState extends State<Createaccount> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: screenHeight * 0.03),
+                                SizedBox(height: screenHeight * 0.02),
                                 Container(
                                   width: screenWidth * 0.5,
                                   height: screenHeight * 0.065,
@@ -325,13 +326,13 @@ class _CreateaccountState extends State<Createaccount> {
                                     ),
                                     onPressed: () async {
                                       //la validation avant la requete
-                                      setState(() {
-                                        loading = true;
-                                      });
                                       if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          loading = true;
+                                        });
                                         dynamic result = await AuthService
                                             .registerWithEmailAndPasswd(
-                                                email, password, prenom , nom);
+                                                email, password, prenom, nom);
                                         if (result == null) {
                                           setState(() {
                                             error =
@@ -350,12 +351,12 @@ class _CreateaccountState extends State<Createaccount> {
                                         }
                                       }
                                     },
-                                    child: const Text(
+                                    child: Text(
                                       'Create',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Oswald',
-                                        fontSize: 30.0,
+                                        fontSize: screenHeight * 0.03,
                                         letterSpacing: 2.0,
                                       ),
                                     ),
@@ -369,41 +370,34 @@ class _CreateaccountState extends State<Createaccount> {
                                     fontSize: 14.0,
                                   ),
                                 ),
-                                SizedBox(height: screenHeight * 0.01),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    screenWidth * 0.12,
-                                    0,
-                                    0,
-                                    screenWidth * 0.025,
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'You have Account?',
+                                SizedBox(height: screenHeight * 0.005),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'You have Account?',
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.043,
+                                        fontFamily: 'Poppins',
+                                        letterSpacing: 1,
+                                        color: Color(0xFFD9D9D9),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        widget.toggleView();
+                                      },
+                                      child: Text(
+                                        'Sign in',
                                         style: TextStyle(
+                                          color: Color(0xFF66B3FF),
                                           fontSize: screenWidth * 0.043,
                                           fontFamily: 'Poppins',
                                           letterSpacing: 1,
-                                          color: Color(0xFFD9D9D9),
                                         ),
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          widget.toggleView();
-                                        },
-                                        child: Text(
-                                          'Sign in',
-                                          style: TextStyle(
-                                            color: Color(0xFF66B3FF),
-                                            fontSize: screenWidth * 0.043,
-                                            fontFamily: 'Poppins',
-                                            letterSpacing: 1,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
