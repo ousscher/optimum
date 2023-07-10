@@ -206,10 +206,10 @@ class _SignState extends State<Sign> {
                       ),
                       onPressed: () async{
                         //la validation de la requete
-                        if (_formKey.currentState!.validate()) {
-                          setState(() {
+                        setState(() {
                           loading = true;
-                          });
+                        });
+                        if (_formKey.currentState!.validate()) {
                           dynamic result = await AuthService.signInWithEmailAndPasswd(
                               email, passwd);
                           if (result == null) {
