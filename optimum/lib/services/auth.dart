@@ -1,4 +1,3 @@
-import 'package:optimum/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:optimum/services/database.dart';
 
@@ -7,13 +6,6 @@ class AuthService {
 
   static FirebaseAuth getAuth() {
     return _auth;
-  }
-  //auth change user stram
-
-  static Stream<Utilisateur?> get user {
-    return _auth
-        .authStateChanges()
-        .map((User? user) => _userFromFirebaseUser(user));
   }
 
 //sign in anon
@@ -25,7 +17,7 @@ class AuthService {
       print("sign un anon succes");
       print(user.uid);
 
-      return _userFromFirebaseUser(user);
+      return user;
     } catch (e) {
       print("error  " + e.toString());
       return null;
@@ -33,9 +25,9 @@ class AuthService {
   }
 
   // create a user obj based on Firebase user
-  static Utilisateur? _userFromFirebaseUser(User? user) {
-    return user != null ? Utilisateur(uid: user.uid) : null;
-  }
+  // static Utilisateur? _userFromFirebaseUser(User? user) {
+  //   return user != null ? Utilisateur(uid: user.uid) : null; 
+  // }
 
 //sign in with email & pass
 
@@ -44,7 +36,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: passwd);
       User user = result.user!;
-      return _userFromFirebaseUser(user);
+      return user;
     } catch (e) {
       print(e.toString());
       return null;
@@ -57,12 +49,13 @@ class AuthService {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: passwd);
+
       User user = result.user!;
 
       //create a new document for the user with the id
       await DatabaseService(uid: user.uid).updateUserData(name, lastName);
 
-      return _userFromFirebaseUser(user);
+      return user;
     } catch (e) {
       print(e.toString());
       return null;

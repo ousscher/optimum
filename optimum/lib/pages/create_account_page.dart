@@ -72,7 +72,6 @@ class _CreateaccountState extends State<Createaccount> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final user = Provider.of<Utilisateur?>(context);
 
     return loading
         ? Loading()

@@ -16,7 +16,7 @@ class DatabaseService {
 
   // get  users streams
 
-  static Stream<QuerySnapshot> get user {
+  static Stream<QuerySnapshot> get users {
     return usersCollection.snapshots();
   }
 }
