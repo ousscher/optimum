@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
-import 'package:optimum/pages/menu.dart';
 import 'package:optimum/pages/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:optimum/pages/wrapper.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:provider/provider.dart';
 
@@ -23,8 +21,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:Welcome(),
+    return StreamProvider<Utilisateur?>.value(
+      initialData: null,
+      value: AuthService.user,
+      child: MaterialApp(
+        home:Welcome(),
+      ),
     );
   }
 }
