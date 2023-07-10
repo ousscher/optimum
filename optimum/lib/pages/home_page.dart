@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/contact.dart';
 import 'package:optimum/services/auth.dart';
@@ -48,13 +49,27 @@ class _HomeState extends State<Home> {
     final Size screenSize = MediaQuery.of(context).size;
     final nom =  DatabaseService(uid: utilisateur!.uid).getUserName();
     return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/home_page.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
+        body: Container(
+            // Votre code ici
+            child: FutureBuilder<String>(
+                future: userNameFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Afficher un indicateur de chargement
+                    return Loading();
+                  }
+                  if (snapshot.hasData) {
+                    // Récupérer le nom de l'utilisateur depuis le snapshot
+                    String userName = snapshot.data!;
+                    return StreamProvider<List<UserOptimum>?>.value(
+                      initialData: null,
+                      value: DatabaseService.users,
+                      child: Scaffold(
+                        body: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/home_page.png'),
+                              fit: BoxFit.cover,
           child: Column(
             children: <Widget>[
               Padding(
@@ -181,6 +196,49 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
+                              SizedBox(height: screenSize.height * 0.27),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                    0,
+                                    screenSize.height * 0.07,
+                                    screenSize.width * 0.15,
+                                    0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    // UsersList(), get the users data (all users using this widget + the database model )
+                                    Text(
+                                      'Hi, $userName!',
+                                      style: TextStyle(
+                                        color: Color(0xFF66B3FF),
+                                        fontSize: screenSize.width * 0.11,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 2.0,
+                                        fontFamily: 'Oswald',
+                                      ),
+                                    ),
+                                    SizedBox(height: screenSize.height * 0.005),
+                                    Text(
+                                      'We hope that you are well!',
+                                      style: TextStyle(
+                                        color: Color(0xFFD9D9D9),
+                                        fontSize: screenSize.width * 0.04,
+                                        letterSpacing: 1.0,
+                                        fontFamily: 'poppins',
+                                      ),
+                                    ),
+                                    SizedBox(height: screenSize.height * 0.002),
+                                    Text(
+                                      'So, how can we help you?',
+                                      style: TextStyle(
+                                        color: Color(0xFFD9D9D9),
+                                        fontSize: screenSize.width * 0.04,
+                                        letterSpacing: 1.0,
+                                        fontFamily: 'poppins',
+                                      ),
+                                    ),
+                                  ],
+                                ),
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -227,6 +285,7 @@ class _HomeState extends State<Home> {
                                     (Set<MaterialState> states) {
                                   return Colors.white;
                                 },
+
                               ),
                               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(

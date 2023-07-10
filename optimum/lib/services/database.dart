@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:optimum/models/user.dart';
 
 class DatabaseService {
   // collection reference
@@ -25,16 +27,21 @@ class DatabaseService {
           .doc(uid)
           .get();
 
-      if (snapshot.exists) {
-        String name = snapshot.get('name');
-        return name;
-      } else {
-        print('L\'utilisateur n\'existe pas dans Firestore');
-        return '';
-      }
-    } else {
-      print('Aucun utilisateur connecté');
-      return '';
-    }
+  static Stream<List<UserOptimum>> get users {
+    return usersCollection.snapshots().map((event) => userListFromSnapshot(event));
   }
+  //users list from a snapshot
+
+  static List<UserOptimum> userListFromSnapshot(QuerySnapshot snapshot) {
+  return snapshot.docs.map((doc) {
+    final data = doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
+    return UserOptimum(
+      name: data?['name'] ?? '',
+      lastName: data?['lastname'] ?? '',
+    );
+  }).toList();
 }
+
+
+}
+
