@@ -1,8 +1,3 @@
-class Utilisateur {
-  final String uid;
+class UserOptimum{
 
-  Utilisateur({required this.uid});
-  String getUid() {
-    return this.uid;
-  }
 }
