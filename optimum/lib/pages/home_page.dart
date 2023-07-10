@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/users.dart';
 import 'package:optimum/services/auth.dart';
@@ -62,8 +63,7 @@ class _HomeState extends State<Home> {
                   if (snapshot.hasData) {
                     // Récupérer le nom de l'utilisateur depuis le snapshot
                     String userName = snapshot.data!;
-
-                    return StreamProvider.value(
+                    return StreamProvider<List<UserOptimum>?>.value(
                       initialData: null,
                       value: DatabaseService.users,
                       child: Scaffold(
@@ -107,7 +107,7 @@ class _HomeState extends State<Home> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    UsersList(),
+                                    // UsersList(), get the users data (all users using this widget + the database model )
                                     Text(
                                       'Hi, $userName!',
                                       style: TextStyle(

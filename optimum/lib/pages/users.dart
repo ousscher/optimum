@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:optimum/models/user.dart';
 import 'package:provider/provider.dart';
 
 class UsersList extends StatefulWidget {
@@ -12,12 +13,13 @@ class UsersList extends StatefulWidget {
 class _UsersListState extends State<UsersList> {
   @override
   Widget build(BuildContext context) {
-    final users = Provider.of<QuerySnapshot<Object?>?>(context);
+    final users = Provider.of<List<UserOptimum>?>(context);
     // print("----------------------   $users -------------------"); /
     if (users != null) {
-      for (var doc in users.docs) {
-        print(doc.data());
-      }
+      users.forEach((element) {
+        print(element.getName());
+        print(element.getLastName());
+      });
     }
     return Container();
   }
