@@ -8,13 +8,7 @@ class AuthService {
   static FirebaseAuth getAuth() {
     return _auth;
   }
-  //auth change user stram
-
-  static Stream<Utilisateur?> get user {
-    return _auth
-        .authStateChanges()
-        .map((User? user) => _userFromFirebaseUser(user));
-  }
+  
 
 //sign in anon
 
@@ -25,17 +19,14 @@ class AuthService {
       print("sign un anon succes");
       print(user.uid);
 
-      return _userFromFirebaseUser(user);
+      return user;
     } catch (e) {
       print("error  " + e.toString());
       return null;
     }
   }
 
-  // create a user obj based on Firebase user
-  static Utilisateur? _userFromFirebaseUser(User? user) {
-    return user != null ? Utilisateur(uid: user.uid) : null;
-  }
+
 
 //sign in with email & pass
 
@@ -44,7 +35,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: passwd);
       User user = result.user!;
-      return _userFromFirebaseUser(user);
+      return user;
     } catch (e) {
       print(e.toString());
       return null;
@@ -53,22 +44,21 @@ class AuthService {
 
 //register with email & pass
 
-  static Future registerWithEmailAndPasswd(String email, String passwd , String name, String lastName) async {
-    try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: passwd);
-      User user = result.user!;
+  static Future registerWithEmailAndPasswd(String email, String passwd ) async {
+  try {
+    UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email, password: passwd);
+    User user = result.user!;
 
-      //create a new document for the user with the id
-      await DatabaseService(uid: user.uid).updateUserData(name, lastName);
-
-      return _userFromFirebaseUser(user);
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
+    // Créer un nouveau document pour l'utilisateur avec l'ID
+    
+  
+    return user;
+  } catch (e) {
+    print(e.toString());
+    return null;
   }
-
+}
 //sign out
   static Future signOut() async {
     try {
@@ -78,4 +68,19 @@ class AuthService {
       return null;
     }
   }
+  
+  //reset passwd
+
+  void resetPassword(String email) {
+ _auth.sendPasswordResetEmail(email: email)
+    .then((_) {
+      // L'e-mail de réinitialisation du mot de passe a été envoyé avec succès
+      // Vous pouvez afficher un message à l'utilisateur ou le rediriger vers une page de confirmation
+    })
+    .catchError((error) {
+      // Une erreur s'est produite lors de l'envoi de l'e-mail de réinitialisation du mot de passe
+      // Vous pouvez afficher un message d'erreur à l'utilisateur ou effectuer d'autres actions en fonction de l'erreur
+    });
+}
+
 }
