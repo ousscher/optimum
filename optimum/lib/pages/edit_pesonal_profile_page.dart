@@ -26,11 +26,12 @@ class _EditpersonalState extends State<Editpersonal> {
           child: Column(
               children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenSize.width * 0.01, screenSize.height * 0.04, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04, 0, 0),
                         child: TextButton(
                           onPressed: () {
                             Navigator.pop(

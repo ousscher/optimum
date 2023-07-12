@@ -10,17 +10,26 @@ import 'package:provider/provider.dart';
 class Wrapper extends StatefulWidget {
   User? utilisateur = AuthService.getAuth().currentUser;
 
-  Wrapper({super.key,});
+  Wrapper({
+    super.key,
+  });
 
   @override
   State<Wrapper> createState() => _WrapperState();
 }
 
 class _WrapperState extends State<Wrapper> {
-  
-
   @override
   Widget build(BuildContext context) {
-    return widget.utilisateur == null ? Start() : Home() ;
+    if (widget.utilisateur == null) {
+      return Start();
+    } else {
+      if (widget.utilisateur!.emailVerified)
+        return Home();
+      else {
+        widget.utilisateur!.delete();
+        return Start();
+      }
+    }
   }
 }

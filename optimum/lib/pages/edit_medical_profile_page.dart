@@ -31,19 +31,21 @@ class _EditmedicalState extends State<Editmedical> {
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenSize.width * 0.0082, screenSize.height * 0.04, 0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenSize.height * 0.04, 0, 0),
                         child: TextButton(
                           onPressed: () {
                             Navigator.pop(
                               context,
-                              MaterialPageRoute(builder: (context) => Editpersonal()),
+                              MaterialPageRoute(
+                                  builder: (context) => Editpersonal()),
                             );
                           },
                           child: Row(
                             children: <Widget>[
                               Icon(
                                 Icons.navigate_before,
-                                color:  Color(0xFFD37777),
+                                color: Color(0xFFD37777),
                                 size: 30.0,
                               ),
                               Text(
@@ -58,14 +60,19 @@ class _EditmedicalState extends State<Editmedical> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * 0.08,),
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(screenSize.width * 0.014, 0, 0, 0),
+                    padding:
+                        EdgeInsets.fromLTRB(screenSize.width * 0.014, 0, 0, 0),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: screenSize.height * 0.06,),
+                        SizedBox(
+                          height: screenSize.height * 0.06,
+                        ),
                         Text(
                           'Edit Profile',
                           style: TextStyle(
@@ -80,7 +87,8 @@ class _EditmedicalState extends State<Editmedical> {
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04,0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenSize.height * 0.04, 0, 0),
                         child: TextButton(
                           onPressed: () {
                             Navigator.pop(
@@ -102,19 +110,23 @@ class _EditmedicalState extends State<Editmedical> {
                               ),
                               Icon(
                                 Icons.navigate_next_sharp,
-                                color:  Color(0xFFD37777),
+                                color: Color(0xFFD37777),
                                 size: 30,
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * 0.08,),
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: screenSize.height * 0.075,),
+              SizedBox(
+                height: screenSize.height * 0.075,
+              ),
               Text(
                 'Fill In This Form So The Dr Can Diagnose Your Disease',
                 style: TextStyle(
@@ -124,15 +136,20 @@ class _EditmedicalState extends State<Editmedical> {
                   color: Color(0xFFD9D9D9),
                 ),
               ),
-              SizedBox(height: screenSize.height * 0.0065,),
+              SizedBox(
+                height: screenSize.height * 0.0065,
+              ),
               Padding(
-                padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                padding: EdgeInsets.fromLTRB(
+                    screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
                 child: Divider(
                   height: screenSize.height * 0.01,
                   color: Colors.grey[500],
                 ),
               ),
-              SizedBox(height: screenSize.height * 0.007,),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
               Text(
                 'Medical Information',
                 style: TextStyle(
@@ -142,9 +159,12 @@ class _EditmedicalState extends State<Editmedical> {
                   color: Color(0xFFD37777),
                 ),
               ),
-              SizedBox(height: screenSize.height * 0.007,),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
               Padding(
-                padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                padding: EdgeInsets.fromLTRB(
+                    screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
                 child: Divider(
                   height: screenSize.height * 0.01,
                   color: Colors.grey[500],
@@ -166,7 +186,9 @@ class _EditmedicalState extends State<Editmedical> {
                               color: Color(0xFF66B3FF),
                             ),
                           ),
-                          SizedBox(width: screenSize.width * 0.06,),
+                          SizedBox(
+                            width: screenSize.width * 0.06,
+                          ),
                           Container(
                             width: screenSize.width * 0.6,
                             height: screenSize.height * 0.068,
@@ -182,7 +204,9 @@ class _EditmedicalState extends State<Editmedical> {
                           ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * 0.02,),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
                       Row(
                         children: <Widget>[
                           Text(
@@ -193,7 +217,9 @@ class _EditmedicalState extends State<Editmedical> {
                               color: Color(0xFF66B3FF),
                             ),
                           ),
-                          SizedBox(width: screenSize.width * 0.11,),
+                          SizedBox(
+                            width: screenSize.width * 0.11,
+                          ),
                           Container(
                             width: screenSize.width * 0.6,
                             height: screenSize.height * 0.068,
@@ -206,22 +232,27 @@ class _EditmedicalState extends State<Editmedical> {
                                 hintText: 'Weight',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                 ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * 0.02,),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
                       Row(
                         children: <Widget>[
                           Text(
@@ -232,7 +263,9 @@ class _EditmedicalState extends State<Editmedical> {
                               color: Color(0xFF66B3FF),
                             ),
                           ),
-                          SizedBox(width: screenSize.width * 0.12,),
+                          SizedBox(
+                            width: screenSize.width * 0.12,
+                          ),
                           Container(
                             width: screenSize.width * 0.6,
                             height: screenSize.height * 0.068,
@@ -245,22 +278,27 @@ class _EditmedicalState extends State<Editmedical> {
                                 hintText: 'Height',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                 ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * 0.02,),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
                       Row(
                         children: <Widget>[
                           Text(
@@ -271,7 +309,9 @@ class _EditmedicalState extends State<Editmedical> {
                               color: Color(0xFF66B3FF),
                             ),
                           ),
-                          SizedBox(width: screenSize.width * 0.11,),
+                          SizedBox(
+                            width: screenSize.width * 0.11,
+                          ),
                           Container(
                             width: screenSize.width * 0.6,
                             height: screenSize.height * 0.068,
@@ -287,7 +327,9 @@ class _EditmedicalState extends State<Editmedical> {
                           ),
                         ],
                       ),
-                      SizedBox(height: screenSize.height * 0.02,),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
                       Row(
                         children: <Widget>[
                           Text(
@@ -298,7 +340,9 @@ class _EditmedicalState extends State<Editmedical> {
                               color: Color(0xFF66B3FF),
                             ),
                           ),
-                          SizedBox(width: screenSize.width * 0.1,),
+                          SizedBox(
+                            width: screenSize.width * 0.1,
+                          ),
                           Container(
                             width: screenSize.width * 0.6,
                             height: screenSize.height * 0.068,
@@ -315,11 +359,12 @@ class _EditmedicalState extends State<Editmedical> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            screenSize.width * 0.7, 0, 0, 0),
                         child: Container(
                           height: screenSize.width * 0.1,
                           child: TextButton(
-                            onPressed: (){},
+                            onPressed: () {},
                             child: Text(
                               'ADD+',
                               style: TextStyle(
@@ -353,7 +398,9 @@ class _EditmedicalState extends State<Editmedical> {
                               ),
                             ],
                           ),
-                          SizedBox(width: screenSize.width * 0.08,),
+                          SizedBox(
+                            width: screenSize.width * 0.08,
+                          ),
                           Container(
                             width: screenSize.width * 0.6,
                             height: screenSize.height * 0.068,
@@ -370,11 +417,12 @@ class _EditmedicalState extends State<Editmedical> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            screenSize.width * 0.7, 0, 0, 0),
                         child: Container(
                           height: screenSize.width * 0.1,
                           child: TextButton(
-                            onPressed: (){},
+                            onPressed: () {},
                             child: Text(
                               'ADD+',
                               style: TextStyle(
@@ -386,7 +434,9 @@ class _EditmedicalState extends State<Editmedical> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * 0.045 ,),
+                      SizedBox(
+                        height: screenSize.height * 0.045,
+                      ),
                     ],
                   ),
                 ],
@@ -400,9 +450,7 @@ class _EditmedicalState extends State<Editmedical> {
 }
 
 class MyDropdownPage extends StatefulWidget {
-
-
-   MyDropdownPage( {super.key});
+  MyDropdownPage({super.key});
   @override
   _MyDropdownPageState createState() => _MyDropdownPageState();
 }
@@ -410,15 +458,15 @@ class MyDropdownPage extends StatefulWidget {
 class _MyDropdownPageState extends State<MyDropdownPage> {
   String? _dropdownValue;
   static const list1 = [
-  DropdownMenuItem(child: Text("Not Mentioned"), value: "Not Mentioned"),
-  DropdownMenuItem(child: Text("A-"), value: "A-"),
-  DropdownMenuItem(child: Text("A+"), value: "A+"),
-  DropdownMenuItem(child: Text("B-"), value: "B-"),
-  DropdownMenuItem(child: Text("B+"), value: "B+"),
-  DropdownMenuItem(child: Text("O-"), value: "O-"),
-  DropdownMenuItem(child: Text("O+"), value: "O+"),
-  DropdownMenuItem(child: Text("AB-"), value: "AB-"),
-  DropdownMenuItem(child: Text("AB+"), value: "AB+"),
+    DropdownMenuItem(child: Text("Not Mentioned"), value: "Not Mentioned"),
+    DropdownMenuItem(child: Text("A-"), value: "A-"),
+    DropdownMenuItem(child: Text("A+"), value: "A+"),
+    DropdownMenuItem(child: Text("B-"), value: "B-"),
+    DropdownMenuItem(child: Text("B+"), value: "B+"),
+    DropdownMenuItem(child: Text("O-"), value: "O-"),
+    DropdownMenuItem(child: Text("O+"), value: "O+"),
+    DropdownMenuItem(child: Text("AB-"), value: "AB-"),
+    DropdownMenuItem(child: Text("AB+"), value: "AB+"),
   ];
 
   void dropdownCallback(String? selectedValue) {
@@ -428,34 +476,36 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-            child: DropdownButton(
-              items: list1,
-              value: _dropdownValue,
-              onChanged: dropdownCallback,
-              isExpanded: true,
-              borderRadius: BorderRadius.circular(20.0),
-              iconEnabledColor: Color(0xFFD37777),
-              iconSize: 26.0,
-              icon: Icon(
-                  Icons.arrow_drop_down_circle_outlined,
-                  color: Color(0xFFD37777),
-              ),
-              hint: Text('Not Metioned'),
-              padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list1,
+            value: _dropdownValue,
+            onChanged: dropdownCallback,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
             ),
+            hint: Text('Not Metioned'),
+          ),
+        ),
       ),
     );
   }
 }
+
 class MyDropdownPagee extends StatefulWidget {
-
-
-  MyDropdownPagee( {super.key});
+  MyDropdownPagee({super.key});
   @override
   _MyDropdownPageeState createState() => _MyDropdownPageeState();
 }
@@ -475,34 +525,36 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: DropdownButton(
-          items: list2,
-          value: _dropdownValuee,
-          onChanged: dropdownCallbackk,
-          isExpanded: true,
-          borderRadius: BorderRadius.circular(20.0),
-          iconEnabledColor: Color(0xFFD37777),
-          iconSize: 26.0,
-          icon: Icon(
-            Icons.arrow_drop_down_circle_outlined,
-            color: Color(0xFFD37777),
-          ),
-          hint: Text('Not Metioned'),
+        child: Padding(
           padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list2,
+            value: _dropdownValuee,
+            onChanged: dropdownCallbackk,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
+            ),
+            hint: Text('Not Metioned'),
+          ),
         ),
       ),
     );
   }
 }
+
 class MyDropdownPageee extends StatefulWidget {
-
-
-  MyDropdownPageee( {super.key});
+  MyDropdownPageee({super.key});
   @override
   _MyDropdownPageeeState createState() => _MyDropdownPageeeState();
 }
@@ -527,34 +579,36 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: DropdownButton(
-          items: list3,
-          value: _dropdownValueee,
-          onChanged: dropdownCallbackkk,
-          isExpanded: true,
-          borderRadius: BorderRadius.circular(20.0),
-          iconEnabledColor: Color(0xFFD37777),
-          iconSize: 26.0,
-          icon: Icon(
-            Icons.arrow_drop_down_circle_outlined,
-            color: Color(0xFFD37777),
-          ),
-          hint: Text('Not Metioned'),
+        child: Padding(
           padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list3,
+            value: _dropdownValueee,
+            onChanged: dropdownCallbackkk,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
+            ),
+            hint: Text('Not Metioned'),
+          ),
         ),
       ),
     );
   }
 }
+
 class MyDropdownPageeee extends StatefulWidget {
-
-
-  MyDropdownPageeee( {super.key});
+  MyDropdownPageeee({super.key});
   @override
   _MyDropdownPageeeeState createState() => _MyDropdownPageeeeState();
 }
@@ -579,30 +633,30 @@ class _MyDropdownPageeeeState extends State<MyDropdownPageeee> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: DropdownButton(
-          items: list4,
-          value: _dropdownValueeee,
-          onChanged: dropdownCallbackkkk,
-          isExpanded: true,
-          borderRadius: BorderRadius.circular(20.0),
-          iconEnabledColor: Color(0xFFD37777),
-          iconSize: 26.0,
-          icon: Icon(
-            Icons.arrow_drop_down_circle_outlined,
-            color: Color(0xFFD37777),
-          ),
-          hint: Text('Not Metioned'),
+        child: Padding(
           padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list4,
+            value: _dropdownValueeee,
+            onChanged: dropdownCallbackkkk,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
+            ),
+            hint: Text('Not Metioned'),
+          ),
         ),
       ),
     );
   }
 }
-
-
-

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/Wrapper.dart';
-import 'package:optimum/pages/resetEmail.dart';
+import 'package:optimum/pages/changedPassword.dart';
 import 'package:optimum/shared/loading.dart';
 import 'package:optimum/services/auth.dart';
 
-class Sign extends StatefulWidget {
-  Function toggleView;
-  Sign({required this.toggleView});
+class ResetEmailPage extends StatefulWidget {
+  const ResetEmailPage({super.key});
 
   @override
-  State<Sign> createState() => _SignState();
+  State<ResetEmailPage> createState() => _ResetEmailPageState();
 }
 
-class _SignState extends State<Sign> {
+class _ResetEmailPageState extends State<ResetEmailPage> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
-  String passwd = '';
   String error = '';
   bool loading = false;
 
@@ -27,14 +25,6 @@ class _SignState extends State<Sign> {
       return 'Adresse e-mail invalide';
     }
     return null;
-  }
-
-  String? validatePassword(String value) {
-    if (value.isEmpty) {
-      return 'Veuillez entrer votre mot de passe';
-    }
-    // Autres conditions de validation si nécessaire
-    return null; // Retourne null si la validation réussit
   }
 
   @override
@@ -73,7 +63,7 @@ class _SignState extends State<Sign> {
                             0,
                           ),
                           child: Text(
-                            'Sign In',
+                            'Reset',
                             style: TextStyle(
                               color: Color(0xFF66B3FF),
                               fontSize: screenWidth * 0.1,
@@ -132,44 +122,6 @@ class _SignState extends State<Sign> {
                                 },
                               ),
                               SizedBox(height: screenHeight * 0.02),
-                              TextFormField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  hintText: 'Password',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        screenWidth * 0.1),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFD9D9D9),
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        screenWidth * 0.1),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFD9D9D9),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        screenWidth * 0.1),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFFD9D9D9),
-                                    ),
-                                  ),
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    passwd = value;
-                                  });
-                                },
-                                validator: (value) {
-                                  return validatePassword(value!);
-                                },
-                              ),
                             ],
                           ),
                         ),
@@ -180,24 +132,6 @@ class _SignState extends State<Sign> {
                             0,
                             0,
                             0,
-                          ),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ResetEmailPage(),
-                                  ));
-                            },
-                            child: Text(
-                              'Forget Password?',
-                              style: TextStyle(
-                                color: Color(0xFFD9D9D9),
-                                fontSize: screenWidth * 0.043,
-                                fontFamily: 'Poppins',
-                                letterSpacing: 1.0,
-                              ),
-                            ),
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.05),
@@ -222,33 +156,28 @@ class _SignState extends State<Sign> {
                             ),
                             onPressed: () async {
                               //la validation de la requete
-                              
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                 loading = true;
-                              });
-                                dynamic result =
-                                    await AuthService.signInWithEmailAndPasswd(
-                                        email, passwd);
-                                if (result == null) {
+                                });
+                                AuthService.getAuth()
+                                    .sendPasswordResetEmail(email: email)
+                                    .then((_) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>MyWidget()));
+                                }).catchError((e) {
                                   setState(() {
                                     error =
-                                        'Could not sign in with those credentials';
+                                        'Could not find those credentials';
                                     loading = false;
                                   });
-                                } else {
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Wrapper()),
-                                    (Route<dynamic> route) =>
-                                        false, // Supprime toutes les routes précédentes
-                                  );
-                                }
+                                });
                               }
                             },
                             child: Text(
-                              'SIGN IN',
+                              'Reset',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Oswald',
@@ -274,34 +203,6 @@ class _SignState extends State<Sign> {
                             0,
                             screenWidth * 0.1,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'D\'ont have Account?',
-                                style: TextStyle(
-                                  fontSize: screenWidth * 0.04,
-                                  fontFamily: 'Poppins',
-                                  letterSpacing: 1,
-                                  color: Color(0xFFD9D9D9),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  widget.toggleView();
-                                },
-                                child: Text(
-                                  'Create Account',
-                                  style: TextStyle(
-                                    color: Color(0xFF66B3FF),
-                                    fontSize: screenWidth * 0.04,
-                                    fontFamily: 'Poppins',
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
                       ],
                     ),
@@ -312,3 +213,4 @@ class _SignState extends State<Sign> {
           );
   }
 }
+

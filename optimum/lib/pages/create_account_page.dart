@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
+import 'package:optimum/pages/verifyUser.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:provider/provider.dart';
 
@@ -73,8 +74,6 @@ class _CreateaccountState extends State<Createaccount> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final user = Provider.of<Utilisateur?>(context);
-
     return loading ? Loading() : Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -330,18 +329,17 @@ class _CreateaccountState extends State<Createaccount> {
                                 if (_formKey.currentState!.validate()) {
                                   dynamic result = await AuthService
                                       .registerWithEmailAndPasswd(
-                                      email, password, prenom, nom);
+                                      email, password);
                                   if (result == null) {
                                     setState(() {
                                       error = "please supply a valid email";
                                       loading = false;
                                     });
                                   } else {
-                                    Navigator.pushAndRemoveUntil(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Wrapper()),
-                                          (Route<dynamic> route) => false, // Supprime toutes les routes précédentes
+                                          builder: (context) => VerifyUser(name: prenom, lastName: nom , email: email,)),
                                     );
                                   }
                                 }
@@ -366,7 +364,7 @@ class _CreateaccountState extends State<Createaccount> {
                             ),
                           ),
                           SizedBox(height: screenHeight * 0.005),
-                           Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(

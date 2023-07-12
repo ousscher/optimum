@@ -7,25 +7,17 @@ class DatabaseService {
   // collection reference
   final String uid;
   DatabaseService({required this.uid});
-  final CollectionReference optimumCollection =FirebaseFirestore.instance.collection('users');
-  Future updateUserData(String name, String lastName) async {
-    return await optimumCollection.doc(uid).set({
+  static final CollectionReference usersCollection =FirebaseFirestore.instance.collection('users');
+  Future intialiseUserData(String name, String lastName , String email) async {
+    return await usersCollection.doc(uid).set({
       'name' : name,
       'lastname' : lastName,
-
+      'email' : email,
     });
   }
 
   // get nom d'utilisateur
 
-  Future<String> getUserName() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      String uid = user.uid;
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
 
   static Stream<List<UserOptimum>> get users {
     return usersCollection.snapshots().map((event) => userListFromSnapshot(event));
@@ -42,6 +34,4 @@ class DatabaseService {
   }).toList();
 }
 
-
 }
-
