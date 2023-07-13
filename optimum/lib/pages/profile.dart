@@ -48,7 +48,7 @@ class _ProfileState extends State<Profile> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.fromLTRB(
-                                screenSize.width * 0.06,
+                                screenSize.width * 0.07,
                                 screenSize.height * 0.06,
                                 0,
                                 0),

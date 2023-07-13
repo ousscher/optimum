@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
+import 'package:optimum/pages/Doctors.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/contact.dart';
 import 'package:optimum/pages/users.dart';
@@ -349,7 +350,12 @@ class _HomeState extends State<Home> {
                                                 ),
                                               ),
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => Doctors()),
+                                              );
+                                            },
                                             child: Image.asset(
                                               'assets/images/dr_icon.png',
                                               width: screenSize.width * 0.11,

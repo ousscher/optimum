@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:optimum/pages/Safety.dart';
 import 'package:optimum/pages/start.dart';
 import 'package:optimum/pages/wrapper.dart';
 import 'package:optimum/services/auth.dart';
@@ -81,7 +82,7 @@ class Welcome extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Wrapper()),
+                        MaterialPageRoute(builder: (context) => Safety()),
                       );
                     },
                     child: Text(
