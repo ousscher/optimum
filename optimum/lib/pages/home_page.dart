@@ -185,9 +185,9 @@ class _HomeState extends State<Home> {
                                             ),
                                             onPressed: () {},
                                             child: Image.asset(
-                                              'assets/images/schedule_icon.png',
-                                              width: screenSize.width * 0.15,
-                                              height: screenSize.height * 0.15,
+                                              'assets/images/schedule_ico.png',
+                                              width: screenSize.width * 0.12,
+                                              height: screenSize.height * 0.12,
                                             ),
                                           ),
                                         ),
@@ -267,7 +267,7 @@ class _HomeState extends State<Home> {
                               SizedBox(height: screenSize.height * 0.02),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(
-                                    screenSize.width * 0.19, 0, 0, 0),
+                                    screenSize.width * 0.13, 0, 0, 0),
                                 child: Row(
                                   children: <Widget>[
                                     Column(
@@ -301,16 +301,16 @@ class _HomeState extends State<Home> {
                                             ),
                                             onPressed: () {},
                                             child: Image.asset(
-                                              'assets/images/location_icon.png',
-                                              width: screenSize.width * 0.07,
-                                              height: screenSize.height * 0.07,
+                                              'assets/images/schedule_icon.png',
+                                              width: screenSize.width * 0.15,
+                                              height: screenSize.height * 0.15,
                                             ),
                                           ),
                                         ),
                                         SizedBox(
                                             height: screenSize.height * 0.01),
                                         Text(
-                                          'Location',
+                                          'Booking history',
                                           style: TextStyle(
                                             color: Color(0xFFD9D9D9),
                                             fontSize: screenSize.width * 0.04,
@@ -320,7 +320,7 @@ class _HomeState extends State<Home> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: screenSize.width * 0.19),
+                                    SizedBox(width: screenSize.width * 0.12),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

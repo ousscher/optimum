@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Doctors extends StatefulWidget {
   const Doctors({super.key});
@@ -101,7 +102,27 @@ class DoctorOne extends StatelessWidget {
                       width: screenSize.width * 0.15,
                       height: screenSize.width * 0.15,
                       child: TextButton(
-                        onPressed: (){},
+                        onPressed:
+                          () async {
+                            String? encodeQueryParameters(Map<String, String> params) {
+                              return params.entries
+                                  .map((MapEntry<String, String> e) =>
+                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                  .join('&');
+                            }
+                            final Uri emailUri = Uri(
+                              scheme: 'mailto',
+                              path: 'lm_soltani@esi.dz',
+                              query: encodeQueryParameters(<String, String>{
+                                'subject': 'Patient Question',
+                              }),
+                            );
+                            try{
+                              await launchUrl(emailUri);
+                            }catch(e){
+                              print(e.toString());
+                            }
+                        },
                         child:Image.asset(
                           'assets/images/email_icon.png',
                           width: screenSize.width * 0.1 ,
@@ -126,7 +147,18 @@ class DoctorOne extends StatelessWidget {
                       width: screenSize.width * 0.15,
                       height: screenSize.width * 0.15,
                       child: TextButton(
-                        onPressed: (){},
+                        onPressed: () async {
+
+                          final Uri phoneUri = Uri(
+                            scheme: 'tel',
+                            path: '0796698970',
+                          );
+                          try{
+                            await launchUrl(phoneUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Image.asset(
                           'assets/images/phone_icon.png',
                           width: screenSize.width * 0.07 ,
@@ -333,7 +365,26 @@ class DoctorTwo extends StatelessWidget {
                     width: screenSize.width * 0.15,
                     height: screenSize.width * 0.15,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        String? encodeQueryParameters(Map<String, String> params) {
+                          return params.entries
+                              .map((MapEntry<String, String> e) =>
+                          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                              .join('&');
+                        }
+                        final Uri emailUri = Uri(
+                          scheme: 'mailto',
+                          path: 'soltaniamine154@gmail.com',
+                          query: encodeQueryParameters(<String, String>{
+                            'subject': 'Patient Question',
+                          }),
+                        );
+                        try{
+                          await launchUrl(emailUri);
+                        }catch(e){
+                          print(e.toString());
+                        }
+                      },
                       child:Image.asset(
                         'assets/images/email_icon.png',
                         width: screenSize.width * 0.1 ,
@@ -358,7 +409,18 @@ class DoctorTwo extends StatelessWidget {
                     width: screenSize.width * 0.15,
                     height: screenSize.width * 0.15,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () async {
+
+                        final Uri phoneUri = Uri(
+                          scheme: 'tel',
+                          path: '0734665501',
+                        );
+                        try{
+                          await launchUrl(phoneUri);
+                        }catch(e){
+                          print(e.toString());
+                        }
+                      },
                       child: Image.asset(
                         'assets/images/phone_icon.png',
                         width: screenSize.width * 0.07 ,
@@ -565,7 +627,26 @@ class DoctorThree extends StatelessWidget {
                     width: screenSize.width * 0.15,
                     height: screenSize.width * 0.15,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        String? encodeQueryParameters(Map<String, String> params) {
+                          return params.entries
+                              .map((MapEntry<String, String> e) =>
+                          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                              .join('&');
+                        }
+                        final Uri emailUri = Uri(
+                          scheme: 'mailto',
+                          path: 'lo_cherguelaine@esi.dz',
+                          query: encodeQueryParameters(<String, String>{
+                            'subject': 'Patient Question',
+                          }),
+                        );
+                        try{
+                          await launchUrl(emailUri);
+                        }catch(e){
+                          print(e.toString());
+                        }
+                      },
                       child:Image.asset(
                         'assets/images/email_icon.png',
                         width: screenSize.width * 0.1 ,
@@ -590,7 +671,18 @@ class DoctorThree extends StatelessWidget {
                     width: screenSize.width * 0.15,
                     height: screenSize.width * 0.15,
                     child: TextButton(
-                      onPressed: (){},
+                      onPressed: () async {
+
+                        final Uri phoneUri = Uri(
+                          scheme: 'tel',
+                          path: '0675729683',
+                        );
+                        try{
+                          await launchUrl(phoneUri);
+                        }catch(e){
+                          print(e.toString());
+                        }
+                      },
                       child: Image.asset(
                         'assets/images/phone_icon.png',
                         width: screenSize.width * 0.07 ,

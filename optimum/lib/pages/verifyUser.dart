@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/services/database.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VerifyUser extends StatefulWidget {
   String name;
@@ -71,7 +72,36 @@ class _VerifyUserState extends State<VerifyUser> {
                             fontFamily: 'Oswald',
                           ),
                     ),
-                    SizedBox(height: screenHeight * 0.06,),
+                    SizedBox(height: screenHeight * 0.02,),
+                    GestureDetector(
+                      onTap: (){
+                        final snackBar = SnackBar(
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Let\'s go to mail!',
+                              message:
+                              'Your confirmation is very important to create your account!',
+                              contentType: ContentType.help,
+                            ),
+                        );
+
+                        ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(snackBar);
+                        },
+                      child: Text(
+                        'What to do?',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          decoration: TextDecoration.underline,
+                          fontSize: screenWidth * 0.04,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: screenHeight * 0.02,),
                     Padding(
                       padding: EdgeInsets.fromLTRB(screenWidth * 0.025, 0, 0, 0),
                       child: Container(
@@ -93,22 +123,17 @@ class _VerifyUserState extends State<VerifyUser> {
                               ),
                             ),
                           ),
-                          onPressed: (){
-                            final snackBar = SnackBar(
-                              elevation: 0,
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.transparent,
-                              content: AwesomeSnackbarContent(
-                                title: 'Let\'s go to mail!',
-                                message:
-                                'Your confirmation is very important to create your account!',
-                                contentType: ContentType.help,
-                              ),
-                            );
+                          onPressed: () async {
 
-                            ScaffoldMessenger.of(context)
-                              ..hideCurrentSnackBar()
-                              ..showSnackBar(snackBar);
+                              final Uri emailUri = Uri(
+                                scheme: 'https',
+                                host: 'mail.google.com',
+                              );
+                              try{
+                                await launchUrl(emailUri);
+                              }catch(e){
+                                print(e.toString());
+                              }
                           },
                           child: Text(
                             'Verify my email',
