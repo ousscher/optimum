@@ -7,6 +7,9 @@ import 'package:optimum/pages/menu.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/theme_provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -20,6 +23,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'menu_dark' : 'menu';
     return Scaffold(
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         future:
@@ -34,9 +38,9 @@ class _ProfileState extends State<Profile> {
                 ? snapshot.data!.get('phone')
                 : '';
             return Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/menu.png'),
+                  image: AssetImage('assets/images/'+'$img'+'.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -48,7 +52,7 @@ class _ProfileState extends State<Profile> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.fromLTRB(
-                                screenSize.width * 0.06,
+                                screenSize.width * 0.07,
                                 screenSize.height * 0.06,
                                 0,
                                 0),
@@ -64,7 +68,7 @@ class _ProfileState extends State<Profile> {
                                 Icons.arrow_back_ios_new,
                                 color: Color(0xFFD37777),
                               ),
-                              backgroundColor: Colors.grey[100],
+                              backgroundColor: Theme.of(context).shadowColor,
                             ),
                           ),
                           SizedBox(
@@ -101,7 +105,7 @@ class _ProfileState extends State<Profile> {
                         backgroundColor:
                             MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
-                            return Colors.white;
+                            return Colors.grey.shade300;
                           },
                         ),
                         shape:
@@ -110,7 +114,8 @@ class _ProfileState extends State<Profile> {
                             borderRadius:
                                 BorderRadius.circular(screenSize.width * 0.15),
                             side: BorderSide(
-                              color: Colors.black,
+                              width: 2.0,
+                              color: Color(0xFFD37777),
                             ),
                           ),
                         ),
@@ -129,7 +134,7 @@ class _ProfileState extends State<Profile> {
                     style: TextStyle(
                       fontFamily: 'Oswald',
                       fontSize: screenSize.height * 0.04,
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   Padding(
@@ -176,7 +181,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ],
@@ -188,11 +193,11 @@ class _ProfileState extends State<Profile> {
                                       children: <Widget>[
                                         Image.asset(
                                           'assets/images/schedule_icon.png',
-                                          width: screenSize.width * 0.1,
-                                          height: screenSize.width * 0.1,
+                                          width: screenSize.width * 0.08,
+                                          height: screenSize.width * 0.08,
                                         ),
                                         SizedBox(
-                                          width: screenSize.width * 0.02,
+                                          width: screenSize.width * 0.04,
                                         ),
                                         Text(
                                           snapshot.data!
@@ -204,7 +209,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ],
@@ -236,7 +241,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ],
@@ -261,7 +266,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ],
@@ -305,7 +310,7 @@ class _ProfileState extends State<Profile> {
                                         style: TextStyle(
                                           fontFamily: 'Oswald',
                                           fontSize: screenSize.height * 0.02,
-                                          color: Colors.black,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ],
@@ -328,7 +333,7 @@ class _ProfileState extends State<Profile> {
                                         style: TextStyle(
                                           fontFamily: 'Oswald',
                                           fontSize: screenSize.height * 0.02,
-                                          color: Colors.black,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ],
@@ -356,7 +361,7 @@ class _ProfileState extends State<Profile> {
                                         style: TextStyle(
                                           fontFamily: 'Oswald',
                                           fontSize: screenSize.height * 0.02,
-                                          color: Colors.black,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ],
@@ -379,7 +384,7 @@ class _ProfileState extends State<Profile> {
                                         style: TextStyle(
                                           fontFamily: 'Oswald',
                                           fontSize: screenSize.height * 0.02,
-                                          color: Colors.black,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ],
@@ -428,7 +433,7 @@ class _ProfileState extends State<Profile> {
                                               fontFamily: 'Oswald',
                                               fontSize:
                                                   screenSize.height * 0.02,
-                                              color: Colors.black,
+                                              color: Theme.of(context).primaryColor,
                                             ),
                                           ),
                                         ],
@@ -444,7 +449,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),
@@ -459,7 +464,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),
@@ -474,7 +479,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),
@@ -489,7 +494,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),
@@ -504,7 +509,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),
@@ -519,7 +524,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),
@@ -554,7 +559,7 @@ class _ProfileState extends State<Profile> {
                                               fontFamily: 'Oswald',
                                               fontSize:
                                                   screenSize.height * 0.02,
-                                              color: Colors.black,
+                                              color: Theme.of(context).primaryColor,
                                             ),
                                           ),
                                         ],
@@ -570,7 +575,7 @@ class _ProfileState extends State<Profile> {
                                           style: TextStyle(
                                             fontFamily: 'Oswald',
                                             fontSize: screenSize.height * 0.02,
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ),

@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
+import 'package:optimum/pages/Doctors.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/contact.dart';
 import 'package:optimum/pages/users.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
+import '../provider/theme_provider.dart';
 import '../services/auth.dart';
 import 'menu.dart';
 import 'package:optimum/services/database.dart';
@@ -51,6 +53,7 @@ class _HomeState extends State<Home> {
 
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'home_page_dark' : 'home_page';
     return Scaffold(
         body: Container(
             // Votre code ici
@@ -71,7 +74,7 @@ class _HomeState extends State<Home> {
                         body: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/images/home_page.png'),
+                              image: AssetImage('assets/images/'+'$img'+'.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -95,7 +98,7 @@ class _HomeState extends State<Home> {
                                     Icons.menu,
                                     color: Color(0xFFD37777),
                                   ),
-                                  backgroundColor: Colors.grey[100],
+                                  backgroundColor: Theme.of(context).shadowColor,
                                 ),
                               ),
                               SizedBox(height: screenSize.height * 0.27),
@@ -166,7 +169,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -184,9 +187,9 @@ class _HomeState extends State<Home> {
                                             ),
                                             onPressed: () {},
                                             child: Image.asset(
-                                              'assets/images/schedule_icon.png',
-                                              width: screenSize.width * 0.15,
-                                              height: screenSize.height * 0.15,
+                                              'assets/images/schedule_ico.png',
+                                              width: screenSize.width * 0.12,
+                                              height: screenSize.height * 0.12,
                                             ),
                                           ),
                                         ),
@@ -216,7 +219,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -266,7 +269,7 @@ class _HomeState extends State<Home> {
                               SizedBox(height: screenSize.height * 0.02),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(
-                                    screenSize.width * 0.19, 0, 0, 0),
+                                    screenSize.width * 0.13, 0, 0, 0),
                                 child: Row(
                                   children: <Widget>[
                                     Column(
@@ -282,7 +285,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -300,16 +303,16 @@ class _HomeState extends State<Home> {
                                             ),
                                             onPressed: () {},
                                             child: Image.asset(
-                                              'assets/images/location_icon.png',
-                                              width: screenSize.width * 0.07,
-                                              height: screenSize.height * 0.07,
+                                              'assets/images/schedule_icon.png',
+                                              width: screenSize.width * 0.11,
+                                              height: screenSize.height * 0.11,
                                             ),
                                           ),
                                         ),
                                         SizedBox(
                                             height: screenSize.height * 0.01),
                                         Text(
-                                          'Location',
+                                          'Booking history',
                                           style: TextStyle(
                                             color: Color(0xFFD9D9D9),
                                             fontSize: screenSize.width * 0.04,
@@ -319,7 +322,7 @@ class _HomeState extends State<Home> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: screenSize.width * 0.19),
+                                    SizedBox(width: screenSize.width * 0.12),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -333,7 +336,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -349,7 +352,12 @@ class _HomeState extends State<Home> {
                                                 ),
                                               ),
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => Doctors()),
+                                              );
+                                            },
                                             child: Image.asset(
                                               'assets/images/dr_icon.png',
                                               width: screenSize.width * 0.11,

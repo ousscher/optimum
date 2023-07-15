@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/home_page.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../provider/theme_provider.dart';
 
 class Contact extends StatelessWidget {
   const Contact({super.key});
@@ -7,11 +11,12 @@ class Contact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'contact_dark' : 'contact';
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/contact.png'),
+            image: AssetImage('assets/images/'+'$img'+'.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -28,7 +33,7 @@ class Contact extends StatelessWidget {
                   Icons.arrow_back_ios_new,
                   color: Color(0xFFD37777),
                 ),
-                backgroundColor: Colors.grey[100],
+                backgroundColor: Theme.of(context).shadowColor,
               ),
             ),
             SizedBox(height: screenSize.height * 0.28),
@@ -58,7 +63,26 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.15,
                         height: screenSize.width * 0.15,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            String? encodeQueryParameters(Map<String, String> params) {
+                              return params.entries
+                                  .map((MapEntry<String, String> e) =>
+                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                  .join('&');
+                            }
+                            final Uri emailUri = Uri(
+                              scheme: 'mailto',
+                              path: 'lm_soltani@esi.dz',
+                              query: encodeQueryParameters(<String, String>{
+                                'subject': 'Patient Question',
+                              }),
+                            );
+                            try{
+                              await launchUrl(emailUri);
+                            }catch(e){
+                              print(e.toString());
+                            }
+                          },
                           child: Image.asset(
                             'assets/images/email_icon.png',
                             width: screenSize.width * 0.1,
@@ -85,11 +109,30 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.06,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          String? encodeQueryParameters(Map<String, String> params) {
+                            return params.entries
+                                .map((MapEntry<String, String> e) =>
+                            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                .join('&');
+                          }
+                          final Uri emailUri = Uri(
+                            scheme: 'mailto',
+                            path: 'lm_soltani@esi.dz',
+                            query: encodeQueryParameters(<String, String>{
+                              'subject': 'Patient Question',
+                            }),
+                          );
+                          try{
+                            await launchUrl(emailUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Text(
                           'lm_soltani@esi.dz',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             decoration: TextDecoration.underline,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
@@ -107,7 +150,18 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.15,
                         height: screenSize.width * 0.15,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+
+                            final Uri phoneUri = Uri(
+                              scheme: 'tel',
+                              path: '021444412',
+                            );
+                            try{
+                              await launchUrl(phoneUri);
+                            }catch(e){
+                              print(e.toString());
+                            }
+                          },
                           child: Image.asset(
                             'assets/images/phone_icon.png',
                             width: screenSize.width * 0.07,
@@ -134,22 +188,44 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.06,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+
+                          final Uri phoneUri = Uri(
+                            scheme: 'tel',
+                            path: '021444412',
+                          );
+                          try{
+                            await launchUrl(phoneUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Text(
                           'O21 44 44 12 ',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+
+                          final Uri phoneUri = Uri(
+                            scheme: 'tel',
+                            path: '0734665501',
+                          );
+                          try{
+                            await launchUrl(phoneUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Text(
                           '/ O7 34 66 55 01',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -166,7 +242,19 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.15,
                         height: screenSize.width * 0.15,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+
+                            final Uri mapsUri = Uri(
+                              scheme: 'https',
+                              host: 'www.google.dz',
+                              path: 'maps/place/Grande+Poste+d\'Alger/@36.7729353,3.0590101,19z/data=!4m6!3m5!1s0x128fb2f7afffd155:0x1f9fda77ca70e32f!8m2!3d36.7729353!4d3.0594429!16s%2Fg%2F1jgm1x08z?entry=ttu',
+                            );
+                            try{
+                              await launchUrl(mapsUri);
+                            }catch(e){
+                              print(e.toString());
+                            }
+                          },
                           child: Image.asset(
                             'assets/images/location_icon.png',
                             width: screenSize.width * 0.07,
@@ -193,11 +281,23 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.06,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+
+                          final Uri mapsUri = Uri(
+                            scheme: 'https',
+                            host: 'www.google.dz',
+                            path: 'maps/place/Grande+Poste+d\'Alger/@36.7729353,3.0590101,19z/data=!4m6!3m5!1s0x128fb2f7afffd155:0x1f9fda77ca70e32f!8m2!3d36.7729353!4d3.0594429!16s%2Fg%2F1jgm1x08z?entry=ttu',
+                          );
+                          try{
+                            await launchUrl(mapsUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Text(
                           '12 Rue Ben Azzouz, Algiers',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -214,7 +314,18 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.15,
                         height: screenSize.width * 0.15,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+
+                            final Uri facebookUri = Uri(
+                              scheme: 'https',
+                              host: 'facebook.com',
+                            );
+                            try{
+                              await launchUrl(facebookUri);
+                            }catch(e){
+                              print(e.toString());
+                            }
+                          },
                           child: Image.asset(
                             'assets/images/facebook.png',
                             width: screenSize.width * 0.1,
@@ -241,11 +352,22 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.06,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+
+                          final Uri facebookUri = Uri(
+                            scheme: 'https',
+                            host: 'www.facebook.com',
+                          );
+                          try{
+                            await launchUrl(facebookUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Text(
                           'Cabinet Dr Soltani Amine',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -262,7 +384,19 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.15,
                         height: screenSize.width * 0.15,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+
+                            final Uri instagramUri = Uri(
+                              scheme: 'https',
+                              host: 'instagram.com',
+                              path: 'amine__soltani',
+                            );
+                            try{
+                              await launchUrl(instagramUri);
+                            }catch(e){
+                              print(e.toString());
+                            }
+                          },
                           child: Image.asset(
                             'assets/images/instagram.png',
                             width: screenSize.width * 0.08,
@@ -289,11 +423,23 @@ class Contact extends StatelessWidget {
                         width: screenSize.width * 0.06,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+
+                          final Uri instagramUri = Uri(
+                            scheme: 'https',
+                            host: 'instagram.com',
+                            path: 'amine__soltani',
+                          );
+                          try{
+                            await launchUrl(instagramUri);
+                          }catch(e){
+                            print(e.toString());
+                          }
+                        },
                         child: Text(
                           'Dr.Soltani.Amine',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
