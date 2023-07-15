@@ -89,7 +89,7 @@ class DoctorOne extends StatelessWidget {
                     Icons.arrow_back_ios_new_outlined,
                     color: Color(0xFFD37777),
                   ),
-                  backgroundColor: Colors.grey[100],
+                  backgroundColor: Theme.of(context).shadowColor,
                 ),
               ),
               SizedBox(height: screenSize.height * 0.295,),
@@ -131,7 +131,7 @@ class DoctorOne extends StatelessWidget {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.resolveWith<Color>(
                                 (Set<MaterialState> states) {
-                              return Colors.grey.shade300;
+                              return Theme.of(context).shadowColor;
                             },
                           ),
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -167,7 +167,7 @@ class DoctorOne extends StatelessWidget {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.resolveWith<Color>(
                                 (Set<MaterialState> states) {
-                              return Colors.grey.shade300;
+                              return Theme.of(context).shadowColor;
                             },
                           ),
                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -352,7 +352,7 @@ class DoctorTwo extends StatelessWidget {
                   Icons.arrow_back_ios_new_outlined,
                   color: Color(0xFFD37777),
                 ),
-                backgroundColor: Colors.grey[100],
+                backgroundColor: Theme.of(context).shadowColor,
               ),
             ),
             SizedBox(height: screenSize.height * 0.295,),
@@ -393,7 +393,7 @@ class DoctorTwo extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
-                            return Colors.grey.shade300;
+                            return Theme.of(context).shadowColor;
                           },
                         ),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -429,7 +429,7 @@ class DoctorTwo extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
-                            return Colors.grey.shade300;
+                            return Theme.of(context).shadowColor;
                           },
                         ),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -614,7 +614,7 @@ class DoctorThree extends StatelessWidget {
                   Icons.arrow_back_ios_new_outlined,
                   color: Color(0xFFD37777),
                 ),
-                backgroundColor: Colors.grey[100],
+                backgroundColor: Theme.of(context).shadowColor,
               ),
             ),
             SizedBox(height: screenSize.height * 0.295,),
@@ -655,7 +655,7 @@ class DoctorThree extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
-                            return Colors.grey.shade300;
+                            return Theme.of(context).shadowColor;
                           },
                         ),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -691,7 +691,7 @@ class DoctorThree extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
-                            return Colors.grey.shade300;
+                            return Theme.of(context).shadowColor;
                           },
                         ),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

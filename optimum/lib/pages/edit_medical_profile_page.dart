@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/edit_pesonal_profile_page.dart';
 import 'package:optimum/pages/profile.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/theme_provider.dart';
 
 class Editmedical extends StatefulWidget {
   const Editmedical({super.key});
@@ -74,12 +77,13 @@ class _EditmedicalState extends State<Editmedical> {
   }
   @override
   Widget build(BuildContext context) {
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'edit_profile_dark' : 'edit_profile';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body:Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/edit_profile.png'),
+              image: AssetImage('assets/images/'+'$img'+'.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -268,6 +272,7 @@ class _EditmedicalState extends State<Editmedical> {
                                 child: TextField(
                                   decoration: InputDecoration(
                                     hintText: 'Weight',
+
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(40.0),
                                       borderSide: BorderSide(color: Color(0xFFD9D9D9)),

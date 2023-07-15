@@ -1,7 +1,10 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/home_page.dart';
 import 'package:optimum/pages/profile.dart';
 import 'package:optimum/pages/start.dart';
+import 'package:optimum/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/auth.dart';
 
@@ -13,14 +16,18 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  bool value = true;
   @override
   Widget build(BuildContext context) {
+    final text = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'Light Mode' : 'Dark Mode';
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'menu_dark' : 'menu';
+
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/menu.png'),
+              image: AssetImage('assets/images/'+'$img'+'.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -39,7 +46,7 @@ class _MenuState extends State<Menu> {
                   Icons.close,
                   color: Color(0xFFD37777),
                 ),
-                backgroundColor: Colors.grey[100],
+                backgroundColor: Theme.of(context).shadowColor,
               ),
             ),
             Text(
@@ -60,14 +67,15 @@ class _MenuState extends State<Menu> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         (Set<MaterialState> states) {
-                      return Colors.white;
+                      return Colors.grey.shade300;
                     },
                   ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(screenSize.width * 0.15),
                       side: BorderSide(
-                        color: Colors.black,
+                        width: 2.0,
+                        color: Color(0xFFD37777),
                       ),
                     ),
                   ),
@@ -94,7 +102,7 @@ class _MenuState extends State<Menu> {
               child: Text(
                 'Profile',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).primaryColor,
                   fontSize: screenSize.width * 0.05,
                   fontFamily: 'Oswald',
                   letterSpacing: 1,
@@ -128,7 +136,7 @@ class _MenuState extends State<Menu> {
                 child: Text(
                   'Location',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                     fontSize: screenSize.width * 0.05,
                     fontFamily: 'Oswald',
                     letterSpacing: 1,
@@ -146,7 +154,7 @@ class _MenuState extends State<Menu> {
                 child: Text(
                   'Language',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                     fontSize: screenSize.width * 0.05,
                     fontFamily: 'Oswald',
                     letterSpacing: 1,
@@ -160,11 +168,49 @@ class _MenuState extends State<Menu> {
               ),
               SizedBox(height: screenSize.height * 0.005,),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  value = !value;
+                  final provider = Provider.of<ThemeProvider>(
+                        context, listen: false);
+                    provider.toggleTheme(value);
+                  if (value == false) {
+                    final snackBar = SnackBar(
+                      elevation: 0,
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: 'Lights turned OFF!',
+                        message:
+                        'You are in the Dark Mode. Enjoy our Optimum application!',
+                        contentType: ContentType.success,
+                      ),
+                    );
+
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                  }else{
+                    final snackBar = SnackBar(
+                      elevation: 0,
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: 'Lights turned ON!',
+                        message:
+                        'You are in the Light Mode. Protect your eyes!',
+                        contentType: ContentType.warning,
+                      ),
+                    );
+
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                  }
+                },
                 child: Text(
-                  'Dark Mode',
+                  '$text',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                     fontSize: screenSize.width * 0.05,
                     fontFamily: 'Oswald',
                     letterSpacing: 1,
@@ -182,7 +228,7 @@ class _MenuState extends State<Menu> {
                 child: Text(
                   'Help',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                     fontSize: screenSize.width * 0.05,
                     fontFamily: 'Oswald',
                     letterSpacing: 1,
@@ -203,6 +249,21 @@ class _MenuState extends State<Menu> {
                     MaterialPageRoute(builder: (context) => Start()),
                         (Route<dynamic> route) => false, // Supprime toutes les routes précédentes
                   );
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Signed Out!',
+                      message:
+                      'Good Bye, see you next time. May ALLAH bless you! ',
+                      contentType: ContentType.success,
+                    ),
+                  );
+
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -9,6 +9,7 @@ import 'package:optimum/pages/users.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
+import '../provider/theme_provider.dart';
 import '../services/auth.dart';
 import 'menu.dart';
 import 'package:optimum/services/database.dart';
@@ -52,6 +53,7 @@ class _HomeState extends State<Home> {
 
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'home_page_dark' : 'home_page';
     return Scaffold(
         body: Container(
             // Votre code ici
@@ -72,7 +74,7 @@ class _HomeState extends State<Home> {
                         body: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/images/home_page.png'),
+                              image: AssetImage('assets/images/'+'$img'+'.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -96,7 +98,7 @@ class _HomeState extends State<Home> {
                                     Icons.menu,
                                     color: Color(0xFFD37777),
                                   ),
-                                  backgroundColor: Colors.grey[100],
+                                  backgroundColor: Theme.of(context).shadowColor,
                                 ),
                               ),
                               SizedBox(height: screenSize.height * 0.27),
@@ -167,7 +169,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -217,7 +219,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -283,7 +285,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<
@@ -302,8 +304,8 @@ class _HomeState extends State<Home> {
                                             onPressed: () {},
                                             child: Image.asset(
                                               'assets/images/schedule_icon.png',
-                                              width: screenSize.width * 0.15,
-                                              height: screenSize.height * 0.15,
+                                              width: screenSize.width * 0.11,
+                                              height: screenSize.height * 0.11,
                                             ),
                                           ),
                                         ),
@@ -334,7 +336,7 @@ class _HomeState extends State<Home> {
                                                   MaterialStateProperty
                                                       .resolveWith<Color>(
                                                 (Set<MaterialState> states) {
-                                                  return Colors.white;
+                                                  return Theme.of(context).shadowColor;
                                                 },
                                               ),
                                               shape: MaterialStateProperty.all<

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/home_page.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../provider/theme_provider.dart';
 
 class Contact extends StatelessWidget {
   const Contact({super.key});
@@ -8,11 +11,12 @@ class Contact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'contact_dark' : 'contact';
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/contact.png'),
+            image: AssetImage('assets/images/'+'$img'+'.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -29,7 +33,7 @@ class Contact extends StatelessWidget {
                   Icons.arrow_back_ios_new,
                   color: Color(0xFFD37777),
                 ),
-                backgroundColor: Colors.grey[100],
+                backgroundColor: Theme.of(context).shadowColor,
               ),
             ),
             SizedBox(height: screenSize.height * 0.28),
@@ -128,7 +132,7 @@ class Contact extends StatelessWidget {
                         child: Text(
                           'lm_soltani@esi.dz',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             decoration: TextDecoration.underline,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
@@ -199,7 +203,7 @@ class Contact extends StatelessWidget {
                         child: Text(
                           'O21 44 44 12 ',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -221,7 +225,7 @@ class Contact extends StatelessWidget {
                         child: Text(
                           '/ O7 34 66 55 01',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -293,7 +297,7 @@ class Contact extends StatelessWidget {
                         child: Text(
                           '12 Rue Ben Azzouz, Algiers',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -363,7 +367,7 @@ class Contact extends StatelessWidget {
                         child: Text(
                           'Cabinet Dr Soltani Amine',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
@@ -435,7 +439,7 @@ class Contact extends StatelessWidget {
                         child: Text(
                           'Dr.Soltani.Amine',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: screenSize.height * 0.025,
                             fontFamily: 'Oswald',
                           ),
