@@ -5,6 +5,7 @@ import 'package:optimum/pages/wrapper.dart';
 import 'package:optimum/services/auth.dart';
 
 class Welcome extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
