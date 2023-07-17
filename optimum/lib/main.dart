@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +10,9 @@ import 'package:provider/provider.dart';
 
 
 void main()async {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // Lock to portrait orientation
+  ]);
   // Initialize Firebase app
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

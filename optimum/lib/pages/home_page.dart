@@ -5,6 +5,7 @@ import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Doctors.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/contact.dart';
+import 'package:optimum/pages/schedule.dart';
 import 'package:optimum/pages/users.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
@@ -185,7 +186,13 @@ class _HomeState extends State<Home> {
                                                 ),
                                               ),
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => Schedule()),
+                                              );
+                                            },
                                             child: Image.asset(
                                               'assets/images/schedule_ico.png',
                                               width: screenSize.width * 0.12,
