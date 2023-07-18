@@ -28,26 +28,24 @@ class _EditpersonalState extends State<Editpersonal> {
             ),
           ),
           child: Column(
-              children: <Widget>[
+            children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04, 0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenSize.height * 0.04, 0, 0),
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(builder: (context) => Profile()),
-                            );
+                            Navigator.pop(context);
                           },
                           child: Row(
                             children: <Widget>[
                               Icon(
                                 Icons.navigate_before,
-                                color:  Color(0xFFD37777),
+                                color: Color(0xFFD37777),
                                 size: 30.0,
                               ),
                               Text(
@@ -62,14 +60,19 @@ class _EditpersonalState extends State<Editpersonal> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * 0.08,),
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(screenSize.width * 0.02, 0, 0, 0),
+                    padding:
+                        EdgeInsets.fromLTRB(screenSize.width * 0.02, 0, 0, 0),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: screenSize.height * 0.06,),
+                        SizedBox(
+                          height: screenSize.height * 0.06,
+                        ),
                         Text(
                           'Edit Profile',
                           style: TextStyle(
@@ -84,12 +87,14 @@ class _EditpersonalState extends State<Editpersonal> {
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04,0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenSize.height * 0.04, 0, 0),
                         child: TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Editmedical()),
+                              MaterialPageRoute(
+                                  builder: (context) => Editmedical()),
                             );
                           },
                           child: Row(
@@ -104,18 +109,21 @@ class _EditpersonalState extends State<Editpersonal> {
                               ),
                               Icon(
                                 Icons.navigate_next_sharp,
-                                color:  Color(0xFFD37777),
+                                color: Color(0xFFD37777),
                                 size: 30,
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * 0.08,),
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
                     ],
                   ),
                 ],
               ),
+
             Container(
               width: screenSize.width * 0.26,
               height: screenSize.width * 0.26,
@@ -133,273 +141,321 @@ class _EditpersonalState extends State<Editpersonal> {
                       width: 2.0,
                       color: Color(0xFFD37777),
                     ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(screenSize.width * 0.15),
+                        side: BorderSide(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ),
+                  onPressed: () {},
+                  child: Image.asset(
+                    'assets/images/profil_pic.png',
+                  ),
                 ),
+              ),
+              TextButton(
                 onPressed: () {},
-                child: Image.asset(
-                  'assets/images/profil_pic.png',
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: (){},
-              child: Text(
-              'Edit Picture',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: screenSize.height * 0.018,
-                letterSpacing: 2.0,
-                color: Color(0xFF66B3FF),
-                ),
-              ),
-            ),
-            Text(
-              'Fill In This Form So The Dr Can Contact You',
-              style: TextStyle(
-              fontFamily: 'Oswald',
-              fontSize: screenSize.height * 0.02,
-              letterSpacing: 1.0,
-              color: Color(0xFFD9D9D9),
-              ),
-            ),
-            SizedBox(height: screenSize.height * 0.007,),
-            Padding(
-              padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
-              child: Divider(
-                height: screenSize.height * 0.01,
-                color: Colors.grey[500],
-              ),
-            ),
-            SizedBox(height: screenSize.height * 0.007,),
-            Text(
-              'Personal Information',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: screenSize.height * 0.03,
-                letterSpacing: 1.0,
-                color: Color(0xFFD37777),
-              ),
-            ),
-                SizedBox(height: screenSize.height * 0.007,),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
-                  child: Divider(
-                    height: screenSize.height * 0.01,
-                    color: Colors.grey[500],
+                child: Text(
+                  'Edit Picture',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: screenSize.height * 0.018,
+                    letterSpacing: 2.0,
+                    color: Color(0xFF66B3FF),
                   ),
                 ),
-                SizedBox(height: screenSize.height * 0.0235),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'First Name',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: screenSize.height * 0.023,
-                                color: Color(0xFF66B3FF),
-                              ),
-                            ),
-                            SizedBox(width: screenSize.width * 0.06,),
-                            Container(
-                              width: screenSize.width * 0.6,
-                              height: screenSize.height * 0.068,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.0),
-                                color: Colors.grey.shade50,
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'First Name',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * 0.02,),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Last Name',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: screenSize.height * 0.023,
-                                color: Color(0xFF66B3FF),
-                              ),
-                            ),
-                            SizedBox(width: screenSize.width * 0.06,),
-                            Container(
-                              width: screenSize.width * 0.6,
-                              height: screenSize.height * 0.068,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.0),
-                                color: Colors.grey.shade50,
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Last Name',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * 0.02,),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Date Of Birth',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: screenSize.height * 0.023,
-                                color: Color(0xFF66B3FF),
-                              ),
-                            ),
-                            SizedBox(width: screenSize.width * 0.02,),
-                            Container(
-                              width: screenSize.width * 0.6,
-                              height: screenSize.height * 0.068,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.0),
-                                color: Colors.grey.shade50,
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Date Of Birth',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * 0.02,),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Phone Nb',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: screenSize.height * 0.023,
-                                color: Color(0xFF66B3FF),
-                              ),
-                            ),
-                            SizedBox(width: screenSize.width * 0.07,),
-                            Container(
-                              width: screenSize.width * 0.6,
-                              height: screenSize.height * 0.068,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.0),
-                                color: Colors.grey.shade50,
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Phone Nb',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * 0.02,),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Address',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: screenSize.height * 0.023,
-                                color: Color(0xFF66B3FF),
-                              ),
-                            ),
-                            SizedBox(width: screenSize.width * 0.1,),
-                            Container(
-                              width: screenSize.width * 0.6,
-                              height: screenSize.height * 0.068,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.0),
-                                color: Colors.grey.shade50,
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Address',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenSize.height * 0.08 ,),
-                      ],
-                    ),
-
-                  ],
+              ),
+              Text(
+                'Fill In This Form So The Dr Can Contact You',
+                style: TextStyle(
+                  fontFamily: 'Oswald',
+                  fontSize: screenSize.height * 0.02,
+                  letterSpacing: 1.0,
+                  color: Color(0xFFD9D9D9),
                 ),
-          ],
+              ),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                child: Divider(
+                  height: screenSize.height * 0.01,
+                  color: Colors.grey[500],
+                ),
+              ),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
+              Text(
+                'Personal Information',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: screenSize.height * 0.03,
+                  letterSpacing: 1.0,
+                  color: Color(0xFFD37777),
+                ),
+              ),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                child: Divider(
+                  height: screenSize.height * 0.01,
+                  color: Colors.grey[500],
+                ),
+              ),
+              SizedBox(height: screenSize.height * 0.0235),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'First Name',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: screenSize.height * 0.023,
+                              color: Color(0xFF66B3FF),
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.06,
+                          ),
+                          Container(
+                            width: screenSize.width * 0.6,
+                            height: screenSize.height * 0.068,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: Colors.grey.shade50,
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'First Name',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Last Name',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: screenSize.height * 0.023,
+                              color: Color(0xFF66B3FF),
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.06,
+                          ),
+                          Container(
+                            width: screenSize.width * 0.6,
+                            height: screenSize.height * 0.068,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: Colors.grey.shade50,
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Last Name',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Date Of Birth',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: screenSize.height * 0.023,
+                              color: Color(0xFF66B3FF),
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.02,
+                          ),
+                          Container(
+                            width: screenSize.width * 0.6,
+                            height: screenSize.height * 0.068,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: Colors.grey.shade50,
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Date Of Birth',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Phone Nb',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: screenSize.height * 0.023,
+                              color: Color(0xFF66B3FF),
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.07,
+                          ),
+                          Container(
+                            width: screenSize.width * 0.6,
+                            height: screenSize.height * 0.068,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: Colors.grey.shade50,
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Phone Nb',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenSize.height * 0.02,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Address',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: screenSize.height * 0.023,
+                              color: Color(0xFF66B3FF),
+                            ),
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.1,
+                          ),
+                          Container(
+                            width: screenSize.width * 0.6,
+                            height: screenSize.height * 0.068,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.0),
+                              color: Colors.grey.shade50,
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Address',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
