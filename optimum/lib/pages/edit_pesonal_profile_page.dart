@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/edit_medical_profile_page.dart';
 import 'package:optimum/pages/profile.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/theme_provider.dart';
 
 class Editpersonal extends StatefulWidget {
   const Editpersonal({super.key});
@@ -13,13 +16,14 @@ class _EditpersonalState extends State<Editpersonal> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'edit_profile_dark' : 'edit_profile';
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/edit_profile.png'),
+              image: AssetImage('assets/images/'+'$img'+'.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -119,15 +123,23 @@ class _EditpersonalState extends State<Editpersonal> {
                   ),
                 ],
               ),
-              Container(
-                width: screenSize.width * 0.26,
-                height: screenSize.width * 0.26,
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        return Colors.white;
-                      },
+
+            Container(
+              width: screenSize.width * 0.26,
+              height: screenSize.width * 0.26,
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                    return Colors.grey.shade300;
+                    },
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(screenSize.width * 0.15),
+                    side: BorderSide(
+                      width: 2.0,
+                      color: Color(0xFFD37777),
                     ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

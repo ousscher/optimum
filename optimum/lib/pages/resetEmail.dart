@@ -1,8 +1,12 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/changedPassword.dart';
+import 'package:optimum/pages/sign_page.dart';
 import 'package:optimum/shared/loading.dart';
 import 'package:optimum/services/auth.dart';
+
+import 'authenticate.dart';
 
 class ResetEmailPage extends StatefulWidget {
   const ResetEmailPage({super.key});
@@ -40,14 +44,14 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
               child: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/sign.png'),
+                    image: AssetImage('assets/images/reset_password.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                     0,
-                    screenHeight * 0.36,
+                    screenHeight * 0.575,
                     0,
                     0,
                   ),
@@ -55,25 +59,29 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            0,
-                            0,
-                            screenWidth * 0.55,
-                            0,
-                          ),
-                          child: Text(
-                            'Reset',
+                        Text(
+                            'Reset Your Password',
                             style: TextStyle(
                               color: Color(0xFF66B3FF),
-                              fontSize: screenWidth * 0.1,
+                              fontSize: screenWidth * 0.08,
                               fontWeight: FontWeight.bold,
-                              letterSpacing: 2.0,
+                              letterSpacing: 1.0,
                               fontFamily: 'Oswald',
                             ),
                           ),
+
+                        SizedBox(height: screenHeight * 0.005),
+                        Text(
+                          'Please enter your email',
+                          style: TextStyle(
+                            color: Color(0xFFD9D9D9),
+                            fontSize: screenWidth * 0.04,
+                            letterSpacing: 1.0,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                        SizedBox(height: screenHeight * 0.05),
+
+                        SizedBox(height: screenHeight * 0.01),
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                             screenWidth * 0.05,
@@ -126,18 +134,9 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.02),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            screenWidth * 0.4,
-                            0,
-                            0,
-                            0,
-                          ),
-                        ),
-                        SizedBox(height: screenHeight * 0.05),
                         Container(
-                          width: screenWidth * 0.8,
-                          height: screenHeight * 0.08,
+                          width: screenWidth * 0.5,
+                          height: screenHeight * 0.07,
                           child: TextButton(
                             style: ButtonStyle(
                               backgroundColor:
@@ -150,7 +149,7 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.circular(screenWidth * 0.04),
+                                      BorderRadius.circular(screenWidth * 0.05),
                                 ),
                               ),
                             ),
@@ -164,9 +163,9 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                                     .sendPasswordResetEmail(email: email)
                                     .then((_) {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>MyWidget()));
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Authenticate(showSignIn: true)),
+                                  );
                                 }).catchError((e) {
                                   setState(() {
                                     error =
@@ -174,6 +173,21 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                                     loading = false;
                                   });
                                 });
+                                final snackBar = SnackBar(
+                                  elevation: 0,
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  content: AwesomeSnackbarContent(
+                                    title: 'Let\'s go to mail!',
+                                    message:
+                                    'We gave you a chance to change your password. Please check your inbox and set a new password inorder to Sign in!',
+                                    contentType: ContentType.warning,
+                                  ),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(snackBar);
                               }
                             },
                             child: Text(
@@ -181,7 +195,7 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Oswald',
-                                fontSize: screenWidth * 0.075,
+                                fontSize: screenWidth * 0.065,
                                 letterSpacing: 2.0,
                               ),
                             ),
@@ -204,6 +218,7 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                             screenWidth * 0.1,
                           ),
                         ),
+                        SizedBox(height: screenHeight * 0.05),
                       ],
                     ),
                   ),
