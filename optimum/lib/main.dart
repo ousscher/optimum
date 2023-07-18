@@ -10,9 +10,8 @@ import 'package:provider/provider.dart';
 
 
 void main()async {
-   WidgetsFlutterBinding.ensureInitialized(); // Assurez-vous que le binding est initialisé
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // Verrouillez l'orientation en mode portrait
+    DeviceOrientation.portraitUp, // Lock to portrait orientation
   ]);
   // Initialize Firebase app
   WidgetsFlutterBinding.ensureInitialized();

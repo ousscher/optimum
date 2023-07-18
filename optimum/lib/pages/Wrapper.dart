@@ -5,14 +5,13 @@ import 'package:optimum/pages/create_account_page.dart';
 import 'package:optimum/pages/home_page.dart';
 import 'package:optimum/pages/start.dart';
 import 'package:optimum/services/auth.dart';
-import 'package:optimum/services/database.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatefulWidget {
-  Patient? patient;
+  User? utilisateur = AuthService.getAuth().currentUser;
+
   Wrapper({
     super.key,
-    this.patient
   });
 
   @override
@@ -20,18 +19,15 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  bool loading = true;
-  User? utilisateur = AuthService.getAuth().currentUser;
   @override
   Widget build(BuildContext context) {
-    if (utilisateur == null) {
+    if (widget.utilisateur == null) {
       return Start();
     } else {
-      if (utilisateur!.emailVerified) {
-        //Creer l'instance de l'utilisateur avant de passer par le homeScreen
+      if (widget.utilisateur!.emailVerified)
         return Home();
-      } else {
-        utilisateur!.delete();
+      else {
+        widget.utilisateur!.delete();
         return Start();
       }
     }

@@ -1,6 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/home_page.dart';
 import 'package:optimum/pages/profile.dart';
 import 'package:optimum/pages/start.dart';
@@ -10,8 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../services/auth.dart';
 
 class Menu extends StatefulWidget {
-  Patient? malade;
-  Menu({super.key , required this.malade});
+  const Menu({super.key});
 
   @override
   State<Menu> createState() => _MenuState();
@@ -85,7 +83,7 @@ class _MenuState extends State<Menu> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Profile(patient: widget.malade,)),
+                    MaterialPageRoute(builder: (context) => Profile()),
                   );
                 },
                 child: Image.asset(
@@ -98,7 +96,7 @@ class _MenuState extends State<Menu> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Profile(patient: widget.malade,)),
+                  MaterialPageRoute(builder: (context) => Profile()),
                 );
               },
               child: Text(
@@ -123,6 +121,7 @@ class _MenuState extends State<Menu> {
               SizedBox(height: screenSize.height * 0.005,),
               TextButton(
                 onPressed: () async {
+
                   final Uri mapsUri = Uri(
                     scheme: 'https',
                     host: 'www.google.dz',

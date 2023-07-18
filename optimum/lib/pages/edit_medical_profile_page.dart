@@ -514,22 +514,20 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
-              child: DropdownButton(
-                items: list1,
-                value: _dropdownValue,
-                onChanged: dropdownCallback,
-                isExpanded: true,
-                borderRadius: BorderRadius.circular(20.0),
-                iconEnabledColor: Color(0xFFD37777),
-                iconSize: 26.0,
-                icon: Icon(
-                    Icons.arrow_drop_down_circle_outlined,
-                    color: Color(0xFFD37777),
-                ),
-                hint: Text('Not Metioned'),
+            child: DropdownButton(
+              items: list1,
+              value: _dropdownValue,
+              onChanged: dropdownCallback,
+              isExpanded: true,
+              borderRadius: BorderRadius.circular(20.0),
+              iconEnabledColor: Color(0xFFD37777),
+              iconSize: 26.0,
+              icon: Icon(
+                  Icons.arrow_drop_down_circle_outlined,
+                  color: Color(0xFFD37777),
               ),
+              hint: Text('Not Metioned'),
+              padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
             ),
       ),
     );
@@ -563,22 +561,20 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
-          child: DropdownButton(
-            items: list2,
-            value: _dropdownValuee,
-            onChanged: dropdownCallbackk,
-            isExpanded: true,
-            borderRadius: BorderRadius.circular(20.0),
-            iconEnabledColor: Color(0xFFD37777),
-            iconSize: 26.0,
-            icon: Icon(
-              Icons.arrow_drop_down_circle_outlined,
-              color: Color(0xFFD37777),
-            ),
-            hint: Text('Not Metioned'),
+        child: DropdownButton(
+          items: list2,
+          value: _dropdownValuee,
+          onChanged: dropdownCallbackk,
+          isExpanded: true,
+          borderRadius: BorderRadius.circular(20.0),
+          iconEnabledColor: Color(0xFFD37777),
+          iconSize: 26.0,
+          icon: Icon(
+            Icons.arrow_drop_down_circle_outlined,
+            color: Color(0xFFD37777),
           ),
+          hint: Text('Not Metioned'),
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
         ),
       ),
     );
@@ -617,22 +613,20 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
-          child: DropdownButton(
-            items: list3,
-            value: _dropdownValueee,
-            onChanged: dropdownCallbackkk,
-            isExpanded: true,
-            borderRadius: BorderRadius.circular(20.0),
-            iconEnabledColor: Color(0xFFD37777),
-            iconSize: 26.0,
-            icon: Icon(
-              Icons.arrow_drop_down_circle_outlined,
-              color: Color(0xFFD37777),
-            ),
-            hint: Text('Not Metioned'),
+        child: DropdownButton(
+          items: list3,
+          value: _dropdownValueee,
+          onChanged: dropdownCallbackkk,
+          isExpanded: true,
+          borderRadius: BorderRadius.circular(20.0),
+          iconEnabledColor: Color(0xFFD37777),
+          iconSize: 26.0,
+          icon: Icon(
+            Icons.arrow_drop_down_circle_outlined,
+            color: Color(0xFFD37777),
           ),
+          hint: Text('Not Metioned'),
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
         ),
       ),
     );
@@ -671,22 +665,20 @@ class _MyDropdownPageeeeState extends State<MyDropdownPageeee> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
-          child: DropdownButton(
-            items: list4,
-            value: _dropdownValueeee,
-            onChanged: dropdownCallbackkkk,
-            isExpanded: true,
-            borderRadius: BorderRadius.circular(20.0),
-            iconEnabledColor: Color(0xFFD37777),
-            iconSize: 26.0,
-            icon: Icon(
-              Icons.arrow_drop_down_circle_outlined,
-              color: Color(0xFFD37777),
-            ),
-            hint: Text('Not Metioned'),
+        child: DropdownButton(
+          items: list4,
+          value: _dropdownValueeee,
+          onChanged: dropdownCallbackkkk,
+          isExpanded: true,
+          borderRadius: BorderRadius.circular(20.0),
+          iconEnabledColor: Color(0xFFD37777),
+          iconSize: 26.0,
+          icon: Icon(
+            Icons.arrow_drop_down_circle_outlined,
+            color: Color(0xFFD37777),
           ),
+          hint: Text('Not Metioned'),
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
         ),
       ),
     );
