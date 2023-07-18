@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
-import 'package:optimum/pages/Doctors.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/contact.dart';
 import 'package:optimum/pages/schedule.dart';
@@ -10,13 +9,13 @@ import 'package:optimum/pages/users.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
-import '../provider/theme_provider.dart';
 import '../services/auth.dart';
 import 'menu.dart';
 import 'package:optimum/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:optimum/models/profil.dart';
+import '../provider/theme_provider.dart';
 
 class Home extends StatefulWidget {
   Home({
@@ -32,28 +31,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    userNameFuture = fetchUserName();
   }
 
-  Future<String> fetchUserName() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      String uid = user.uid;
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-      if (snapshot.exists) {
-        String name = snapshot.get('name');
-        return name;
-      } else {
-        print('L\'utilisateur n\'existe pas dans Firestore');
-      }
-    } else {
-      print('Aucun utilisateur connecté');
-    }
-
-    return ''; // Retourner une valeur par défaut
-  }
 
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -224,8 +203,6 @@ class _HomeState extends State<Home> {
                                     width: screenSize.width * 0.07,
                                     height: screenSize.height * 0.07,
                                   ),
-
-                                  backgroundColor: Theme.of(context).shadowColor,
                                 ),
                               ),
                               SizedBox(height: screenSize.height * 0.01),
@@ -243,25 +220,19 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                              SizedBox(height: screenSize.height * 0.03),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    screenSize.width * 0.07,
-                                    0,
-                                    screenSize.width * 0.12,
-                                    0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: screenSize.width * 0.22,
-                                          height: screenSize.width * 0.22,
-                                          child: TextButton(
+                    SizedBox(height: screenSize.height * 0.02),
+                    Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(screenSize.width * 0.19, 0, 0, 0),
+                      child: Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: screenSize.width * 0.22,
+                                height: screenSize.width * 0.22,
+                                child: TextButton(
                                             style: ButtonStyle(
                                               backgroundColor:
                                                   MaterialStateProperty
@@ -270,226 +241,86 @@ class _HomeState extends State<Home> {
                                                   return Theme.of(context).shadowColor;
                                                 },
                                               ),
-                                              shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          screenSize.width *
-                                                              0.15),
-                                                  side: BorderSide(
-                                                    color: Color(0xFFD37777),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            screenSize.width * 0.15),
+                                        side: BorderSide(
+                                          color: Color(0xFFD37777),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                onPressed: () {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) => Schedule()),
                                               );
                                             },
-                                            child: Image.asset(
+                                  child: Image.asset(
                                               'assets/images/schedule_ico.png',
                                               width: screenSize.width * 0.12,
                                               height: screenSize.height * 0.12,
                                             ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height: screenSize.height * 0.01),
-                                        Text(
-                                          'Book appointment',
-                                          style: TextStyle(
-                                            color: Color(0xFFD9D9D9),
-                                            fontSize: screenSize.width * 0.04,
-                                            letterSpacing: 1.0,
-                                            fontFamily: 'poppins',
-                                          ),
-                                        ),
-                                      ],
+                                ),
+                              ),
+                              SizedBox(height: screenSize.height * 0.01),
+                              Text(
+                                'Book appointment',
+                                style: TextStyle(
+                                  color: Color(0xFFD9D9D9),
+                                  fontSize: screenSize.width * 0.04,
+                                  letterSpacing: 1.0,
+                                  fontFamily: 'poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: screenSize.width * 0.19),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: screenSize.width * 0.22,
+                                height: screenSize.width * 0.22,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty
+                                        .resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                        return Colors.white;
+                                      },
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: screenSize.width * 0.22,
-                                          height: screenSize.width * 0.22,
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty
-                                                      .resolveWith<Color>(
-                                                (Set<MaterialState> states) {
-                                                  return Theme.of(context).shadowColor;
-                                                },
-                                              ),
-                                              shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          screenSize.width *
-                                                              0.15),
-                                                  side: BorderSide(
-                                                    color: Color(0xFFD37777),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Contact()),
-                                              );
-                                            },
-                                            child: Image.asset(
-                                              'assets/images/phone_icon.png',
-                                              width: screenSize.width * 0.07,
-                                              height: screenSize.height * 0.07,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height: screenSize.height * 0.01),
-                                        Text(
-                                          'Contact Us',
-                                          style: TextStyle(
-                                            color: Color(0xFFD9D9D9),
-                                            fontSize: screenSize.width * 0.04,
-                                            letterSpacing: 1.0,
-                                            fontFamily: 'poppins',
-                                          ),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            screenSize.width * 0.15),
+                                        side: BorderSide(
+                                          color: Color(0xFFD37777),
                                         ),
                                       ),
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Contact()),
+                                    );
+                                  },
                                   child: Image.asset(
-                                    'assets/images/location_icon.png',
+                                    'assets/images/phone_icon.png',
                                     width: screenSize.width * 0.07,
                                     height: screenSize.height * 0.07,
                                   ),
                                 ),
                               ),
-
-                              SizedBox(height: screenSize.height * 0.02),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    screenSize.width * 0.13, 0, 0, 0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: screenSize.width * 0.22,
-                                          height: screenSize.width * 0.22,
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty
-                                                      .resolveWith<Color>(
-                                                (Set<MaterialState> states) {
-                                                  return Theme.of(context).shadowColor;
-                                                },
-                                              ),
-                                              shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          screenSize.width *
-                                                              0.15),
-                                                  side: BorderSide(
-                                                    color: Color(0xFFD37777),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {},
-                                            child: Image.asset(
-                                              'assets/images/schedule_icon.png',
-                                              width: screenSize.width * 0.11,
-                                              height: screenSize.height * 0.11,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height: screenSize.height * 0.01),
-                                        Text(
-                                          'Booking history',
-                                          style: TextStyle(
-                                            color: Color(0xFFD9D9D9),
-                                            fontSize: screenSize.width * 0.04,
-                                            letterSpacing: 1.0,
-                                            fontFamily: 'poppins',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: screenSize.width * 0.12),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: screenSize.width * 0.22,
-                                          height: screenSize.width * 0.22,
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty
-                                                      .resolveWith<Color>(
-                                                (Set<MaterialState> states) {
-                                                  return Theme.of(context).shadowColor;
-                                                },
-                                              ),
-                                              shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          screenSize.width *
-                                                              0.15),
-                                                  side: BorderSide(
-                                                    color: Color(0xFFD37777),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => Doctors()),
-                                              );
-                                            },
-                                            child: Image.asset(
-                                              'assets/images/dr_icon.png',
-                                              width: screenSize.width * 0.11,
-                                              height: screenSize.height * 0.11,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  child: Image.asset(
-                                    'assets/images/dr_icon.png',
-                                    width: screenSize.width * 0.11,
-                                    height: screenSize.height * 0.11,
-                                  ),
-                                ),
-                              ),
                               SizedBox(height: screenSize.height * 0.01),
                               Text(
-                                'About Dr',
+                                'Contact Us',
                                 style: TextStyle(
                                   color: Color(0xFFD9D9D9),
                                   fontSize: screenSize.width * 0.04,
@@ -514,3 +345,4 @@ class _HomeState extends State<Home> {
     ));
   }
 }
+

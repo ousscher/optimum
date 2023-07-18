@@ -8,9 +8,6 @@ import 'package:optimum/pages/menu.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/theme_provider.dart';
 
 class Profile extends StatefulWidget {
   Patient? patient;
@@ -25,7 +22,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'menu_dark' : 'menu';
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -64,33 +60,8 @@ class _ProfileState extends State<Profile> {
                       EdgeInsets.fromLTRB(screenSize.width * 0.136, 0, 0, 0),
                   child: Column(
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                screenSize.width * 0.07,
-                                screenSize.height * 0.06,
-                                0,
-                                0),
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                Navigator.pop(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Menu()),
-                                );
-                              }, // Menu button
-                              child: Icon(
-                                Icons.arrow_back_ios_new,
-                                color: Color(0xFFD37777),
-                              ),
-                              backgroundColor: Theme.of(context).shadowColor,
-                            ),
-                          ),
-                          SizedBox(
-                            height: screenSize.height * 0.06,
-                          ),
-                        ],
+                      SizedBox(
+                        height: screenSize.height * 0.06,
                       ),
                       Text(
                         'Profile',
@@ -105,33 +76,22 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-
-                  Container(
-                    width: screenSize.width * 0.26,
-                    height: screenSize.width * 0.26,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                            return Colors.grey.shade300;
-                          },
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(screenSize.width * 0.15),
-                            side: BorderSide(
-                              width: 2.0,
-                              color: Color(0xFFD37777),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: Image.asset(
-                        'assets/images/profil_pic.png',
+            Container(
+              width: screenSize.width * 0.26,
+              height: screenSize.width * 0.26,
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                      return Colors.white;
+                    },
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(screenSize.width * 0.15),
+                      side: BorderSide(
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -161,214 +121,41 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: screenSize.height * 0.03,
                   ),
-                  Text(
-                    '${name} ${lastName}',
-                    style: TextStyle(
-                      fontFamily: 'Oswald',
-                      fontSize: screenSize.height * 0.04,
-                      color: Theme.of(context).primaryColor,
-                    ),
+                  Divider(
+                    height: screenSize.height * 0.01,
+                    color: Colors.grey[500],
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(screenSize.height * 0.01, 0,
-                        screenSize.height * 0.01, 0),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: screenSize.height * 0.03,
-                        ),
-                        Divider(
-                          height: screenSize.height * 0.01,
-                          color: Colors.grey[500],
-                        ),
-                        SizedBox(
-                          height: screenSize.height * 0.01,
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                screenSize.width * 0.01, 0, 0, 0),
-                            child: Row(
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/phone_icon.png',
-                                          width: screenSize.width * 0.08,
-                                          height: screenSize.width * 0.08,
-                                        ),
-                                        SizedBox(
-                                          width: screenSize.width * 0.04,
-                                        ),
-                                        Text(
-                                          snapshot.data!
-                                                  .data()!
-                                                  .containsKey('phone')
-                                              ? snapshot.data!.get('phone')
-                                              : 'not mentionned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: screenSize.height * 0.013,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/schedule_icon.png',
-                                          width: screenSize.width * 0.08,
-                                          height: screenSize.width * 0.08,
-                                        ),
-                                        SizedBox(
-                                          width: screenSize.width * 0.04,
-                                        ),
-                                        Text(
-                                          snapshot.data!
-                                                  .data()!
-                                                  .containsKey('dateOfBirth')
-                                              ? snapshot.data!
-                                                  .get('dateOfBirth')
-                                              : 'not mentionned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: screenSize.width * 0.15,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/email_icon.png',
-                                          width: screenSize.width * 0.08,
-                                          height: screenSize.width * 0.08,
-                                        ),
-                                        SizedBox(
-                                          width: screenSize.width * 0.04,
-                                        ),
-                                        Text(
-                                          snapshot.data!
-                                                  .data()!
-                                                  .containsKey('email')
-                                              ? snapshot.data!.get('email')
-                                              : 'Not mentionned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: screenSize.height * 0.015,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/location_icon.png',
-                                          width: screenSize.width * 0.08,
-                                          height: screenSize.width * 0.08,
-                                        ),
-                                        SizedBox(
-                                          width: screenSize.width * 0.04,
-                                        ),
-                                        Text(
-                                          snapshot.data!.data()!.containsKey('location')
-                                          ? snapshot.data!.get('location')
-                                          : 'not mentionned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenSize.height * 0.01,
-                        ),
-                        Divider(
-                          height: screenSize.height * 0.01,
-                          color: Colors.grey[500],
-                        ),
-                        SizedBox(
-                          height: screenSize.height * 0.01,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              screenSize.height * 0.01, 0, 0, 0),
-                          child: Row(
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(screenSize.width * 0.01, 0, 0, 0),
+                      child: Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-
-                                  Row(
-                                    children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/bloodtype_icon.png',
-                                        width: screenSize.width * 0.08,
-                                        height: screenSize.width * 0.08,
-                                      ),
-                                      SizedBox(
-                                        width: screenSize.width * 0.04,
-                                      ),
-                                      Text(
-                                        'O+',
-                                        style: TextStyle(
-                                          fontFamily: 'Oswald',
-                                          fontSize: screenSize.height * 0.02,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                    ],
+                                  Image.asset(
+                                    'assets/images/phone_icon.png',
+                                    width: screenSize.width * 0.08,
+                                    height: screenSize.width * 0.08,
                                   ),
                                   SizedBox(
                                     width: screenSize.width * 0.04,
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/allergie_icon.png',
-                                        width: screenSize.width * 0.08,
-                                        height: screenSize.width * 0.08,
-                                      ),
-                                      SizedBox(
-                                        width: screenSize.width * 0.04,
-                                      ),
-                                      Text(
-                                        'Allergic',
-                                        style: TextStyle(
-                                          fontFamily: 'Oswald',
-                                          fontSize: screenSize.height * 0.02,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    widget.patient!.getPhone() ??
+                                        "Not mentionned",
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -377,48 +164,30 @@ class _ProfileState extends State<Profile> {
                               ),
                               Row(
                                 children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/weight_icon.png',
-                                        width: screenSize.width * 0.08,
-                                        height: screenSize.width * 0.08,
-                                      ),
-                                      SizedBox(
-                                        width: screenSize.width * 0.04,
-                                      ),
-                                      Text(
-                                        '60 KG',
-                                        style: TextStyle(
-                                          fontFamily: 'Oswald',
-                                          fontSize: screenSize.height * 0.02,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                    ],
+                                  Image.asset(
+                                    'assets/images/schedule_icon.png',
+                                    width: screenSize.width * 0.1,
+                                    height: screenSize.width * 0.1,
                                   ),
                                   SizedBox(
                                     width: screenSize.width * 0.02,
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      Image.asset(
-                                        'assets/images/height_icon.png',
-                                        width: screenSize.width * 0.08,
-                                        height: screenSize.width * 0.08,
-                                      ),
-                                      SizedBox(
-                                        width: screenSize.width * 0.04,
-                                      ),
-                                      Text(
-                                        '185 CM',
-                                        style: TextStyle(
-                                          fontFamily: 'Oswald',
-                                          fontSize: screenSize.height * 0.02,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    (widget.patient!
+                                                    .getDateBirth()
+                                                    .toString() ==
+                                                "" ||
+                                            widget.patient!.getDateBirth() ==
+                                                null)
+                                        ? "Not mentionned"
+                                        : widget.patient!
+                                            .getDateBirth()
+                                            .toString(),
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -432,122 +201,10 @@ class _ProfileState extends State<Profile> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'assets/images/surgery_icon.png',
-                                            width: screenSize.width * 0.08,
-                                            height: screenSize.width * 0.08,
-                                          ),
-                                          SizedBox(
-                                            width: screenSize.width * 0.04,
-                                          ),
-                                          Text(
-                                            'Surgery:',
-                                            style: TextStyle(
-                                              fontFamily: 'Oswald',
-                                              fontSize:
-                                                  screenSize.height * 0.02,
-                                              color: Theme.of(context).primaryColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Image.asset(
+                                    'assets/images/email_icon.png',
+                                    width: screenSize.width * 0.08,
+                                    height: screenSize.width * 0.08,
                                   ),
                                   SizedBox(
                                     width: screenSize.width * 0.04,
@@ -575,45 +232,14 @@ class _ProfileState extends State<Profile> {
                                   SizedBox(
                                     width: screenSize.width * 0.04,
                                   ),
-                                  Column(
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'assets/images/disease_icon.png',
-                                            width: screenSize.width * 0.08,
-                                            height: screenSize.width * 0.08,
-                                          ),
-                                          SizedBox(
-                                            width: screenSize.width * 0.04,
-                                          ),
-                                          Text(
-                                            'Chronic Disease:',
-                                            style: TextStyle(
-                                              fontFamily: 'Oswald',
-                                              fontSize:
-                                                  screenSize.height * 0.02,
-                                              color: Theme.of(context).primaryColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: screenSize.height * 0.015,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            screenSize.width * 0.085, 0, 0, 0),
-                                        child: Text(
-                                          'Not Mentioned',
-                                          style: TextStyle(
-                                            fontFamily: 'Oswald',
-                                            fontSize: screenSize.height * 0.02,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    widget.patient!.getLocation() ??
+                                        "Not mentionned",
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -623,6 +249,8 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
+                  //-------------------------------------
+                  
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
@@ -633,123 +261,122 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.fromLTRB(screenSize.height * 0.01, 0, 0, 0),
-                    child: Row(
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/bloodtype_icon.png',
-                                  width: screenSize.width * 0.08,
-                                  height: screenSize.width * 0.08,
-                                ),
-                                SizedBox(
-                                  width: screenSize.width * 0.04,
-                                ),
-                                Text(
-                                  'O+',
-                                  style: TextStyle(
-                                    fontFamily: 'Oswald',
-                                    fontSize: screenSize.height * 0.02,
-                                    color: Colors.black,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.fromLTRB(screenSize.width * 0.01, 0, 0, 0),
+                      child: Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/bloodtype_icon.png',
+                                    width: screenSize.width * 0.08,
+                                    height: screenSize.width * 0.08,
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: screenSize.height * 0.015,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/allergie_icon.png',
-                                  width: screenSize.width * 0.08,
-                                  height: screenSize.width * 0.08,
-                                ),
-                                SizedBox(
-                                  width: screenSize.width * 0.04,
-                                ),
-                                Text(
-                                  'Allergic',
-                                  style: TextStyle(
-                                    fontFamily: 'Oswald',
-                                    fontSize: screenSize.height * 0.02,
-                                    color: Colors.black,
+                                  SizedBox(
+                                    width: screenSize.width * 0.04,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: screenSize.width * 0.275,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/weight_icon.png',
-                                  width: screenSize.width * 0.08,
-                                  height: screenSize.width * 0.08,
-                                ),
-                                SizedBox(
-                                  width: screenSize.width * 0.04,
-                                ),
-                                Text(
-                                  '60 KG',
-                                  style: TextStyle(
-                                    fontFamily: 'Oswald',
-                                    fontSize: screenSize.height * 0.02,
-                                    color: Colors.black,
+                                  Text(
+                                    widget.patient!.getPhone() ??
+                                        widget.patient!.getBloodType() ??
+                                        "Not mentionned",
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: screenSize.height * 0.015,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/height_icon.png',
-                                  width: screenSize.width * 0.08,
-                                  height: screenSize.width * 0.08,
-                                ),
-                                SizedBox(
-                                  width: screenSize.width * 0.04,
-                                ),
-                                Text(
-                                  '185 CM',
-                                  style: TextStyle(
-                                    fontFamily: 'Oswald',
-                                    fontSize: screenSize.height * 0.02,
-                                    color: Colors.black,
+                                ],
+                              ),
+                              SizedBox(
+                                height: screenSize.height * 0.013,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/allergie_icon.png',
+                                    width: screenSize.width * 0.1,
+                                    height: screenSize.width * 0.1,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                                  SizedBox(
+                                    width: screenSize.width * 0.02,
+                                  ),
+                                  Text(
+                                    widget.patient!.getBloodType() ??
+                                        "Not mentionned",
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/weight_icon.png',
+                                    width: screenSize.width * 0.08,
+                                    height: screenSize.width * 0.08,
+                                  ),
+                                  SizedBox(
+                                    width: screenSize.width * 0.04,
+                                  ),
+                                  Text(
+                                    widget.patient!.getBloodType() ??
+                                        "Not mentionned",
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: screenSize.height * 0.015,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/height_icon.png',
+                                    width: screenSize.width * 0.08,
+                                    height: screenSize.width * 0.08,
+                                  ),
+                                  SizedBox(
+                                    width: screenSize.width * 0.04,
+                                  ),
+                                  Text(
+                                    widget.patient!.getBloodType() ??
+                                        "Not mentionned",
+                                    style: TextStyle(
+                                      fontFamily: 'Oswald',
+                                      fontSize: screenSize.height * 0.02,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: screenSize.height * 0.01,
-                  ),
-                  Divider(
-                    height: screenSize.height * 0.01,
-                    color: Colors.grey[500],
-                  ),
-                  SizedBox(
-                    height: screenSize.height * 0.01,
-                  ),
+                  SizedBox(height: 0.03*screenSize.height,),
                   Container(
                     height: screenSize.height * 0.22,
                     child: SingleChildScrollView(
@@ -760,9 +387,7 @@ class _ProfileState extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
+                              children: [Row(
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/surgery_icon.png',
@@ -785,11 +410,17 @@ class _ProfileState extends State<Profile> {
                                 SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                                Padding(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: (widget.patient!.getSurgery()!=null)?
+                              widget.patient!.getSurgery()!.map((item){
+                                return Column(
+                                  children: [
+                                    Padding(
                                   padding: EdgeInsets.fromLTRB(
                                       screenSize.width * 0.085, 0, 0, 0),
                                   child: Text(
-                                    'Not Mentioned',
+                                    item,
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -797,82 +428,13 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                if(item!=widget.patient!.getSurgery()!.last) SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    'Not Mentioned',
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    'Not Mentioned',
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    'Not Mentioned',
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    'Not Mentioned',
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    'Not Mentioned',
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                  ],
+                                );
+                              }).toList(): [const Text("Not mentionned")],
+                            ),],
                             ),
                             SizedBox(
                               width: screenSize.width * 0.13,
@@ -886,8 +448,8 @@ class _ProfileState extends State<Profile> {
                               width: screenSize.width * 0.07,
                             ),
                             Column(
-                              children: <Widget>[
-                                Row(
+                              children: [
+                                  Row(
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/disease_icon.png',
@@ -910,11 +472,16 @@ class _ProfileState extends State<Profile> {
                                 SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                                Padding(
+                            Column(
+                              children: (widget.patient!.getCronicDesease()!=null)?
+                              widget.patient!.getSurgery()!.map((item){
+                                return Column(
+                                  children: [
+                                    Padding(
                                   padding: EdgeInsets.fromLTRB(
                                       screenSize.width * 0.085, 0, 0, 0),
                                   child: Text(
-                                    'Not Mentioned',
+                                    item,
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -922,6 +489,13 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
+                                if(item!=widget.patient!.getCronicDesease()!.last) SizedBox(
+                                  height: screenSize.height * 0.015,
+                                ),
+                                  ],
+                                );
+                              }).toList(): [const Text("Not mentionned")],
+                            ),
                               ],
                             ),
                           ],
