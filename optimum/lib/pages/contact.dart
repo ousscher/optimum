@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:optimum/pages/home_page.dart';
 
 class Contact extends StatelessWidget {
   const Contact({super.key});

@@ -1,9 +1,8 @@
 //c'est la on retourne soit la page de sign in ou bien le registerPage
 
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:optimum/pages/create_account_page.dart';
 import 'package:optimum/pages/sign_page.dart';
+import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
   bool showSignIn;

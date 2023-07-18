@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:optimum/pages/start.dart';
 import 'package:optimum/pages/wrapper.dart';
-import 'package:optimum/services/auth.dart';
 
 class Welcome extends StatelessWidget {
   @override

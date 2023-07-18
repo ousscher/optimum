@@ -3,7 +3,6 @@ import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:optimum/services/auth.dart';
-import 'package:provider/provider.dart';
 
 
 
