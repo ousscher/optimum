@@ -5,12 +5,14 @@ import 'package:optimum/pages/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:optimum/provider/theme_provider.dart';
 import 'package:optimum/services/auth.dart';
+import 'package:provider/provider.dart';
 
 
 
 void main()async {
+   WidgetsFlutterBinding.ensureInitialized(); // Assurez-vous que le binding est initialisé
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // Lock to portrait orientation
+    DeviceOrientation.portraitUp, // Verrouillez l'orientation en mode portrait
   ]);
   // Initialize Firebase app
   WidgetsFlutterBinding.ensureInitialized();

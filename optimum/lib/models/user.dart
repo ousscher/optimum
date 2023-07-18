@@ -28,6 +28,7 @@ class UserOptimum {
 
 class Patient extends UserOptimum {
   String? _phone;
+  String? _location;
   int? _weight;
   int? _height;
   DateTime? _dateOfBirth;
@@ -41,6 +42,7 @@ class Patient extends UserOptimum {
       required String patientName,
       required String patientLastName,
       required String patientEmail,
+      String? location,
       String? phone,
       int? weight,
       int? height,
@@ -51,6 +53,7 @@ class Patient extends UserOptimum {
       List<String>? surgery,
       List<String>? cronicDesease})
       : _phone = phone,
+        _location = location,
         _weight = weight,
         _height = height,
         _dateOfBirth = dateOfBirth,
@@ -72,6 +75,33 @@ class Patient extends UserOptimum {
   DateTime? getDateBirth() {
     return _dateOfBirth;
   }
+
+  String? getLocation() {
+    return _location;
+  }
+
+  String? getBloodType() {
+    return _bloodType;
+  }
+
+  bool? getAlergic() {
+    return _alergic;
+  }
+
+  int? getHeight() {
+    return _height;
+  }
+  int? getWeight() {
+    return _weight;
+  }
+
+  List<String>? getSurgery(){
+    return _surgery;
+  }
+  List<String>? getCronicDesease(){
+    return _cronicDesease;
+  }
+  
 }
 
 // class Utilisateur {
