@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
+import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/services/database.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -12,7 +14,11 @@ class VerifyUser extends StatefulWidget {
   String name;
   String lastName;
   String email;
-  VerifyUser({super.key, required this.name, required this.lastName , required this.email});
+  VerifyUser(
+      {super.key,
+      required this.name,
+      required this.lastName,
+      required this.email});
 
   @override
   State<VerifyUser> createState() => _VerifyUserState();
@@ -26,7 +32,7 @@ class _VerifyUserState extends State<VerifyUser> {
     user = FirebaseAuth.instance.currentUser!;
     user.sendEmailVerification();
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      verifyUser(widget.name, widget.lastName , widget.email);
+      verifyUser(widget.name, widget.lastName, widget.email);
     });
     super.initState();
   }
@@ -162,7 +168,7 @@ class _VerifyUserState extends State<VerifyUser> {
     super.dispose();
   }
 
-  Future verifyUser(String name, String lastName , String email) async {
+  Future verifyUser(String name, String lastName, String email) async {
     try {
       User user = FirebaseAuth.instance.currentUser!;
       await user.reload();
@@ -170,8 +176,8 @@ class _VerifyUserState extends State<VerifyUser> {
         timer.cancel();
         //create a new user on firestore database
 
-        await DatabaseService(uid: user.uid)
-            .intialiseUserData(name, lastName ,email ); //updating data of user
+        await DatabaseService()
+            .intialiseUserData(name, lastName, email); //updating data of user
         await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Wrapper()),
@@ -183,5 +189,6 @@ class _VerifyUserState extends State<VerifyUser> {
       print(e);
     }
   }
+
 }
 

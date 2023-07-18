@@ -80,398 +80,403 @@ class _EditmedicalState extends State<Editmedical> {
     final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'edit_profile_dark' : 'edit_profile';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body:Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/'+'$img'+'.png'),
-              fit: BoxFit.cover,
+      body:SingleChildScrollView(
+        child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/'+'$img'+'.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04, 0, 0),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(builder: (context) => Editpersonal()),
-                            );
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.navigate_before,
-                                color:  Color(0xFFD37777),
-                                size: 30.0,
-                              ),
-                              Text(
-                                'BACK',
-                                style: TextStyle(
-                                  color: Color(0xFFD37777),
-                                  fontSize: screenSize.height * 0.025,
-                                  fontFamily: 'Oswald',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: screenSize.height * 0.08,),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(screenSize.width * 0.014, 0, 0, 0),
-                    child: Column(
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
-                        SizedBox(height: screenSize.height * 0.06,),
-                        Text(
-                          'Edit Profile',
-                          style: TextStyle(
-                            fontFamily: 'Oswald',
-                            fontSize: screenSize.height * 0.0579,
-                            color: Colors.white,
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04, 0, 0),
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(builder: (context) => Editpersonal()),
+                              );
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.navigate_before,
+                                  color:  Color(0xFFD37777),
+                                  size: 30.0,
+                                ),
+                                Text(
+                                  'BACK',
+                                  style: TextStyle(
+                                    color: Color(0xFFD37777),
+                                    fontSize: screenSize.height * 0.025,
+                                    fontFamily: 'Oswald',
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                        SizedBox(height: screenSize.height * 0.08,),
                       ],
                     ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04,0, 0),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(
-                              context,
-                            );
-                            Navigator.pop(
-                              context,
-                            );
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                'DONE',
-                                style: TextStyle(
-                                  color: Color(0xFFD37777),
-                                  fontSize: screenSize.height * 0.025,
-                                  fontFamily: 'Oswald',
-                                ),
-                              ),
-                              Icon(
-                                Icons.navigate_next_sharp,
-                                color:  Color(0xFFD37777),
-                                size: 30,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: screenSize.height * 0.08,),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: screenSize.height * 0.075,),
-              Text(
-                'Fill In This Form So The Dr Can Diagnose Your Disease',
-                style: TextStyle(
-                  fontFamily: 'Oswald',
-                  fontSize: screenSize.height * 0.017,
-                  letterSpacing: 1.0,
-                  color: Color(0xFFD9D9D9),
-                ),
-              ),
-              SizedBox(height: screenSize.height * 0.0065,),
-              Padding(
-                padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
-                child: Divider(
-                  height: screenSize.height * 0.01,
-                  color: Colors.grey[500],
-                ),
-              ),
-              SizedBox(height: screenSize.height * 0.007,),
-              Text(
-                'Medical Information',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: screenSize.height * 0.03,
-                  letterSpacing: 1.0,
-                  color: Color(0xFFD37777),
-                ),
-              ),
-              SizedBox(height: screenSize.height * 0.007,),
-              Padding(
-                padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
-                child: Divider(
-                  height: screenSize.height * 0.01,
-                  color: Colors.grey[500],
-                ),
-              ),
-              Container(
-                height: screenSize.height * 0.582,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: screenSize.height * 0.008),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(screenSize.width * 0.014, 0, 0, 0),
+                      child: Column(
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                'Blood Type',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: screenSize.height * 0.023,
-                                  color: Color(0xFF66B3FF),
-                                ),
-                              ),
-                              SizedBox(width: screenSize.width * 0.06,),
-                              Container(
-                                width: screenSize.width * 0.6,
-                                height: screenSize.height * 0.068,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFD9D9D9)),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.grey.shade50,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MyDropdownPage(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: screenSize.height * 0.02,),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '   Weight',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: screenSize.height * 0.023,
-                                  color: Color(0xFF66B3FF),
-                                ),
-                              ),
-                              SizedBox(width: screenSize.width * 0.11,),
-                              Container(
-                                width: screenSize.width * 0.6,
-                                height: screenSize.height * 0.068,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.grey.shade50,
-                                ),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Weight',
-
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: screenSize.height * 0.02,),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '   Height',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: screenSize.height * 0.023,
-                                  color: Color(0xFF66B3FF),
-                                ),
-                              ),
-                              SizedBox(width: screenSize.width * 0.12,),
-                              Container(
-                                width: screenSize.width * 0.6,
-                                height: screenSize.height * 0.068,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.grey.shade50,
-                                ),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Height',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: screenSize.height * 0.02,),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '  Allergic',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: screenSize.height * 0.023,
-                                  color: Color(0xFF66B3FF),
-                                ),
-                              ),
-                              SizedBox(width: screenSize.width * 0.11,),
-                              Container(
-                                width: screenSize.width * 0.6,
-                                height: screenSize.height * 0.068,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFD9D9D9)),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.grey.shade50,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MyDropdownPagee(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: screenSize.height * 0.02,),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '  Surgery',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: screenSize.height * 0.023,
-                                  color: Color(0xFF66B3FF),
-                                ),
-                              ),
-                              SizedBox(width: screenSize.width * 0.1,),
-                              Container(
-                                width: screenSize.width * 0.6,
-                                height: screenSize.height * 0.068,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFD9D9D9)),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.grey.shade50,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MyDropdownPageee(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
-                            child: Container(
-                              height: screenSize.width * 0.1,
-                              child: TextButton(
-                                onPressed: addSurgerySection,
-                                child: Text(
-                                  'ADD+',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.02,
-                                  ),
-                                ),
-                              ),
+                          SizedBox(height: screenSize.height * 0.06,),
+                          Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              fontFamily: 'Oswald',
+                              fontSize: screenSize.height * 0.0579,
+                              color: Colors.white,
                             ),
-                          ),
-                          Column(
-                            children: additionalSurgeryCodeSections,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    ' Chronic',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: screenSize.height * 0.023,
-                                      color: Color(0xFF66B3FF),
-                                    ),
-                                  ),
-                                  Text(
-                                    ' Disease',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: screenSize.height * 0.023,
-                                      color: Color(0xFF66B3FF),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(width: screenSize.width * 0.08,),
-                              Container(
-                                width: screenSize.width * 0.6,
-                                height: screenSize.height * 0.068,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFFD9D9D9)),
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  color: Colors.grey.shade50,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MyDropdownPageeee(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
-                            child: Container(
-                              height: screenSize.width * 0.1,
-                              child: TextButton(
-                                onPressed: addChronicSection,
-                                child: Text(
-                                  'ADD+',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.02,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            children: additionalChronicCodeSections,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                    ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04,0, 0),
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pop(
+                                context,
+                              );
+                              Navigator.pop(
+                                context,
+                              );
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'DONE',
+                                  style: TextStyle(
+                                    color: Color(0xFFD37777),
+                                    fontSize: screenSize.height * 0.025,
+                                    fontFamily: 'Oswald',
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.navigate_next_sharp,
+                                  color:  Color(0xFFD37777),
+                                  size: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * 0.08,),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenSize.height * 0.075,),
+                Text(
+                  'Fill In This Form So The Dr Can Diagnose Your Disease',
+                  style: TextStyle(
+                    fontFamily: 'Oswald',
+                    fontSize: screenSize.height * 0.017,
+                    letterSpacing: 1.0,
+                    color: Color(0xFFD9D9D9),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: screenSize.height * 0.0065,),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                  child: Divider(
+                    height: screenSize.height * 0.01,
+                    color: Colors.grey[500],
+                  ),
+                ),
+                SizedBox(height: screenSize.height * 0.007,),
+                Text(
+                  'Medical Information',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: screenSize.height * 0.03,
+                    letterSpacing: 1.0,
+                    color: Color(0xFFD37777),
+                  ),
+                ),
+                SizedBox(height: screenSize.height * 0.007,),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                  child: Divider(
+                    height: screenSize.height * 0.01,
+                    color: Colors.grey[500],
+                  ),
+                ),
+                Container(
+                  height: screenSize.height * 0.582,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: screenSize.height * 0.008),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Blood Type',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: screenSize.height * 0.023,
+                                    color: Color(0xFF66B3FF),
+                                  ),
+                                ),
+                                SizedBox(width: screenSize.width * 0.06,),
+                                Container(
+                                  width: screenSize.width * 0.6,
+                                  height: screenSize.height * 0.068,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Color(0xFFD9D9D9)),
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    color: Colors.grey.shade50,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyDropdownPage(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: screenSize.height * 0.02,),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '   Weight',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: screenSize.height * 0.023,
+                                    color: Color(0xFF66B3FF),
+                                  ),
+                                ),
+                                SizedBox(width: screenSize.width * 0.11,),
+                                Container(
+                                  width: screenSize.width * 0.6,
+                                  height: screenSize.height * 0.068,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    color: Colors.grey.shade50,
+                                  ),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Weight',
+
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: screenSize.height * 0.02,),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '   Height',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: screenSize.height * 0.023,
+                                    color: Color(0xFF66B3FF),
+                                  ),
+                                ),
+                                SizedBox(width: screenSize.width * 0.12,),
+                                Container(
+                                  width: screenSize.width * 0.6,
+                                  height: screenSize.height * 0.068,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    color: Colors.grey.shade50,
+                                  ),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Height',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(40.0),
+                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: screenSize.height * 0.02,),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '  Allergic',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: screenSize.height * 0.023,
+                                    color: Color(0xFF66B3FF),
+                                  ),
+                                ),
+                                SizedBox(width: screenSize.width * 0.11,),
+                                Container(
+                                  width: screenSize.width * 0.6,
+                                  height: screenSize.height * 0.068,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Color(0xFFD9D9D9)),
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    color: Colors.grey.shade50,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyDropdownPagee(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: screenSize.height * 0.02,),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '  Surgery',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: screenSize.height * 0.023,
+                                    color: Color(0xFF66B3FF),
+                                  ),
+                                ),
+                                SizedBox(width: screenSize.width * 0.1,),
+                                Container(
+                                  width: screenSize.width * 0.6,
+                                  height: screenSize.height * 0.068,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Color(0xFFD9D9D9)),
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    color: Colors.grey.shade50,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyDropdownPageee(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
+                              child: Container(
+                                height: screenSize.width * 0.1,
+                                child: TextButton(
+                                  onPressed: addSurgerySection,
+                                  child: Text(
+                                    'ADD+',
+                                    style: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                      fontFamily: 'Poppins',
+                                      fontSize: screenSize.height * 0.02,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: additionalSurgeryCodeSections,
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Text(
+                                      ' Chronic',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: screenSize.height * 0.023,
+                                        color: Color(0xFF66B3FF),
+                                      ),
+                                    ),
+                                    Text(
+                                      ' Disease',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: screenSize.height * 0.023,
+                                        color: Color(0xFF66B3FF),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: screenSize.width * 0.08,),
+                                Container(
+                                  width: screenSize.width * 0.6,
+                                  height: screenSize.height * 0.068,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Color(0xFFD9D9D9)),
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    color: Colors.grey.shade50,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyDropdownPageeee(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
+                              child: Container(
+                                height: screenSize.width * 0.1,
+                                child: TextButton(
+                                  onPressed: addChronicSection,
+                                  child: Text(
+                                    'ADD+',
+                                    style: TextStyle(
+                                      color: Color(0xFFD9D9D9),
+                                      fontFamily: 'Poppins',
+                                      fontSize: screenSize.height * 0.02,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: additionalChronicCodeSections,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: screenSize.height * 0.051,
+                ),
+              ],
+            ),
           ),
-        ),
+      ),
 
     );
   }
@@ -514,20 +519,22 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-            child: DropdownButton(
-              items: list1,
-              value: _dropdownValue,
-              onChanged: dropdownCallback,
-              isExpanded: true,
-              borderRadius: BorderRadius.circular(20.0),
-              iconEnabledColor: Color(0xFFD37777),
-              iconSize: 26.0,
-              icon: Icon(
-                  Icons.arrow_drop_down_circle_outlined,
-                  color: Color(0xFFD37777),
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+              child: DropdownButton(
+                items: list1,
+                value: _dropdownValue,
+                onChanged: dropdownCallback,
+                isExpanded: true,
+                borderRadius: BorderRadius.circular(20.0),
+                iconEnabledColor: Color(0xFFD37777),
+                iconSize: 26.0,
+                icon: Icon(
+                    Icons.arrow_drop_down_circle_outlined,
+                    color: Color(0xFFD37777),
+                ),
+                hint: Text('Not Metioned'),
               ),
-              hint: Text('Not Metioned'),
-              padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
             ),
       ),
     );
@@ -561,20 +568,22 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: DropdownButton(
-          items: list2,
-          value: _dropdownValuee,
-          onChanged: dropdownCallbackk,
-          isExpanded: true,
-          borderRadius: BorderRadius.circular(20.0),
-          iconEnabledColor: Color(0xFFD37777),
-          iconSize: 26.0,
-          icon: Icon(
-            Icons.arrow_drop_down_circle_outlined,
-            color: Color(0xFFD37777),
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list2,
+            value: _dropdownValuee,
+            onChanged: dropdownCallbackk,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
+            ),
+            hint: Text('Not Metioned'),
           ),
-          hint: Text('Not Metioned'),
-          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
         ),
       ),
     );
@@ -613,20 +622,22 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: DropdownButton(
-          items: list3,
-          value: _dropdownValueee,
-          onChanged: dropdownCallbackkk,
-          isExpanded: true,
-          borderRadius: BorderRadius.circular(20.0),
-          iconEnabledColor: Color(0xFFD37777),
-          iconSize: 26.0,
-          icon: Icon(
-            Icons.arrow_drop_down_circle_outlined,
-            color: Color(0xFFD37777),
-          ),
-          hint: Text('Not Metioned'),
+        child: Padding(
           padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list3,
+            value: _dropdownValueee,
+            onChanged: dropdownCallbackkk,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
+            ),
+            hint: Text('Not Metioned'),
+          ),
         ),
       ),
     );
@@ -665,20 +676,22 @@ class _MyDropdownPageeeeState extends State<MyDropdownPageeee> {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-        child: DropdownButton(
-          items: list4,
-          value: _dropdownValueeee,
-          onChanged: dropdownCallbackkkk,
-          isExpanded: true,
-          borderRadius: BorderRadius.circular(20.0),
-          iconEnabledColor: Color(0xFFD37777),
-          iconSize: 26.0,
-          icon: Icon(
-            Icons.arrow_drop_down_circle_outlined,
-            color: Color(0xFFD37777),
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list4,
+            value: _dropdownValueeee,
+            onChanged: dropdownCallbackkkk,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
+            ),
+            hint: Text('Not Metioned'),
           ),
-          hint: Text('Not Metioned'),
-          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
         ),
       ),
     );
