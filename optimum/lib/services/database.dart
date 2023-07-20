@@ -54,4 +54,40 @@ class DatabaseService {
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'] ,
     );
   }
+
+  //updating user information 
+  static Future<void> updateUser(Patient? patient)async{
+    try {
+    // Créez un Map pour stocker les données à mettre à jour
+    final Map<String, dynamic> dataToUpdate = {};
+      dataToUpdate['name'] = patient!.getName();
+      dataToUpdate['lastname'] = patient.getName();
+      dataToUpdate['email'] = patient.getEmail();
+
+    if (patient.getAdress() != null) {
+      dataToUpdate['adress'] = patient.getAdress();
+    } else {
+      dataToUpdate['adress'] = FieldValue.delete();
+    }
+    if (patient.getWeight() != null) {
+      dataToUpdate['weight'] = patient.getWeight().toString();
+    } else {
+      dataToUpdate['weight'] = FieldValue.delete();
+    }
+    if (patient.getHeight() != null) {
+      dataToUpdate['height'] = patient.getHeight().toString();
+    } else {
+      dataToUpdate['height'] = FieldValue.delete();
+    }
+    if (patient.getPhone() != null) {
+      dataToUpdate['phone'] = patient.getPhone();
+    } else {
+      dataToUpdate['phone'] = FieldValue.delete();
+    }
+  await FirebaseFirestore.instance.collection('users').doc(patient.getUid()).update(dataToUpdate);
+    print('Mise à jour réussie');
+  } catch (e) {
+    print('Erreur lors de la mise à jour : $e');
+  }
+  }
 }

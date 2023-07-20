@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
+import 'package:optimum/pages/editChanger.dart';
 import 'package:optimum/pages/edit_pesonal_profile_page.dart';
 import 'package:optimum/pages/home_page.dart';
 import 'package:optimum/pages/menu.dart';
@@ -25,13 +26,15 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'menu_dark' : 'menu';
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
+        ? 'menu_dark'
+        : 'menu';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/'+'$img'+'.png'),
+            image: AssetImage('assets/images/' + '$img' + '.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -93,7 +96,8 @@ class _ProfileState extends State<Profile> {
                   ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(screenSize.width * 0.15),
+                      borderRadius:
+                          BorderRadius.circular(screenSize.width * 0.15),
                       side: BorderSide(
                         width: 2.0,
                         color: Color(0xFFD37777),
@@ -238,7 +242,7 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    widget.patient!.getLocation() ??
+                                    widget.patient!.getAdress() ??
                                         "Not mentioned",
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
@@ -255,7 +259,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   //-------------------------------------
-                  
+
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
@@ -287,8 +291,7 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    widget.patient!.getPhone() ??
-                                        widget.patient!.getBloodType() ??
+                                    widget.patient!.getBloodType() ??
                                         "Not mentioned",
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
@@ -312,8 +315,11 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.02,
                                   ),
                                   Text(
-                                    widget.patient!.getBloodType() ??
-                                        "Not mentioned",
+                                    (widget.patient!.getAlergic() == null)
+                                        ? "Not mentioned"
+                                        : (widget.patient!.getAlergic()!)
+                                            ? "alergic"
+                                            : "Not Alergic",
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -341,8 +347,11 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    widget.patient!.getBloodType() ??
-                                        "Not mentioned",
+                                    (widget.patient!.getWeight() == null)
+                                        ? "Not mentioned"
+                                        : widget.patient!
+                                            .getWeight()
+                                            .toString(),
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -365,8 +374,11 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    widget.patient!.getBloodType() ??
-                                        "Not mentioned",
+                                    (widget.patient!.getHeight() == null)
+                                        ? "Not mentioned"
+                                        : widget.patient!
+                                            .getHeight()
+                                            .toString(),
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -401,7 +413,8 @@ class _ProfileState extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Column(
-                              children: [Row(
+                              children: [
+                                Row(
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/surgery_icon.png',
@@ -424,43 +437,65 @@ class _ProfileState extends State<Profile> {
                                 SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: (widget.patient!.getSurgery()!=null)?
-                              widget.patient!.getSurgery()!.map((item){
-                                return Column(
-                                  children: [
-                                    Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    item,
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: (widget.patient!.getSurgery() !=
+                                          null)
+                                      ? widget.patient!
+                                          .getSurgery()!
+                                          .map((item) {
+                                          return Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    screenSize.width * 0.085,
+                                                    0,
+                                                    0,
+                                                    0),
+                                                child: Text(
+                                                  item,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Oswald',
+                                                    fontSize:
+                                                        screenSize.height *
+                                                            0.02,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (item !=
+                                                  widget.patient!
+                                                      .getSurgery()!
+                                                      .last)
+                                                SizedBox(
+                                                  height:
+                                                      screenSize.height * 0.015,
+                                                ),
+                                            ],
+                                          );
+                                        }).toList()
+                                      : [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width * 0.05,
+                                              ),
+                                              Text(
+                                                "Not mentioned",
+                                                style: TextStyle(
+                                                  fontFamily: 'Oswald',
+                                                  fontSize:
+                                                      screenSize.height * 0.02,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                 ),
-                                if(item!=widget.patient!.getSurgery()!.last) SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                  ],
-                                );
-                              }).toList(): [Row(
-                                children: [
-                                  SizedBox(width: screenSize.width * 0.05 ,),
-                                  Text(
-                                    "Not mentioned",
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              )],
-                            ),],
+                              ],
                             ),
                             SizedBox(
                               width: screenSize.width * 0.15,
@@ -475,7 +510,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             Column(
                               children: [
-                                  Row(
+                                Row(
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/disease_icon.png',
@@ -498,42 +533,64 @@ class _ProfileState extends State<Profile> {
                                 SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                            Column(
-                              children: (widget.patient!.getCronicDesease()!=null)?
-                              widget.patient!.getSurgery()!.map((item){
-                                return Column(
-                                  children: [
-                                    Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    item,
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
+                                Column(
+                                  children: (widget.patient!
+                                              .getCronicDesease() !=
+                                          null)
+                                      ? widget.patient!
+                                          .getSurgery()!
+                                          .map((item) {
+                                          return Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    screenSize.width * 0.085,
+                                                    0,
+                                                    0,
+                                                    0),
+                                                child: Text(
+                                                  item,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Oswald',
+                                                    fontSize:
+                                                        screenSize.height *
+                                                            0.02,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (item !=
+                                                  widget.patient!
+                                                      .getCronicDesease()!
+                                                      .last)
+                                                SizedBox(
+                                                  height:
+                                                      screenSize.height * 0.015,
+                                                ),
+                                            ],
+                                          );
+                                        }).toList()
+                                      : [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width * 0.03,
+                                              ),
+                                              Text(
+                                                "Not mentioned",
+                                                style: TextStyle(
+                                                  fontFamily: 'Oswald',
+                                                  fontSize:
+                                                      screenSize.height * 0.02,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                 ),
-                                if(item!=widget.patient!.getCronicDesease()!.last) SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                  ],
-                                );
-                              }).toList(): [Row(
-                                children: [
-                                  SizedBox(width: screenSize.width * 0.03 ,),
-                                  Text(
-                                    "Not mentioned",
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              )],
-                            ),
                               ],
                             ),
                           ],
@@ -564,11 +621,21 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  Patient? p = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Editpersonal()),
+                    MaterialPageRoute(
+                        builder: (context) => EditChanger(
+                              malade: widget.patient,
+                            )),
                   );
+                  if (p != null) {
+                    setState(() {
+                      widget.patient = p;
+                    });
+                    //update the user on firestore
+                    DatabaseService.updateUser(widget.patient);
+                  }
                 },
                 child: Text(
                   'SET INFO',
