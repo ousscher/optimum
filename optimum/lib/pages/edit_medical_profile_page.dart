@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/edit_pesonal_profile_page.dart';
 import 'package:optimum/pages/profile.dart';
 import 'package:provider/provider.dart';
@@ -6,12 +9,22 @@ import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
 
 class Editmedical extends StatefulWidget {
-  const Editmedical({super.key});
+  final Function toggleview;
+  final Function updateUser;
+  Patient? malade;
+  Editmedical(
+      {super.key,
+      required this.toggleview,
+      required this.updateUser,
+      required this.malade});
   @override
   State<Editmedical> createState() => _EditmedicalState();
 }
 
 class _EditmedicalState extends State<Editmedical> {
+  final _formKey = GlobalKey<FormState>();
+  int? height;
+  int? weight;
   List<Widget> additionalSurgeryCodeSections = [];
   List<Widget> additionalChronicCodeSections = [];
   void addSurgerySection() {
@@ -22,7 +35,9 @@ class _EditmedicalState extends State<Editmedical> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(width: screenSize.width * 0.3,),
+                SizedBox(
+                  width: screenSize.width * 0.3,
+                ),
                 Container(
                   width: screenSize.width * 0.6,
                   height: screenSize.height * 0.068,
@@ -38,7 +53,9 @@ class _EditmedicalState extends State<Editmedical> {
                 ),
               ],
             ),
-            SizedBox(height: screenSize.height * 0.02 ,),
+            SizedBox(
+              height: screenSize.height * 0.02,
+            ),
           ],
         ),
       );
@@ -53,7 +70,9 @@ class _EditmedicalState extends State<Editmedical> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(width: screenSize.width * 0.3,),
+                SizedBox(
+                  width: screenSize.width * 0.3,
+                ),
                 Container(
                   width: screenSize.width * 0.6,
                   height: screenSize.height * 0.068,
@@ -69,426 +88,508 @@ class _EditmedicalState extends State<Editmedical> {
                 ),
               ],
             ),
-            SizedBox(height: screenSize.height * 0.02 ,),
+            SizedBox(
+              height: screenSize.height * 0.02,
+            ),
           ],
         ),
       );
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'edit_profile_dark' : 'edit_profile';
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
+        ? 'edit_profile_dark'
+        : 'edit_profile';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/'+'$img'+'.png'),
-                fit: BoxFit.cover,
-              ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/' + '$img' + '.png'),
+              fit: BoxFit.cover,
             ),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04, 0, 0),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(
-                                context,
-                                MaterialPageRoute(builder: (context) => Editpersonal()),
-                              );
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.navigate_before,
-                                  color:  Color(0xFFD37777),
-                                  size: 30.0,
+          ),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenSize.height * 0.04, 0, 0),
+                        child: TextButton(
+                          onPressed: () {
+                            widget.toggleview();
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.navigate_before,
+                                color: Color(0xFFD37777),
+                                size: 30.0,
+                              ),
+                              Text(
+                                'BACK',
+                                style: TextStyle(
+                                  color: Color(0xFFD37777),
+                                  fontSize: screenSize.height * 0.025,
+                                  fontFamily: 'Oswald',
                                 ),
-                                Text(
-                                  'BACK',
-                                  style: TextStyle(
-                                    color: Color(0xFFD37777),
-                                    fontSize: screenSize.height * 0.025,
-                                    fontFamily: 'Oswald',
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: screenSize.height * 0.08,),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(screenSize.width * 0.014, 0, 0, 0),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: screenSize.height * 0.06,),
-                          Text(
-                            'Edit Profile',
-                            style: TextStyle(
-                              fontFamily: 'Oswald',
-                              fontSize: screenSize.height * 0.0579,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
                       ),
-                    ),
-                    Column(
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.fromLTRB(screenSize.width * 0.014, 0, 0, 0),
+                    child: Column(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.04,0, 0),
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pop(
-                                context,
-                              );
-                              Navigator.pop(
-                                context,
-                              );
-                            },
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  'DONE',
-                                  style: TextStyle(
-                                    color: Color(0xFFD37777),
-                                    fontSize: screenSize.height * 0.025,
-                                    fontFamily: 'Oswald',
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.navigate_next_sharp,
-                                  color:  Color(0xFFD37777),
-                                  size: 30,
-                                ),
-                              ],
-                            ),
+                        SizedBox(
+                          height: screenSize.height * 0.06,
+                        ),
+                        Text(
+                          'Edit Profile',
+                          style: TextStyle(
+                            fontFamily: 'Oswald',
+                            fontSize: screenSize.height * 0.0579,
+                            color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: screenSize.height * 0.08,),
                       ],
                     ),
-                  ],
-                ),
-                SizedBox(height: screenSize.height * 0.075,),
-                Text(
-                  'Fill In This Form So The Dr Can Diagnose Your Disease',
-                  style: TextStyle(
-                    fontFamily: 'Oswald',
-                    fontSize: screenSize.height * 0.017,
-                    letterSpacing: 1.0,
-                    color: Color(0xFFD9D9D9),
                   ),
-                ),
-                SizedBox(height: screenSize.height * 0.0065,),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
-                  child: Divider(
-                    height: screenSize.height * 0.01,
-                    color: Colors.grey[500],
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenSize.height * 0.04, 0, 0),
+                        child: TextButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              print(weight);
+                              print(height);
+                              setState(() {
+                                widget.malade!.setHeight(height);
+                                widget.malade!.setWeight(weight);
+                              });
+                              
+                              Navigator.pop(context, widget.malade);
+                            }
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'DONE',
+                                style: TextStyle(
+                                  color: Color(0xFFD37777),
+                                  fontSize: screenSize.height * 0.025,
+                                  fontFamily: 'Oswald',
+                                ),
+                              ),
+                              Icon(
+                                Icons.navigate_next_sharp,
+                                color: Color(0xFFD37777),
+                                size: 30,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: screenSize.height * 0.08,
+                      ),
+                    ],
                   ),
+                ],
+              ),
+              SizedBox(
+                height: screenSize.height * 0.075,
+              ),
+              Text(
+                'Fill In This Form So The Dr Can Diagnose Your Disease',
+                style: TextStyle(
+                  fontFamily: 'Oswald',
+                  fontSize: screenSize.height * 0.017,
+                  letterSpacing: 1.0,
+                  color: Color(0xFFD9D9D9),
                 ),
-                SizedBox(height: screenSize.height * 0.007,),
-                Text(
-                  'Medical Information',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: screenSize.height * 0.03,
-                    letterSpacing: 1.0,
-                    color: Color(0xFFD37777),
-                  ),
+              ),
+              SizedBox(
+                height: screenSize.height * 0.0065,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                child: Divider(
+                  height: screenSize.height * 0.01,
+                  color: Colors.grey[500],
                 ),
-                SizedBox(height: screenSize.height * 0.007,),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
-                  child: Divider(
-                    height: screenSize.height * 0.01,
-                    color: Colors.grey[500],
-                  ),
+              ),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
+              Text(
+                'Medical Information',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: screenSize.height * 0.03,
+                  letterSpacing: 1.0,
+                  color: Color(0xFFD37777),
                 ),
-                Container(
-                  height: screenSize.height * 0.582,
-                  child: SingleChildScrollView(
+              ),
+              SizedBox(
+                height: screenSize.height * 0.007,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                    screenSize.width * 0.05, 0, screenSize.width * 0.05, 0),
+                child: Divider(
+                  height: screenSize.height * 0.01,
+                  color: Colors.grey[500],
+                ),
+              ),
+              Container(
+                height: screenSize.height * 0.582,
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
                     child: Column(
                       children: <Widget>[
                         SizedBox(height: screenSize.height * 0.008),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  'Blood Type',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.023,
-                                    color: Color(0xFF66B3FF),
-                                  ),
-                                ),
-                                SizedBox(width: screenSize.width * 0.06,),
-                                Container(
-                                  width: screenSize.width * 0.6,
-                                  height: screenSize.height * 0.068,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFFD9D9D9)),
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    color: Colors.grey.shade50,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MyDropdownPage(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenSize.height * 0.02,),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '   Weight',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.023,
-                                    color: Color(0xFF66B3FF),
-                                  ),
-                                ),
-                                SizedBox(width: screenSize.width * 0.11,),
-                                Container(
-                                  width: screenSize.width * 0.6,
-                                  height: screenSize.height * 0.068,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    color: Colors.grey.shade50,
-                                  ),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Weight',
-
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(40.0),
-                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(40.0),
-                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(40.0),
-                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenSize.height * 0.02,),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '   Height',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.023,
-                                    color: Color(0xFF66B3FF),
-                                  ),
-                                ),
-                                SizedBox(width: screenSize.width * 0.12,),
-                                Container(
-                                  width: screenSize.width * 0.6,
-                                  height: screenSize.height * 0.068,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    color: Colors.grey.shade50,
-                                  ),
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Height',
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(40.0),
-                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(40.0),
-                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(40.0),
-                                        borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenSize.height * 0.02,),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '  Allergic',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.023,
-                                    color: Color(0xFF66B3FF),
-                                  ),
-                                ),
-                                SizedBox(width: screenSize.width * 0.11,),
-                                Container(
-                                  width: screenSize.width * 0.6,
-                                  height: screenSize.height * 0.068,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFFD9D9D9)),
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    color: Colors.grey.shade50,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MyDropdownPagee(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenSize.height * 0.02,),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '  Surgery',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: screenSize.height * 0.023,
-                                    color: Color(0xFF66B3FF),
-                                  ),
-                                ),
-                                SizedBox(width: screenSize.width * 0.1,),
-                                Container(
-                                  width: screenSize.width * 0.6,
-                                  height: screenSize.height * 0.068,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFFD9D9D9)),
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    color: Colors.grey.shade50,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MyDropdownPageee(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
-                              child: Container(
-                                height: screenSize.width * 0.1,
-                                child: TextButton(
-                                  onPressed: addSurgerySection,
-                                  child: Text(
-                                    'ADD+',
-                                    style: TextStyle(
-                                      color: Color(0xFFD9D9D9),
-                                      fontFamily: 'Poppins',
-                                      fontSize: screenSize.height * 0.02,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
                             Column(
-                              children: additionalSurgeryCodeSections,
-                            ),
-                            Row(
                               children: <Widget>[
-                                Column(
+                                Row(
                                   children: <Widget>[
                                     Text(
-                                      ' Chronic',
+                                      'Blood Type',
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: screenSize.height * 0.023,
                                         color: Color(0xFF66B3FF),
                                       ),
                                     ),
-                                    Text(
-                                      ' Disease',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: screenSize.height * 0.023,
-                                        color: Color(0xFF66B3FF),
+                                    SizedBox(
+                                      width: screenSize.width * 0.06,
+                                    ),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFD9D9D9)),
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MyDropdownPage(),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(width: screenSize.width * 0.08,),
-                                Container(
-                                  width: screenSize.width * 0.6,
-                                  height: screenSize.height * 0.068,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFFD9D9D9)),
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    color: Colors.grey.shade50,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MyDropdownPageeee(),
-                                  ),
+                                SizedBox(
+                                  height: screenSize.height * 0.02,
                                 ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(screenSize.width * 0.7, 0, 0, 0),
-                              child: Container(
-                                height: screenSize.width * 0.1,
-                                child: TextButton(
-                                  onPressed: addChronicSection,
-                                  child: Text(
-                                    'ADD+',
-                                    style: TextStyle(
-                                      color: Color(0xFFD9D9D9),
-                                      fontFamily: 'Poppins',
-                                      fontSize: screenSize.height * 0.02,
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      '   Weight',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: screenSize.height * 0.023,
+                                        color: Color(0xFF66B3FF),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width * 0.11,
+                                    ),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+
+                                      child: TextFormField(
+                                        initialValue: (widget.malade!.getWeight().toString()=="null")?"":widget.malade!.getWeight().toString(),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value.isEmpty)
+                                            weight = 0;
+                                          else
+                                            weight = int.parse(value);
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'Weight',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: screenSize.height * 0.02,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      '   Height',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: screenSize.height * 0.023,
+                                        color: Color(0xFF66B3FF),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width * 0.12,
+                                    ),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+                                      child: TextFormField(
+                                        initialValue: (widget.malade!.getHeight().toString()=="null")?"":widget.malade!.getHeight().toString(),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value.isEmpty)
+                                            height = 0;
+                                          else
+                                            height = int.parse(value);
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'Height',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: screenSize.height * 0.02,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      '  Allergic',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: screenSize.height * 0.023,
+                                        color: Color(0xFF66B3FF),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width * 0.11,
+                                    ),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFD9D9D9)),
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MyDropdownPagee(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: screenSize.height * 0.02,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      '  Surgery',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: screenSize.height * 0.023,
+                                        color: Color(0xFF66B3FF),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width * 0.1,
+                                    ),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFD9D9D9)),
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MyDropdownPageee(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      screenSize.width * 0.7, 0, 0, 0),
+                                  child: Container(
+                                    height: screenSize.width * 0.1,
+                                    child: TextButton(
+                                      onPressed: addSurgerySection,
+                                      child: Text(
+                                        'ADD+',
+                                        style: TextStyle(
+                                          color: Color(0xFFD9D9D9),
+                                          fontFamily: 'Poppins',
+                                          fontSize: screenSize.height * 0.02,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Column(
-                              children: additionalChronicCodeSections,
+                                Column(
+                                  children: additionalSurgeryCodeSections,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          ' Chronic',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: screenSize.height * 0.023,
+                                            color: Color(0xFF66B3FF),
+                                          ),
+                                        ),
+                                        Text(
+                                          ' Disease',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: screenSize.height * 0.023,
+                                            color: Color(0xFF66B3FF),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: screenSize.width * 0.08,
+                                    ),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFD9D9D9)),
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MyDropdownPageeee(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      screenSize.width * 0.7, 0, 0, 0),
+                                  child: Container(
+                                    height: screenSize.width * 0.1,
+                                    child: TextButton(
+                                      onPressed: addChronicSection,
+                                      child: Text(
+                                        'ADD+',
+                                        style: TextStyle(
+                                          color: Color(0xFFD9D9D9),
+                                          fontFamily: 'Poppins',
+                                          fontSize: screenSize.height * 0.02,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  children: additionalChronicCodeSections,
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ],
                     ),
-                      ],
-                    ),
                   ),
                 ),
-                SizedBox(
-                  height: screenSize.height * 0.051,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: screenSize.height * 0.051,
+              ),
+            ],
           ),
+        ),
       ),
-
     );
   }
 }
 
-
-
-
 class MyDropdownPage extends StatefulWidget {
-
-
-   MyDropdownPage( {super.key});
+  MyDropdownPage({super.key});
   @override
   _MyDropdownPageState createState() => _MyDropdownPageState();
 }
@@ -496,15 +597,15 @@ class MyDropdownPage extends StatefulWidget {
 class _MyDropdownPageState extends State<MyDropdownPage> {
   String? _dropdownValue;
   static const list1 = [
-  DropdownMenuItem(child: Text("Not Mentioned"), value: "Not Mentioned"),
-  DropdownMenuItem(child: Text("A-"), value: "A-"),
-  DropdownMenuItem(child: Text("A+"), value: "A+"),
-  DropdownMenuItem(child: Text("B-"), value: "B-"),
-  DropdownMenuItem(child: Text("B+"), value: "B+"),
-  DropdownMenuItem(child: Text("O-"), value: "O-"),
-  DropdownMenuItem(child: Text("O+"), value: "O+"),
-  DropdownMenuItem(child: Text("AB-"), value: "AB-"),
-  DropdownMenuItem(child: Text("AB+"), value: "AB+"),
+    DropdownMenuItem(child: Text("Not Mentioned"), value: "Not Mentioned"),
+    DropdownMenuItem(child: Text("A-"), value: "A-"),
+    DropdownMenuItem(child: Text("A+"), value: "A+"),
+    DropdownMenuItem(child: Text("B-"), value: "B-"),
+    DropdownMenuItem(child: Text("B+"), value: "B+"),
+    DropdownMenuItem(child: Text("O-"), value: "O-"),
+    DropdownMenuItem(child: Text("O+"), value: "O+"),
+    DropdownMenuItem(child: Text("AB-"), value: "AB-"),
+    DropdownMenuItem(child: Text("AB+"), value: "AB+"),
   ];
 
   void dropdownCallback(String? selectedValue) {
@@ -514,36 +615,36 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
-              child: DropdownButton(
-                items: list1,
-                value: _dropdownValue,
-                onChanged: dropdownCallback,
-                isExpanded: true,
-                borderRadius: BorderRadius.circular(20.0),
-                iconEnabledColor: Color(0xFFD37777),
-                iconSize: 26.0,
-                icon: Icon(
-                    Icons.arrow_drop_down_circle_outlined,
-                    color: Color(0xFFD37777),
-                ),
-                hint: Text('Not Metioned'),
-              ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          child: DropdownButton(
+            items: list1,
+            value: _dropdownValue,
+            onChanged: dropdownCallback,
+            isExpanded: true,
+            borderRadius: BorderRadius.circular(20.0),
+            iconEnabledColor: Color(0xFFD37777),
+            iconSize: 26.0,
+            icon: Icon(
+              Icons.arrow_drop_down_circle_outlined,
+              color: Color(0xFFD37777),
             ),
+            hint: Text('Not Metioned'),
+          ),
+        ),
       ),
     );
   }
 }
+
 class MyDropdownPagee extends StatefulWidget {
-
-
-  MyDropdownPagee( {super.key});
+  MyDropdownPagee({super.key});
   @override
   _MyDropdownPageeState createState() => _MyDropdownPageeState();
 }
@@ -563,13 +664,14 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
         child: Padding(
-            padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
           child: DropdownButton(
             items: list2,
             value: _dropdownValuee,
@@ -589,10 +691,9 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
     );
   }
 }
+
 class MyDropdownPageee extends StatefulWidget {
-
-
-  MyDropdownPageee( {super.key});
+  MyDropdownPageee({super.key});
   @override
   _MyDropdownPageeeState createState() => _MyDropdownPageeeState();
 }
@@ -600,7 +701,7 @@ class MyDropdownPageee extends StatefulWidget {
 class _MyDropdownPageeeState extends State<MyDropdownPageee> {
   String? _dropdownValueee;
   static const list3 = [
-    DropdownMenuItem(child: Text("Not Mentioned"), value: "Not Mentioned"),
+    DropdownMenuItem(child: Text("Not Mentioned"), value: ""),
     DropdownMenuItem(child: Text("Appendectomy"), value: "Appendectomy"),
     DropdownMenuItem(child: Text("Cataract"), value: "Cataract"),
     DropdownMenuItem(child: Text("Heart"), value: "Heart"),
@@ -617,6 +718,7 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -643,10 +745,9 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
     );
   }
 }
+
 class MyDropdownPageeee extends StatefulWidget {
-
-
-  MyDropdownPageeee( {super.key});
+  MyDropdownPageeee({super.key});
   @override
   _MyDropdownPageeeeState createState() => _MyDropdownPageeeeState();
 }
@@ -671,13 +772,14 @@ class _MyDropdownPageeeeState extends State<MyDropdownPageeee> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
         child: Padding(
-            padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
+          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
           child: DropdownButton(
             items: list4,
             value: _dropdownValueeee,

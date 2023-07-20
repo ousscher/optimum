@@ -13,6 +13,11 @@ class UserOptimum {
         _lastName = lastName,
         _name = name,
         _email = email;
+
+  String getUid() {
+    return this._uid;
+  }
+
   String getName() {
     return this._name;
   }
@@ -23,6 +28,18 @@ class UserOptimum {
 
   String getEmail() {
     return _email;
+  }
+
+  String setName() {
+    return this._name;
+  }
+
+  void setLastName(String lastName) {
+    _lastName = lastName;
+  }
+
+  void setEmail(String email) {
+    _email = email;
   }
 }
 
@@ -88,18 +105,63 @@ class Patient extends UserOptimum {
     return _alergic;
   }
 
+  String? getAdress() {
+    return _adress;
+  }
+
   int? getHeight() {
     return _height;
   }
+
   int? getWeight() {
     return _weight;
   }
 
-  List<String>? getSurgery(){
+  List<String>? getSurgery() {
     return _surgery;
   }
-  List<String>? getCronicDesease(){
+
+  List<String>? getCronicDesease() {
     return _cronicDesease;
+  }
+
+  //les seteurs
+  void setPhone(String? phone) {
+    if (phone == null)
+      _phone = phone;
+    else if (phone.isEmpty)
+      _phone = null;
+    else
+      _phone = phone;
+  }
+
+  void setDateBirth(DateTime? date) {
+    if (date == null)
+      _dateOfBirth = null;
+    else
+      _dateOfBirth = date;
+  }
+
+  void setAdress(String? adress) {
+    if (adress == null)
+      _adress = adress;
+    else if (adress.isEmpty)
+      _adress = null;
+    else
+      _adress = adress;
+  }
+
+  void setHeight(int? height) {
+    if (height == 0)
+      _height = null;
+    else
+      _height = height;
+  }
+  void setWeight(int? weight) {
+    if (weight == 0)
+      _weight = null;
+    else
+      _weight = weight;
   }
   
 }
