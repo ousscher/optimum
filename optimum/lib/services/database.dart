@@ -8,7 +8,7 @@ class DatabaseService {
   static String uid = FirebaseAuth.instance.currentUser!.uid;
   DatabaseService();
   static final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
+  FirebaseFirestore.instance.collection('users');
   Future intialiseUserData(String name, String lastName, String email) async {
     return await usersCollection.doc(uid).set({
       'name': name,
@@ -29,7 +29,7 @@ class DatabaseService {
   static List<UserOptimum> userListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       final data =
-          doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
+      doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
       return UserOptimum(
         uid: uid,
         name: data?['name'] ?? '',
@@ -55,39 +55,39 @@ class DatabaseService {
     );
   }
 
-  //updating user information 
+  //updating user information
   static Future<void> updateUser(Patient? patient)async{
     try {
-    // Créez un Map pour stocker les données à mettre à jour
-    final Map<String, dynamic> dataToUpdate = {};
+      // Créez un Map pour stocker les données à mettre à jour
+      final Map<String, dynamic> dataToUpdate = {};
       dataToUpdate['name'] = patient!.getName();
       dataToUpdate['lastname'] = patient.getName();
       dataToUpdate['email'] = patient.getEmail();
 
-    if (patient.getAdress() != null) {
-      dataToUpdate['adress'] = patient.getAdress();
-    } else {
-      dataToUpdate['adress'] = FieldValue.delete();
+      if (patient.getAdress() != null) {
+        dataToUpdate['adress'] = patient.getAdress();
+      } else {
+        dataToUpdate['adress'] = FieldValue.delete();
+      }
+      if (patient.getWeight() != null) {
+        dataToUpdate['weight'] = patient.getWeight().toString();
+      } else {
+        dataToUpdate['weight'] = FieldValue.delete();
+      }
+      if (patient.getHeight() != null) {
+        dataToUpdate['height'] = patient.getHeight().toString();
+      } else {
+        dataToUpdate['height'] = FieldValue.delete();
+      }
+      if (patient.getPhone() != null) {
+        dataToUpdate['phone'] = patient.getPhone();
+      } else {
+        dataToUpdate['phone'] = FieldValue.delete();
+      }
+      await FirebaseFirestore.instance.collection('users').doc(patient.getUid()).update(dataToUpdate);
+      print('Mise à jour réussie');
+    } catch (e) {
+      print('Erreur lors de la mise à jour : $e');
     }
-    if (patient.getWeight() != null) {
-      dataToUpdate['weight'] = patient.getWeight().toString();
-    } else {
-      dataToUpdate['weight'] = FieldValue.delete();
-    }
-    if (patient.getHeight() != null) {
-      dataToUpdate['height'] = patient.getHeight().toString();
-    } else {
-      dataToUpdate['height'] = FieldValue.delete();
-    }
-    if (patient.getPhone() != null) {
-      dataToUpdate['phone'] = patient.getPhone();
-    } else {
-      dataToUpdate['phone'] = FieldValue.delete();
-    }
-  await FirebaseFirestore.instance.collection('users').doc(patient.getUid()).update(dataToUpdate);
-    print('Mise à jour réussie');
-  } catch (e) {
-    print('Erreur lors de la mise à jour : $e');
-  }
   }
 }

@@ -56,19 +56,19 @@ class Patient extends UserOptimum {
   List<String>? _cronicDesease;
   Patient(
       {required String uid,
-      required String patientName,
-      required String patientLastName,
-      required String patientEmail,
-      String? location,
-      String? phone,
-      int? weight,
-      int? height,
-      DateTime? dateOfBirth,
-      String? adress,
-      String? bloodType,
-      bool? alergic,
-      List<String>? surgery,
-      List<String>? cronicDesease})
+        required String patientName,
+        required String patientLastName,
+        required String patientEmail,
+        String? location,
+        String? phone,
+        int? weight,
+        int? height,
+        DateTime? dateOfBirth,
+        String? adress,
+        String? bloodType,
+        bool? alergic,
+        List<String>? surgery,
+        List<String>? cronicDesease})
       : _phone = phone,
         _location = location,
         _weight = weight,
@@ -80,10 +80,10 @@ class Patient extends UserOptimum {
         _surgery = surgery,
         _cronicDesease = cronicDesease,
         super(
-            uid: uid,
-            name: patientName,
-            lastName: patientLastName,
-            email: patientEmail);
+          uid: uid,
+          name: patientName,
+          lastName: patientLastName,
+          email: patientEmail);
 
   String? getPhone() {
     return _phone;
@@ -163,7 +163,7 @@ class Patient extends UserOptimum {
     else
       _weight = weight;
   }
-  
+
 }
 
 // class Utilisateur {
