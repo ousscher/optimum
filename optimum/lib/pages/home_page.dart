@@ -11,6 +11,7 @@ import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
 import '../services/auth.dart';
 import 'Doctors.dart';
+import 'booking_history.dart';
 import 'menu.dart';
 import 'package:optimum/services/database.dart';
 import 'package:provider/provider.dart';
@@ -277,7 +278,12 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => Bookinghistory()),
+                                    );
+                                  },
                                   child: Image.asset(
                                     'assets/images/schedule_icon.png',
                                     width: screenSize.width * 0.11,

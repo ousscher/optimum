@@ -1,18 +1,17 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:optimum/DrApp/Dr_profile.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 import '../provider/theme_provider.dart';
 
-class Removedr extends StatefulWidget {
-  const Removedr({super.key});
+class Bookinghistory extends StatefulWidget {
+  const Bookinghistory({super.key});
 
   @override
-  State<Removedr> createState() => _RemovedrState();
+  State<Bookinghistory> createState() => _BookinghistoryState();
 }
 
-class _RemovedrState extends State<Removedr> {
+class _BookinghistoryState extends State<Bookinghistory> {
   List<Widget> additionalSurgeryCodeSections = [];
   @override
   void initState() {
@@ -24,10 +23,21 @@ class _RemovedrState extends State<Removedr> {
   }
   void addSurgerySection() {
     final screenSize = MediaQuery.of(context).size;
+    final now = DateTime.now();
+    final targetDate = DateTime(now.year, 4, 30);
+    final targetTime = TimeOfDay(hour: 13, minute: 20);
+    final isTargetDate = now.year < targetDate.year &&
+        now.month < targetDate.month &&
+        now.day < targetDate.day;
+    final isTargetTime = now.hour < targetTime.hour &&
+        now.minute < targetTime.minute;
+    final shouldShowCancelButton = isTargetDate || isTargetTime;
+    double height = shouldShowCancelButton ? 0.23 : 0.17;
     setState(() {
-      additionalSurgeryCodeSections.add(
+      additionalSurgeryCodeSections.insert(
+        0,
         Container(
-          height: screenSize.height * 0.14,
+          height: screenSize.height * height,
           width: screenSize.width * 0.93 ,
           child: Card(
             color: Theme.of(context).shadowColor,
@@ -47,53 +57,38 @@ class _RemovedrState extends State<Removedr> {
                 Container(
                   width: screenSize.width * 0.2,
                   height: screenSize.width * 0.2,
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          return Colors.white;
-                        },
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                          side: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFD37777),
-                          ),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DrProfile()),
-                      );
-                    },
-                    child: Image.asset(
-                      'assets/images/profil_pic.png',
-                    ),
+                  child:  Image.asset(
+                    'assets/images/bookings_icon.png',
                   ),
+
                 ),
-                SizedBox(width: screenSize.width * 0.045,),
+                SizedBox(width: screenSize.width * 0.055,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Dr.Soltani Amine',
+                      'Thursday, April 30',
                       style: TextStyle(
                         color: Color(0xFF70A4EA),
                         fontFamily: 'Oswald',
-                        fontSize: screenSize.width * 0.06,
+                        fontSize: screenSize.width * 0.07,
                         letterSpacing: 1.0,
                       ),
                     ),
-
                     Text(
-                      'Cardiologist',
+                      '1:20PM - 1:40PM',
                       style: TextStyle(
-                        color: Color(0xFFD9D9D9),
+                        color: Color(0xFF70A4EA),
+                        fontFamily: 'Oswald',
+                        fontSize: screenSize.width * 0.045,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                    Text(
+                      'With Dr.Soltani',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
                         fontFamily: 'Poppins',
                         fontSize: screenSize.width * 0.04,
                         letterSpacing: 1.0,
@@ -101,64 +96,77 @@ class _RemovedrState extends State<Removedr> {
                     ),
 
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                          size: screenSize.width * 0.03,
+                        Text(
+                          'Status:',
+                          style: TextStyle(
+                            color: Color(0xFFD9D9D9),
+                            fontFamily: 'Oswald',
+                            fontSize: screenSize.width * 0.04,
+                            letterSpacing: 1.0,
+                          ),
                         ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                          size: screenSize.width * 0.03,
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                          size: screenSize.width * 0.03,
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                          size: screenSize.width * 0.03,
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Colors.grey.shade300,
-                          size: screenSize.width * 0.03,
+                        SizedBox(width: screenSize.width * 0.04,),
+                        Text(
+                          'On Time',
+                          style: TextStyle(
+                            color: Color(0xFFD37777),
+                            fontFamily: 'Poppins',
+                            fontSize: screenSize.width * 0.04,
+                            letterSpacing: 1.0,
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                SizedBox(width: screenSize.width * 0.07,),
-                GestureDetector(
-                  onTap: (){
-                    _deleteSurgerySection();
-                    final snackBar = SnackBar(
-                      elevation: 0,
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.transparent,
-                      content: AwesomeSnackbarContent(
-                        title: 'Doctor Removed!',
-                        message:
-                        'This Doctor has been Removed from the list of doctors successfully! We hope you are sure of your decision',
-                        contentType: ContentType.failure,
-                      ),
-                    );
+                    SizedBox(height: screenSize.height * 0.015,),
+                    shouldShowCancelButton ? Container(
+                      width: screenSize.width * 0.35,
+                      height: screenSize.height * 0.04,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                              return Color(0xFFD37777);
+                            },
+                          ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(screenSize.width * 0.1),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          _deleteSurgerySection();
+                          final snackBar = SnackBar(
+                            elevation: 0,
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            content: AwesomeSnackbarContent(
+                              title: 'Reservation Canceled!',
+                              message:
+                              'Your Booking Appointment has been canceled successfully! We hope you are sure of your decision',
+                              contentType: ContentType.failure,
+                            ),
+                          );
 
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(snackBar);
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: Color(0xFFD37777),
-                  ),
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(snackBar);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Oswald',
+                            letterSpacing: 1.0,
+                            fontSize: screenSize.height * 0.015,
+                          ),
+                        ),
+                      ),
+                    ) : SizedBox(),
+                  ],
                 ),
               ],
             ),
@@ -171,7 +179,8 @@ class _RemovedrState extends State<Removedr> {
     setState(() {
       // Use the removeLast() method to remove the last card from the list
       if (additionalSurgeryCodeSections.isNotEmpty) {
-        additionalSurgeryCodeSections.removeLast();
+        
+        additionalSurgeryCodeSections.removeAt(0);
       }
     });
   }
@@ -207,11 +216,11 @@ class _RemovedrState extends State<Removedr> {
                     backgroundColor: Theme.of(context).shadowColor,
                   ),
                 ),
-                SizedBox(width: screenSize.width * 0.075,),
+                SizedBox(width: screenSize.width * 0.07,),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.045, 0, 0),
                   child: Text(
-                    'Remove Doctors',
+                    'Booking History',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: screenSize.width * 0.06,
@@ -235,7 +244,7 @@ class _RemovedrState extends State<Removedr> {
               height: screenSize.height * 0.007,
             ),
             Text(
-              'List of the doctors',
+              'All Your Bookings',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: screenSize.height * 0.03,
@@ -264,6 +273,7 @@ class _RemovedrState extends State<Removedr> {
                 ),
               ),
             )
+
           ],
         ),
       ),
