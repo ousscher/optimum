@@ -171,6 +171,7 @@ class Patient extends UserOptimum {
   void setWeight(String? weight) {
       _weight = weight;
   }
+
 }
 
 // class Utilisateur {

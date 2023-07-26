@@ -7,6 +7,7 @@ import 'package:optimum/pages/start.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:provider/provider.dart';
+import '../DrApp/Dr_home_page.dart';
 
 class Wrapper extends StatefulWidget {
   Patient? patient;
@@ -29,7 +30,7 @@ class _WrapperState extends State<Wrapper> {
     } else {
       if (utilisateur!.emailVerified) {
         //Creer l'instance de l'utilisateur avant de passer par le homeScreen
-        return Home();
+        return Home(); //DrHome()
       } else {
         utilisateur!.delete();
         return Start();
