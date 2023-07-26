@@ -150,7 +150,9 @@ class _EditpersonalState extends State<Editpersonal> {
                                   uid: widget.malade!.getUid(),
                                   patientName: nom,
                                   patientLastName: prenom,
-                                  patientEmail: widget.malade!.getEmail());
+                                  patientEmail: widget.malade!.getEmail(),
+                                  urlPhoto: widget.malade!.getUrlPhoto(),
+                                  );
                               p.setPhone(phoneNB);
                               p.setAdress(adress);
                               print(adress);

@@ -34,10 +34,11 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'home_page_dark' : 'home_page';
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
+        ? 'home_page_dark'
+        : 'home_page';
     return Scaffold(
         body: StreamBuilder<Patient>(
       stream: DatabaseService.userData,
@@ -51,7 +52,7 @@ class _HomeState extends State<Home> {
               body: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/'+'$img'+'.png'),
+                    image: AssetImage('assets/images/' + '$img' + '.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -61,11 +62,19 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.06,
                           screenSize.width * 0.7, 0),
                       child: FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
+                        onPressed: () async {
+                          Patient? p = await Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Menu(malade: patient,)),
+                            MaterialPageRoute(
+                                builder: (context) => Menu(
+                                      malade: patient,
+                                    )),
                           );
+                          if (p != null) {
+                            setState(() {
+                              patient = p;
+                            });
+                          }
                         }, // Menu button
                         child: Icon(
                           Icons.menu,
@@ -117,38 +126,30 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: screenSize.height * 0.03),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          screenSize.width * 0.07,
-                          0,
-                          screenSize.width * 0.12,
-                          0),
+                      padding: EdgeInsets.fromLTRB(screenSize.width * 0.07, 0,
+                          screenSize.width * 0.12, 0),
                       child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 width: screenSize.width * 0.22,
                                 height: screenSize.width * 0.22,
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    backgroundColor:
-                                    MaterialStateProperty
+                                    backgroundColor: MaterialStateProperty
                                         .resolveWith<Color>(
-                                          (Set<MaterialState> states) {
+                                      (Set<MaterialState> states) {
                                         return Theme.of(context).shadowColor;
                                       },
                                     ),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            screenSize.width *
-                                                0.15),
+                                        borderRadius: BorderRadius.circular(
+                                            screenSize.width * 0.15),
                                         side: BorderSide(
                                           color: Color(0xFFD37777),
                                         ),
@@ -169,8 +170,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: screenSize.height * 0.01),
+                              SizedBox(height: screenSize.height * 0.01),
                               Text(
                                 'Book appointment',
                                 style: TextStyle(
@@ -183,28 +183,24 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 width: screenSize.width * 0.22,
                                 height: screenSize.width * 0.22,
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    backgroundColor:
-                                    MaterialStateProperty
+                                    backgroundColor: MaterialStateProperty
                                         .resolveWith<Color>(
-                                          (Set<MaterialState> states) {
+                                      (Set<MaterialState> states) {
                                         return Theme.of(context).shadowColor;
                                       },
                                     ),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            screenSize.width *
-                                                0.15),
+                                        borderRadius: BorderRadius.circular(
+                                            screenSize.width * 0.15),
                                         side: BorderSide(
                                           color: Color(0xFFD37777),
                                         ),
@@ -215,8 +211,7 @@ class _HomeState extends State<Home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              Contact()),
+                                          builder: (context) => Contact()),
                                     );
                                   },
                                   child: Image.asset(
@@ -226,8 +221,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: screenSize.height * 0.01),
+                              SizedBox(height: screenSize.height * 0.01),
                               Text(
                                 'Contact Us',
                                 style: TextStyle(
@@ -244,33 +238,29 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: screenSize.height * 0.02),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          screenSize.width * 0.13, 0, 0, 0),
+                      padding:
+                          EdgeInsets.fromLTRB(screenSize.width * 0.13, 0, 0, 0),
                       child: Row(
                         children: <Widget>[
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 width: screenSize.width * 0.22,
                                 height: screenSize.width * 0.22,
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    backgroundColor:
-                                    MaterialStateProperty
+                                    backgroundColor: MaterialStateProperty
                                         .resolveWith<Color>(
-                                          (Set<MaterialState> states) {
+                                      (Set<MaterialState> states) {
                                         return Theme.of(context).shadowColor;
                                       },
                                     ),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            screenSize.width *
-                                                0.15),
+                                        borderRadius: BorderRadius.circular(
+                                            screenSize.width * 0.15),
                                         side: BorderSide(
                                           color: Color(0xFFD37777),
                                         ),
@@ -285,8 +275,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: screenSize.height * 0.01),
+                              SizedBox(height: screenSize.height * 0.01),
                               Text(
                                 'Booking history',
                                 style: TextStyle(
@@ -300,28 +289,24 @@ class _HomeState extends State<Home> {
                           ),
                           SizedBox(width: screenSize.width * 0.12),
                           Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 width: screenSize.width * 0.22,
                                 height: screenSize.width * 0.22,
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    backgroundColor:
-                                    MaterialStateProperty
+                                    backgroundColor: MaterialStateProperty
                                         .resolveWith<Color>(
-                                          (Set<MaterialState> states) {
+                                      (Set<MaterialState> states) {
                                         return Theme.of(context).shadowColor;
                                       },
                                     ),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            screenSize.width *
-                                                0.15),
+                                        borderRadius: BorderRadius.circular(
+                                            screenSize.width * 0.15),
                                         side: BorderSide(
                                           color: Color(0xFFD37777),
                                         ),
@@ -331,7 +316,8 @@ class _HomeState extends State<Home> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Doctors()),
+                                      MaterialPageRoute(
+                                          builder: (context) => Doctors()),
                                     );
                                   },
                                   child: Image.asset(
@@ -341,8 +327,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                  height: screenSize.height * 0.01),
+                              SizedBox(height: screenSize.height * 0.01),
                               Text(
                                 'About Dr',
                                 style: TextStyle(
@@ -369,4 +354,3 @@ class _HomeState extends State<Home> {
     ));
   }
 }
-

@@ -23,8 +23,8 @@ class Editmedical extends StatefulWidget {
 
 class _EditmedicalState extends State<Editmedical> {
   final _formKey = GlobalKey<FormState>();
-  int? height;
-  int? weight;
+  String? height;
+  String? weight;
   List<Widget> additionalSurgeryCodeSections = [];
   List<Widget> additionalChronicCodeSections = [];
   void addSurgerySection() {
@@ -327,13 +327,13 @@ class _EditmedicalState extends State<Editmedical> {
                                       ),
 
                                       child: TextFormField(
-                                        initialValue: (widget.malade!.getWeight().toString()=="null")?"":widget.malade!.getWeight().toString(),
+                                        initialValue: (widget.malade!.getWeight()==null)?"":widget.malade!.getWeight(),
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
                                           if (value.isEmpty)
-                                            weight = 0;
+                                            weight = "0";
                                           else
-                                            weight = int.parse(value);
+                                            weight = value;
                                         },
                                         decoration: InputDecoration(
                                           hintText: 'Weight',
@@ -385,13 +385,13 @@ class _EditmedicalState extends State<Editmedical> {
                                         color: Colors.grey.shade50,
                                       ),
                                       child: TextFormField(
-                                        initialValue: (widget.malade!.getHeight().toString()=="null")?"":widget.malade!.getHeight().toString(),
+                                        initialValue: (widget.malade!.getHeight()==null)?"":widget.malade!.getHeight(),
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
                                           if (value.isEmpty)
-                                            height = 0;
+                                            height = "0";
                                           else
-                                            height = int.parse(value);
+                                            height = value;
                                         },
                                         decoration: InputDecoration(
                                           hintText: 'Height',

@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,8 @@ import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../provider/theme_provider.dart';
 
@@ -22,6 +27,58 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  @override
+
+  //le traitement d'image of user
+  File? _image;
+  final picker = ImagePicker();
+
+  Future getImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('Aucune image sélectionnée.');
+      }
+    });
+    uploadImage();
+  }
+
+  Future<void> uploadImage() async {
+    if (_image != null) {
+      // Obtenir l'ID de l'utilisateur actuellement connecté, ou utilisez l'ID de l'utilisateur d'où vous obtenez les informations utilisateur
+      String userId = widget.patient!.getUid();
+
+      // Upload de l'image vers Firebase Storage
+      firebase_storage.Reference storageReference = firebase_storage
+          .FirebaseStorage.instance
+          .ref()
+          .child('profile_photos')
+          .child('$userId.jpg');
+
+      firebase_storage.UploadTask uploadTask =
+          storageReference.putFile(_image!);
+
+      await uploadTask;
+
+      // Récupérer l'URL de téléchargement de l'image
+      String photoURL = await storageReference.getDownloadURL();
+
+      // Mettre à jour l'utilisateur avec le nouvel URL de la photo de profil dans Firestore
+      setState(() {
+        widget.patient!.setUrlPhoto(photoURL);
+      });
+      print(widget.patient!.getUrlPhoto());
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update({'profilePhotoURL': photoURL});
+    }
+  }
+  //------------------fin des fonctions d'images
+
   final user = AuthService.getAuth().currentUser;
 
   @override
@@ -49,7 +106,7 @@ class _ProfileState extends State<Profile> {
                           screenSize.height * 0.06, 0, 0),
                       child: FloatingActionButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(context , widget.patient);
                         }, // Menu button
                         child: Icon(
                           Icons.arrow_back_ios_new,
@@ -84,30 +141,26 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            Container(
-              width: screenSize.width * 0.26,
-              height: screenSize.width * 0.26,
-              child: TextButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      return Colors.white;
-                    },
+            InkWell(
+              onTap: () {
+                    getImageFromGallery();
+                  },
+              child: Container(
+                width: screenSize.width * 0.26,
+                height: screenSize.width * 0.26,
+                decoration: BoxDecoration(
+                  // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
+                  border: Border.all(
+                    width: 2.0,
+                    color: Color(0xFFD37777),
                   ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(screenSize.width * 0.15),
-                      side: BorderSide(
-                        width: 2.0,
-                        color: Color(0xFFD37777),
-                      ),
-                    ),
+                  shape: BoxShape.circle,
+                  image:DecorationImage(
+                    image: widget.patient!.getUrlPhoto() == null
+                    ? AssetImage('assets/images/profil_pic.png')
+                    :Image.network(widget.patient!.getUrlPhoto()!).image,
+                    fit: BoxFit.cover
                   ),
-                ),
-                onPressed: () {},
-                child: Image.asset(
-                  'assets/images/profil_pic.png',
                 ),
               ),
             ),
