@@ -23,8 +23,8 @@ class Editmedical extends StatefulWidget {
 
 class _EditmedicalState extends State<Editmedical> {
   final _formKey = GlobalKey<FormState>();
-  int? height;
-  int? weight;
+  String? height;
+  String? weight;
   List<Widget> additionalSurgeryCodeSections = [];
   List<Widget> additionalChronicCodeSections = [];
   void addSurgerySection() {
@@ -298,17 +298,35 @@ class _EditmedicalState extends State<Editmedical> {
                                       decoration: InputDecoration(
                                         hintText: 'Weight',
 
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                          borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                          borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                          borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                      child: TextFormField(
+                                        initialValue: (widget.malade!.getWeight()==null)?"":widget.malade!.getWeight(),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value.isEmpty)
+                                            weight = "0";
+                                          else
+                                            weight = value;
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'Weight',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -334,28 +352,43 @@ class _EditmedicalState extends State<Editmedical> {
                                       borderRadius: BorderRadius.circular(40.0),
                                       color: Colors.grey.shade50,
                                     ),
-                                    child: TextFormField(
-                                      initialValue: (widget.malade!.getHeight().toString()=="null")?"":widget.malade!.getHeight().toString(),
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        if (value.isEmpty)
-                                          height = 0;
-                                        else
-                                          height = int.parse(value);
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: 'Height',
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                          borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                          borderSide: BorderSide(color: Color(0xFFD9D9D9)),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                          borderSide: BorderSide(color: Color(0xFFD9D9D9)),
+                                    Container(
+                                      width: screenSize.width * 0.6,
+                                      height: screenSize.height * 0.068,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                        color: Colors.grey.shade50,
+                                      ),
+                                      child: TextFormField(
+                                        initialValue: (widget.malade!.getHeight()==null)?"":widget.malade!.getHeight(),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          if (value.isEmpty)
+                                            height = "0";
+                                          else
+                                            height = value;
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'Height',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(40.0),
+                                            borderSide: BorderSide(
+                                                color: Color(0xFFD9D9D9)),
+                                          ),
                                         ),
                                       ),
                                     ),

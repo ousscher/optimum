@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,7 @@ class DatabaseService {
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
         email: data?['email'] ?? '',
+        urlPhoto: data?['profilePhotoUrl'],
       );
     }).toList();
   }
@@ -52,6 +55,9 @@ class DatabaseService {
       patientLastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       patientEmail: (snapshot.data() as Map<dynamic, dynamic>)['email'],
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'] ,
+      urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
+      weight: (snapshot.data() as Map<dynamic, dynamic>)['weight'],
+      height: (snapshot.data() as Map<dynamic, dynamic>)['height'],
     );
   }
 
@@ -89,5 +95,27 @@ class DatabaseService {
     } catch (e) {
       print('Erreur lors de la mise à jour : $e');
     }
+    if (patient.getWeight() != null) {
+      dataToUpdate['weight'] = patient.getWeight().toString();
+    } else {
+      dataToUpdate['weight'] = FieldValue.delete();
+    }
+    if (patient.getHeight() != null) {
+      dataToUpdate['height'] = patient.getHeight().toString();
+    } else {
+      dataToUpdate['height'] = FieldValue.delete();
+    }
+    if (patient.getPhone() != null) {
+      dataToUpdate['phone'] = patient.getPhone();
+    } else {
+      dataToUpdate['phone'] = FieldValue.delete();
+    }
+    
+
+  await FirebaseFirestore.instance.collection('users').doc(patient.getUid()).update(dataToUpdate);
+    print('Mise à jour réussie');
+  } catch (e) {
+    print('Erreur lors de la mise à jour : $e');
+  }
   }
 }

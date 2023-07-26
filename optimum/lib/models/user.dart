@@ -3,16 +3,19 @@ class UserOptimum {
   String _name;
   String _lastName;
   String _email;
+  String? _urlPhoto ;
 
   UserOptimum({
     required String uid,
     required String name,
     required String lastName,
     required String email,
+    String? urlPhoto,
   })  : _uid = uid,
         _lastName = lastName,
         _name = name,
-        _email = email;
+        _email = email,
+        _urlPhoto = urlPhoto;
 
   String getUid() {
     return this._uid;
@@ -41,13 +44,21 @@ class UserOptimum {
   void setEmail(String email) {
     _email = email;
   }
+
+  String? getUrlPhoto() {
+    return _urlPhoto;
+  }
+
+  void setUrlPhoto(String urlPhoto) {
+    _urlPhoto = urlPhoto;
+  }
 }
 
 class Patient extends UserOptimum {
   String? _phone;
   String? _location;
-  int? _weight;
-  int? _height;
+  String? _weight;
+  String? _height;
   DateTime? _dateOfBirth;
   String? _adress;
   String? _bloodType;
@@ -56,19 +67,20 @@ class Patient extends UserOptimum {
   List<String>? _cronicDesease;
   Patient(
       {required String uid,
-        required String patientName,
-        required String patientLastName,
-        required String patientEmail,
-        String? location,
-        String? phone,
-        int? weight,
-        int? height,
-        DateTime? dateOfBirth,
-        String? adress,
-        String? bloodType,
-        bool? alergic,
-        List<String>? surgery,
-        List<String>? cronicDesease})
+      required String patientName,
+      required String patientLastName,
+      required String patientEmail,
+      String? urlPhoto,
+      String? location,
+      String? phone,
+      String? weight,
+      String? height,
+      DateTime? dateOfBirth,
+      String? adress,
+      String? bloodType,
+      bool? alergic,
+      List<String>? surgery,
+      List<String>? cronicDesease})
       : _phone = phone,
         _location = location,
         _weight = weight,
@@ -80,10 +92,11 @@ class Patient extends UserOptimum {
         _surgery = surgery,
         _cronicDesease = cronicDesease,
         super(
-          uid: uid,
-          name: patientName,
-          lastName: patientLastName,
-          email: patientEmail);
+            uid: uid,
+            name: patientName,
+            lastName: patientLastName,
+            email: patientEmail,
+            urlPhoto: urlPhoto);
 
   String? getPhone() {
     return _phone;
@@ -109,11 +122,11 @@ class Patient extends UserOptimum {
     return _adress;
   }
 
-  int? getHeight() {
+  String? getHeight() {
     return _height;
   }
 
-  int? getWeight() {
+  String? getWeight() {
     return _weight;
   }
 
@@ -151,16 +164,11 @@ class Patient extends UserOptimum {
       _adress = adress;
   }
 
-  void setHeight(int? height) {
-    if (height == 0)
-      _height = null;
-    else
+  void setHeight(String? height) {
       _height = height;
   }
-  void setWeight(int? weight) {
-    if (weight == 0)
-      _weight = null;
-    else
+
+  void setWeight(String? weight) {
       _weight = weight;
   }
 
