@@ -41,11 +41,11 @@ class _DrHomeState extends State<DrHome> {
     final Size screenSize = MediaQuery.of(context).size;
     final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'home_page_dark' : 'home_page';
     return Scaffold(
-        body: StreamBuilder<Patient>(
-          stream: DatabaseService.userData,
+        body: StreamBuilder<Medecin>(
+          stream: DatabaseService.medData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              Patient? patient = snapshot.data;
+              Medecin? medecin = snapshot.data;
               return StreamProvider<List<UserOptimum>?>.value(
                 initialData: null,
                 value: DatabaseService.users,
@@ -66,7 +66,7 @@ class _DrHomeState extends State<DrHome> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => DrMenu(malade: patient,)),
+                                MaterialPageRoute(builder: (context) => DrMenu(malade: null,)),
                               );
                             }, // Menu button
                             child: Icon(
@@ -84,7 +84,7 @@ class _DrHomeState extends State<DrHome> {
                             children: <Widget>[
                               // UsersList(), get the users data (all users using this widget + the database model )
                               Text(
-                                'Hi, Dr.${patient!.getName()}!',
+                                'Hi, Dr.${medecin!.getName()}!',
                                 style: TextStyle(
                                   color: Color(0xFF66B3FF),
                                   fontSize: screenSize.width * 0.11,
