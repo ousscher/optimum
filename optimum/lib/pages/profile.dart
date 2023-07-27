@@ -12,9 +12,6 @@ import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
 import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
 import '../provider/theme_provider.dart';
 import 'editChanger.dart';
 
@@ -28,68 +25,19 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   @override
-
-  //le traitement d'image of user
-  File? _image;
-  final picker = ImagePicker();
-
-  Future getImageFromGallery() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('Aucune image sélectionnée.');
-      }
-    });
-    uploadImage();
-  }
-
-  Future<void> uploadImage() async {
-    if (_image != null) {
-      // Obtenir l'ID de l'utilisateur actuellement connecté, ou utilisez l'ID de l'utilisateur d'où vous obtenez les informations utilisateur
-      String userId = widget.patient!.getUid();
-
-      // Upload de l'image vers Firebase Storage
-      firebase_storage.Reference storageReference = firebase_storage
-          .FirebaseStorage.instance
-          .ref()
-          .child('profile_photos')
-          .child('$userId.jpg');
-
-      firebase_storage.UploadTask uploadTask =
-          storageReference.putFile(_image!);
-
-      await uploadTask;
-
-      // Récupérer l'URL de téléchargement de l'image
-      String photoURL = await storageReference.getDownloadURL();
-
-      // Mettre à jour l'utilisateur avec le nouvel URL de la photo de profil dans Firestore
-      setState(() {
-        widget.patient!.setUrlPhoto(photoURL);
-      });
-      print(widget.patient!.getUrlPhoto());
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .update({'profilePhotoURL': photoURL});
-    }
-  }
-  //------------------fin des fonctions d'images
-
   final user = AuthService.getAuth().currentUser;
 
   @override
   Widget build(BuildContext context) {
-    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light ? 'menu_dark' : 'menu';
+    final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
+        ? 'menu_dark'
+        : 'menu';
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/'+'$img'+'.png'),
+            image: AssetImage('assets/images/' + '$img' + '.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -104,7 +52,7 @@ class _ProfileState extends State<Profile> {
                           screenSize.height * 0.06, 0, 0),
                       child: FloatingActionButton(
                         onPressed: () {
-                          Navigator.pop(context , widget.patient);
+                          Navigator.pop(context, widget.patient);
                         }, // Menu button
                         child: Icon(
                           Icons.arrow_back_ios_new,
@@ -139,27 +87,21 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
-            InkWell(
-              onTap: () {
-                    getImageFromGallery();
-                  },
-              child: Container(
-                width: screenSize.width * 0.26,
-                height: screenSize.width * 0.26,
-                decoration: BoxDecoration(
-                  // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                  border: Border.all(
-                    width: 2.0,
-                    color: Color(0xFFD37777),
-                  ),
-                  shape: BoxShape.circle,
-                  image:DecorationImage(
-                    image: widget.patient!.getUrlPhoto() == null
-                    ? AssetImage('assets/images/profil_pic.png')
-                    :Image.network(widget.patient!.getUrlPhoto()!).image,
-                    fit: BoxFit.cover
-                  ),
+            Container(
+              width: screenSize.width * 0.26,
+              height: screenSize.width * 0.26,
+              decoration: BoxDecoration(
+                // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
+                border: Border.all(
+                  width: 2.0,
+                  color: Color(0xFFD37777),
                 ),
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: widget.patient!.getUrlPhoto() == null
+                        ? AssetImage('assets/images/profil_pic.png')
+                        : Image.network(widget.patient!.getUrlPhoto()!).image,
+                    fit: BoxFit.cover),
               ),
             ),
             SizedBox(
@@ -233,16 +175,11 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.02,
                                   ),
                                   Text(
-                                    (widget.patient!
-                                                    .getDateBirth()
-                                                    .toString() ==
-                                                "" ||
+                                    (widget.patient!.getDateBirth() == "" ||
                                             widget.patient!.getDateBirth() ==
                                                 null)
                                         ? "Not mentioned"
-                                        : widget.patient!
-                                            .getDateBirth()
-                                            .toString(),
+                                        : widget.patient!.getDateBirth()!,
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -310,7 +247,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   //-------------------------------------
-                  
+
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
@@ -342,7 +279,7 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                        widget.patient!.getBloodType() ??
+                                    widget.patient!.getBloodType() ??
                                         "Not mentioned",
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
@@ -369,8 +306,8 @@ class _ProfileState extends State<Profile> {
                                     (widget.patient!.getAlergic() == null)
                                         ? "Not mentioned"
                                         : (widget.patient!.getAlergic()!)
-                                        ? "alergic"
-                                        : "Not Alergic",
+                                            ? "alergic"
+                                            : "Not Alergic",
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -400,9 +337,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     (widget.patient!.getWeight() == null)
                                         ? "Not mentioned"
-                                        : (widget.patient!
-                                        .getWeight()
-                                        .toString() + " KG"),
+                                        : ("${widget.patient!.getWeight()}  KG"),
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -427,9 +362,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     (widget.patient!.getHeight() == null)
                                         ? "Not mentioned"
-                                        : (widget.patient!
-                                        .getHeight()
-                                        .toString() + " CM"),
+                                        : ("${widget.patient!.getHeight()}  CM"),
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -464,7 +397,8 @@ class _ProfileState extends State<Profile> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Column(
-                              children: [Row(
+                              children: [
+                                Row(
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/surgery_icon.png',
@@ -487,43 +421,65 @@ class _ProfileState extends State<Profile> {
                                 SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: (widget.patient!.getSurgery()!=null)?
-                              widget.patient!.getSurgery()!.map((item){
-                                return Column(
-                                  children: [
-                                    Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    item,
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: (widget.patient!.getSurgery() !=
+                                          null)
+                                      ? widget.patient!
+                                          .getSurgery()!
+                                          .map((item) {
+                                          return Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    screenSize.width * 0.085,
+                                                    0,
+                                                    0,
+                                                    0),
+                                                child: Text(
+                                                  item,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Oswald',
+                                                    fontSize:
+                                                        screenSize.height *
+                                                            0.02,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (item !=
+                                                  widget.patient!
+                                                      .getSurgery()!
+                                                      .last)
+                                                SizedBox(
+                                                  height:
+                                                      screenSize.height * 0.015,
+                                                ),
+                                            ],
+                                          );
+                                        }).toList()
+                                      : [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width * 0.05,
+                                              ),
+                                              Text(
+                                                "Not mentioned",
+                                                style: TextStyle(
+                                                  fontFamily: 'Oswald',
+                                                  fontSize:
+                                                      screenSize.height * 0.02,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                 ),
-                                if(item!=widget.patient!.getSurgery()!.last) SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                  ],
-                                );
-                              }).toList(): [Row(
-                                children: [
-                                  SizedBox(width: screenSize.width * 0.05 ,),
-                                  Text(
-                                    "Not mentioned",
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              )],
-                            ),],
+                              ],
                             ),
                             SizedBox(
                               width: screenSize.width * 0.15,
@@ -538,7 +494,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             Column(
                               children: [
-                                  Row(
+                                Row(
                                   children: <Widget>[
                                     Image.asset(
                                       'assets/images/disease_icon.png',
@@ -561,42 +517,64 @@ class _ProfileState extends State<Profile> {
                                 SizedBox(
                                   height: screenSize.height * 0.015,
                                 ),
-                            Column(
-                              children: (widget.patient!.getCronicDesease()!=null)?
-                              widget.patient!.getSurgery()!.map((item){
-                                return Column(
-                                  children: [
-                                    Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      screenSize.width * 0.085, 0, 0, 0),
-                                  child: Text(
-                                    item,
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
+                                Column(
+                                  children: (widget.patient!
+                                              .getCronicDesease() !=
+                                          null)
+                                      ? widget.patient!
+                                          .getSurgery()!
+                                          .map((item) {
+                                          return Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    screenSize.width * 0.085,
+                                                    0,
+                                                    0,
+                                                    0),
+                                                child: Text(
+                                                  item,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Oswald',
+                                                    fontSize:
+                                                        screenSize.height *
+                                                            0.02,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              if (item !=
+                                                  widget.patient!
+                                                      .getCronicDesease()!
+                                                      .last)
+                                                SizedBox(
+                                                  height:
+                                                      screenSize.height * 0.015,
+                                                ),
+                                            ],
+                                          );
+                                        }).toList()
+                                      : [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width * 0.03,
+                                              ),
+                                              Text(
+                                                "Not mentioned",
+                                                style: TextStyle(
+                                                  fontFamily: 'Oswald',
+                                                  fontSize:
+                                                      screenSize.height * 0.02,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                 ),
-                                if(item!=widget.patient!.getCronicDesease()!.last) SizedBox(
-                                  height: screenSize.height * 0.015,
-                                ),
-                                  ],
-                                );
-                              }).toList(): [Row(
-                                children: [
-                                  SizedBox(width: screenSize.width * 0.03 ,),
-                                  Text(
-                                    "Not mentioned",
-                                    style: TextStyle(
-                                      fontFamily: 'Oswald',
-                                      fontSize: screenSize.height * 0.02,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ],
-                              )],
-                            ),
                               ],
                             ),
                           ],
@@ -628,12 +606,13 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 onPressed: () async {
+                  print(widget.patient!.getBloodType());
                   Patient? p = await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => EditChanger(
-                          malade: widget.patient,
-                        )),
+                              malade: widget.patient,
+                            )),
                   );
                   if (p != null) {
                     setState(() {
