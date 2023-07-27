@@ -11,26 +11,27 @@ import '../DrApp/Dr_home_page.dart';
 
 class Wrapper extends StatefulWidget {
   Patient? patient;
-  Wrapper({
-    super.key,
-    this.patient
-  });
+  Wrapper({super.key, this.patient});
 
   @override
   State<Wrapper> createState() => _WrapperState();
 }
 
 class _WrapperState extends State<Wrapper> {
-  bool loading = true;
   User? utilisateur = AuthService.getAuth().currentUser;
+
   @override
   Widget build(BuildContext context) {
     if (utilisateur == null) {
       return Start();
-    } else {
+    } else {  
       if (utilisateur!.emailVerified) {
         //Creer l'instance de l'utilisateur avant de passer par le homeScreen
-        return Home(); //DrHome()
+        // verifier si c'est un medecin
+        print(utilisateur!.email);
+        return (utilisateur!.email == "lo_cherguelaine@esi.dz")
+            ? DrHome()
+            : Home();
       } else {
         utilisateur!.delete();
         return Start();

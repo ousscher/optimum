@@ -11,8 +11,16 @@ class DatabaseService {
   DatabaseService();
   static final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
+  static final CollectionReference medsCollections = FirebaseFirestore.instance.collection('meds');
   Future intialiseUserData(String name, String lastName, String email) async {
     return await usersCollection.doc(uid).set({
+      'name': name,
+      'lastname': lastName,
+      'email': email,
+    });
+  }
+  Future intialiseMedecinData(String name, String lastName, String email) async {
+    return await medsCollections.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
@@ -46,6 +54,9 @@ class DatabaseService {
   static Stream<Patient> get userData {
     return usersCollection.doc(uid).snapshots().map(userFromSnapshot);
   }
+  static Stream<Medecin> get medData {
+    return medsCollections.doc(uid).snapshots().map(medFromSnapshot);
+  }
 
   static Patient userFromSnapshot(DocumentSnapshot snapshot) {
     // Stream<DocumentSnapshot> snapshot = usersCollection.doc(uid).snapshots();
@@ -63,6 +74,15 @@ class DatabaseService {
       bloodType: (snapshot.data() as Map<dynamic, dynamic>)['bloodType'],
       alergic: (snapshot.data() as Map<dynamic, dynamic>)['allergic'],
 
+    );
+  }
+  static Medecin medFromSnapshot(DocumentSnapshot snapshot) {
+    // Stream<DocumentSnapshot> snapshot = usersCollection.doc(uid).snapshots();
+    return Medecin(
+      uid: uid,
+      name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
+      lastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
+      email: (snapshot.data() as Map<dynamic, dynamic>)['email'],
     );
   }
 

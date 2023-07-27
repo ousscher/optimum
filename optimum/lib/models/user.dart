@@ -179,11 +179,11 @@ class Patient extends UserOptimum {
 
 }
 
-// class Utilisateur {
-//   String _name;
-//   String _lastName;
-//   String _email;
-//   String _phone;
-//   int _weight;
-//   int _height;
-// }
+class Medecin extends UserOptimum{
+  Medecin({
+    required uid,
+    required String name,
+    required String lastName,
+    required String email,
+  }):super(email: email,lastName: lastName, name: name, uid: uid);
+}
