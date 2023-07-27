@@ -3,7 +3,7 @@ class UserOptimum {
   String _name;
   String _lastName;
   String _email;
-  String? _urlPhoto ;
+  String? _urlPhoto;
 
   UserOptimum({
     required String uid,
@@ -59,7 +59,7 @@ class Patient extends UserOptimum {
   String? _location;
   String? _weight;
   String? _height;
-  DateTime? _dateOfBirth;
+  String? _dateOfBirth;
   String? _adress;
   String? _bloodType;
   bool? _alergic;
@@ -75,7 +75,7 @@ class Patient extends UserOptimum {
       String? phone,
       String? weight,
       String? height,
-      DateTime? dateOfBirth,
+      String? dateOfBirth,
       String? adress,
       String? bloodType,
       bool? alergic,
@@ -102,7 +102,7 @@ class Patient extends UserOptimum {
     return _phone;
   }
 
-  DateTime? getDateBirth() {
+  String? getDateBirth() {
     return _dateOfBirth;
   }
 
@@ -148,11 +148,8 @@ class Patient extends UserOptimum {
       _phone = phone;
   }
 
-  void setDateBirth(DateTime? date) {
-    if (date == null)
-      _dateOfBirth = null;
-    else
-      _dateOfBirth = date;
+  void setDateBirth(String? date) {
+    _dateOfBirth = date;
   }
 
   void setAdress(String? adress) {
@@ -165,11 +162,19 @@ class Patient extends UserOptimum {
   }
 
   void setHeight(String? height) {
-      _height = height;
+    _height = height;
   }
 
   void setWeight(String? weight) {
-      _weight = weight;
+    _weight = weight;
+  }
+
+  void setBloodType(String? bloodType) {
+    _bloodType = bloodType;
+  }
+
+  void setAlergic(bool? alergic) {
+    _alergic = alergic;
   }
 
 }
