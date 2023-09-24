@@ -1,9 +1,11 @@
+
 class UserOptimum {
   String _uid;
   String _name;
   String _lastName;
   String _email;
   String? _urlPhoto;
+  String? _phone;
 
   UserOptimum({
     required String uid,
@@ -11,11 +13,13 @@ class UserOptimum {
     required String lastName,
     required String email,
     String? urlPhoto,
+    String? phone,
   })  : _uid = uid,
         _lastName = lastName,
         _name = name,
         _email = email,
-        _urlPhoto = urlPhoto;
+        _urlPhoto = urlPhoto,
+        _phone = phone;
 
   String getUid() {
     return this._uid;
@@ -33,8 +37,8 @@ class UserOptimum {
     return _email;
   }
 
-  String setName() {
-    return this._name;
+  void setName(String name) {
+    _name = name;
   }
 
   void setLastName(String lastName) {
@@ -52,10 +56,22 @@ class UserOptimum {
   void setUrlPhoto(String urlPhoto) {
     _urlPhoto = urlPhoto;
   }
+
+  String? getPhone() {
+    return _phone;
+  }
+
+  void setPhone(String? phone) {
+    if (phone == null)
+      _phone = phone;
+    else if (phone.isEmpty)
+      _phone = null;
+    else
+      _phone = phone;
+  }
 }
 
 class Patient extends UserOptimum {
-  String? _phone;
   String? _location;
   String? _weight;
   String? _height;
@@ -81,8 +97,7 @@ class Patient extends UserOptimum {
       bool? alergic,
       List<String>? surgery,
       List<String>? cronicDesease})
-      : _phone = phone,
-        _location = location,
+      : _location = location,
         _weight = weight,
         _height = height,
         _dateOfBirth = dateOfBirth,
@@ -97,10 +112,6 @@ class Patient extends UserOptimum {
             lastName: patientLastName,
             email: patientEmail,
             urlPhoto: urlPhoto);
-
-  String? getPhone() {
-    return _phone;
-  }
 
   String? getDateBirth() {
     return _dateOfBirth;
@@ -138,16 +149,19 @@ class Patient extends UserOptimum {
     return _cronicDesease;
   }
 
-  //les seteurs
-  void setPhone(String? phone) {
-    if (phone == null)
-      _phone = phone;
-    else if (phone.isEmpty)
-      _phone = null;
-    else
-      _phone = phone;
+  void addSurgery(String s) {
+    _surgery!.add(s);
   }
 
+  void addChronicDisease(String s) {
+    _cronicDesease!.add(s);
+  }
+
+  void setSurgery(List<String>? s) {
+    _surgery = s;
+  }
+
+  //les seteurs
   void setDateBirth(String? date) {
     _dateOfBirth = date;
   }
@@ -176,14 +190,59 @@ class Patient extends UserOptimum {
   void setAlergic(bool? alergic) {
     _alergic = alergic;
   }
-
 }
 
-class Medecin extends UserOptimum{
+class Medecin extends UserOptimum {
+  String? _specialite;
+  String? _attendence;
+  String? _professionalCreer;
   Medecin({
     required uid,
     required String name,
     required String lastName,
     required String email,
-  }):super(email: email,lastName: lastName, name: name, uid: uid);
+    String? specialite,
+    String? phone,
+    String? urlPhoto,
+    String? attendece,
+    String? professionalCreer,
+  })  : _specialite = specialite,
+        _attendence = attendece,
+        _professionalCreer = professionalCreer,
+        super(
+            email: email,
+            lastName: lastName,
+            name: name,
+            uid: uid,
+            phone: phone,
+            
+            urlPhoto: urlPhoto);
+  //les guetteurs et les seuteurs
+  String? getAttendence() {
+    return _attendence;
+  }
+
+  String? getProfessionalCarrer() {
+    return _professionalCreer;
+  }
+
+  void setAttendence(String? attendence) {
+    _attendence = attendence;
+  }
+
+  void setProfessionalCarrer(String? p) {
+    _professionalCreer = p;
+  }
+
+  String? getSpecialite() {
+    return _specialite;
+  }
+
+  void setSpecialite(String? sp) {
+    _specialite = sp;
+  }
+
+
+
+
 }

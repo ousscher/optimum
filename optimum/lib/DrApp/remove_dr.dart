@@ -65,10 +65,10 @@ class _RemovedrState extends State<Removedr> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DrProfile()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => DrProfile()),
+                      // );
                     },
                     child: Image.asset(
                       'assets/images/profil_pic.png',
