@@ -1,9 +1,11 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/contact.dart';
+import 'package:optimum/pages/medsList.dart';
 import 'package:optimum/pages/schedule.dart';
 import 'package:optimum/pages/users.dart';
 import 'package:optimum/services/auth.dart';
@@ -46,9 +48,9 @@ class _HomeState extends State<Home> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Patient? patient = snapshot.data;
-          return StreamProvider<List<UserOptimum>?>.value(
+          return StreamProvider<List<Medecin>?>.value(
             initialData: null,
-            value: DatabaseService.users,
+            value: DatabaseService.meds,
             child: Scaffold(
               body: Container(
                 decoration: BoxDecoration(
@@ -91,7 +93,8 @@ class _HomeState extends State<Home> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // UsersList(), get the users data (all users using this widget + the database model )
+                          // MedsList(),
+                          // UsersList(), get the users data ( users using this widget + the database model )
                           Text(
                             'Hi, ${patient!.getName()}!',
                             style: TextStyle(
@@ -161,7 +164,7 @@ class _HomeState extends State<Home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Schedule()),
+                                          builder: (context) => MedsList(patient: patient,)),
                                     );
                                   },
                                   child: Image.asset(
@@ -271,7 +274,9 @@ class _HomeState extends State<Home> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Bookinghistory()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Bookinghistory()),
                                     );
                                   },
                                   child: Image.asset(

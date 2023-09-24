@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,12 @@ class _ProfileState extends State<Profile> {
   final user = AuthService.getAuth().currentUser;
 
   @override
+  
   Widget build(BuildContext context) {
+    Future<Uint8List?> downloadImage(String imageUrl) async {
+    // Votre code de téléchargement d'image ici...
+
+  }
     final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
         ? 'menu_dark'
         : 'menu';
@@ -88,22 +94,16 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             Container(
-              width: screenSize.width * 0.26,
-              height: screenSize.width * 0.26,
-              decoration: BoxDecoration(
-                // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                border: Border.all(
-                  width: 2.0,
-                  color: Color(0xFFD37777),
-                ),
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: widget.patient!.getUrlPhoto() == null
-                        ? AssetImage('assets/images/profil_pic.png')
-                        : Image.network(widget.patient!.getUrlPhoto()!).image,
-                    fit: BoxFit.cover),
-              ),
-            ),
+                width: screenSize.width * 0.26,
+                height: screenSize.width * 0.26,
+                child:
+                  ClipOval(
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/images/profil_pic.png'), // Image de remplacement pendant le chargement.
+                      image: NetworkImage(widget.patient!.getUrlPhoto()!),
+                      fit: BoxFit.cover,
+                      ),
+                  ),),
             SizedBox(
               height: screenSize.height * 0.015,
             ),

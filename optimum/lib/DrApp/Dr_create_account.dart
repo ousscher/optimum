@@ -339,10 +339,11 @@ class _DrcreateaccountState extends State<Drcreateaccount> {
                               ),
                               onPressed: () async {
                                 //la validation avant la requete
-                                setState(() {
-                                  loading = true;
-                                });
+                                
                                 if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                  loading = true;
+                                  });
                                   dynamic result = await AuthService
                                       .registerWithEmailAndPasswd(
                                       email, password);

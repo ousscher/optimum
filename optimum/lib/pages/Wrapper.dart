@@ -24,14 +24,17 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     if (utilisateur == null) {
       return Start();
-    } else {  
+    } else {
       if (utilisateur!.emailVerified) {
         //Creer l'instance de l'utilisateur avant de passer par le homeScreen
         // verifier si c'est un medecin
         print(utilisateur!.email);
-        return (utilisateur!.email == "lo_cherguelaine@esi.dz")
-            ? DrHome()
-            : Home();
+        if (utilisateur!.email == "lo_cherguelaine@esi.dz") {
+          print("we are DRhome");
+          // utilisateur!.delete();
+          return DrHome();
+        } else
+          return Home();
       } else {
         utilisateur!.delete();
         return Start();

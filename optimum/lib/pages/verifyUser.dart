@@ -18,7 +18,8 @@ class VerifyUser extends StatefulWidget {
       {super.key,
       required this.name,
       required this.lastName,
-      required this.email});
+      required this.email, 
+      });
 
   @override
   State<VerifyUser> createState() => _VerifyUserState();
@@ -32,7 +33,7 @@ class _VerifyUserState extends State<VerifyUser> {
     user = FirebaseAuth.instance.currentUser!;
     user.sendEmailVerification();
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      verifyUser(widget.name, widget.lastName, widget.email);
+      verifyUser( widget.name, widget.lastName, widget.email);
     });
     super.initState();
   }
@@ -182,7 +183,8 @@ class _VerifyUserState extends State<VerifyUser> {
         //create a new user on firestore database
         print(user.email);
         if (user.email == "lo_cherguelaine@esi.dz")
-          await DatabaseService().intialiseMedecinData(name, lastName, email);
+          await DatabaseService()
+              .intialiseMedecinData(user.uid, name, lastName, email);
         else
           await DatabaseService().intialiseUserData(
               name, lastName, email); //initialise data of user

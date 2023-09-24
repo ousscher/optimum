@@ -456,7 +456,9 @@ class _EditmedicalState extends State<Editmedical> {
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: MyDropdownPagee(patient: widget.malade,),
+                                        child: MyDropdownPagee(
+                                          patient: widget.malade,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -720,8 +722,11 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
               Icons.arrow_drop_down_circle_outlined,
               color: Color(0xFFD37777),
             ),
-            hint: widget.patient!.getAlergic()==null?
-            Text('Not Metioned'): widget.patient!.getAlergic()=="Allergic" ? Text("Allergic"): Text("Not Allergic"),
+            hint: widget.patient!.getAlergic() == null
+                ? Text('Not Metioned')
+                : widget.patient!.getAlergic() == "Allergic"
+                    ? Text("Allergic")
+                    : Text("Not Allergic"),
           ),
         ),
       ),

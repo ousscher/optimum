@@ -223,7 +223,7 @@ class _EditpersonalState extends State<Editpersonal> {
                             if (_formKey.currentState!.validate()) {
                               Patient? p = Patient(
                                   uid: widget.malade!.getUid(),
-                                  patientName: nom,
+                                  patientName:  nom,
                                   patientLastName: prenom,
                                   urlPhoto: widget.malade!.getUrlPhoto(),
                                   patientEmail: widget.malade!.getEmail(),

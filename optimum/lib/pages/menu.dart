@@ -84,23 +84,35 @@ class _MenuState extends State<Menu> {
                     });
                   }
                   },
-              child: Container(
+               child: Container(
                 width: screenSize.width * 0.26,
                 height: screenSize.width * 0.26,
-                decoration: BoxDecoration(
-                  // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                  border: Border.all(
-                    width: 2.0,
-                    color: Color(0xFFD37777),
+                child:
+                  ClipOval(
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/images/profil_pic.png'), // Image de remplacement pendant le chargement.
+                      image: NetworkImage(widget.malade!.getUrlPhoto()!),
+                      fit: BoxFit.cover,
+                      ),
                   ),
-                  shape: BoxShape.circle,
-                  image:DecorationImage(
-                    image: widget.malade!.getUrlPhoto() == null
-                    ? AssetImage('assets/images/profil_pic.png')
-                    :Image.network(widget.malade!.getUrlPhoto()!).image,
-                    fit: BoxFit.cover
-                  ),
-                ),
+                
+              //   child: widget.malade!.getUrlPhoto() == null ?
+              //   AssetImage('assets/images/profil_pic.png'):
+              //   ,
+                // decoration: BoxDecoration(
+                //   // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
+                //   border: Border.all(
+                //     width: 2.0,
+                //     color: Color(0xFFD37777),
+                //   ),
+                //   shape: BoxShape.circle,
+                //   image:DecorationImage(
+                //     image: widget.malade!.getUrlPhoto() == null
+                //     ? AssetImage('assets/images/profil_pic.png')
+                //     :Image.network(widget.malade!.getUrlPhoto()!).image,
+                //     fit: BoxFit.cover
+                //   ),
+                // ),
               ),
             ),
             SizedBox(
