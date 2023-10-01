@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/pages/Wrapper.dart';
 import 'package:optimum/pages/resetEmail.dart';
@@ -13,11 +14,36 @@ class Sign extends StatefulWidget {
 }
 
 class _SignState extends State<Sign> {
+  List<String> doctorMails = [];
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String passwd = '';
   String error = '';
   bool loading = false;
+
+  Future<void> fetchData() async {
+    final firestore = FirebaseFirestore.instance;
+
+    try {
+      // Reference to the Firestore collection containing doctor data
+      final collectionReference = firestore.collection('listMedecins');
+
+      // Query the collection to get the list of doctor names
+      final querySnapshot = await collectionReference.get();
+
+      // Extract the doctor names from the query snapshot
+      final mails =
+          querySnapshot.docs.map((doc) => doc['email'] as String).toList();
+
+      // Update the state with the list of doctor names
+      setState(() {
+        doctorMails = mails;
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error fetching data: $e');
+    }
+  }
 
   String? validateEmail(String value) {
     value = value.trim();
@@ -35,6 +61,13 @@ class _SignState extends State<Sign> {
     }
     // Autres conditions de validation si nécessaire
     return null; // Retourne null si la validation réussit
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    fetchData();
+    super.initState();
   }
 
   @override
@@ -222,11 +255,11 @@ class _SignState extends State<Sign> {
                             ),
                             onPressed: () async {
                               //la validation de la requete
-                              
+
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
-                                loading = true;
-                              });
+                                  loading = true;
+                                });
                                 dynamic result =
                                     await AuthService.signInWithEmailAndPasswd(
                                         email, passwd);
@@ -240,7 +273,7 @@ class _SignState extends State<Sign> {
                                   Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Wrapper()),
+                                        builder: (context) => Wrapper(doctorsList: doctorMails,)),
                                     (Route<dynamic> route) =>
                                         false, // Supprime toutes les routes précédentes
                                   );

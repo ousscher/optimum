@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 import '../DrApp/Dr_home_page.dart';
 
 class Wrapper extends StatefulWidget {
-  Patient? patient;
-  Wrapper({super.key, this.patient});
+  List<String> doctorsList;
+  Wrapper({super.key , required this.doctorsList});
 
   @override
   State<Wrapper> createState() => _WrapperState();
@@ -29,14 +29,17 @@ class _WrapperState extends State<Wrapper> {
         //Creer l'instance de l'utilisateur avant de passer par le homeScreen
         // verifier si c'est un medecin
         print(utilisateur!.email);
-        if (utilisateur!.email == "lo_cherguelaine@esi.dz") {
+        if (widget.doctorsList.contains(utilisateur!.email)){
+        // if (utilisateur!.email == "lo_cherguelaine@esi.dz") {
           print("we are DRhome");
           // utilisateur!.delete();
           return DrHome();
-        } else
-          return Home();
+        } else{
+          // utilisateur!.delete();
+        return Home();
+        }
       } else {
-        utilisateur!.delete();
+        // utilisateur!.delete()  ;
         return Start();
       }
     }

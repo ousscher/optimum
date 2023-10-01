@@ -14,12 +14,12 @@ class VerifyUser extends StatefulWidget {
   String name;
   String lastName;
   String email;
-  VerifyUser(
-      {super.key,
-      required this.name,
-      required this.lastName,
-      required this.email, 
-      });
+  VerifyUser({
+    super.key,
+    required this.name,
+    required this.lastName,
+    required this.email,
+  });
 
   @override
   State<VerifyUser> createState() => _VerifyUserState();
@@ -28,14 +28,40 @@ class VerifyUser extends StatefulWidget {
 class _VerifyUserState extends State<VerifyUser> {
   late User user;
   late Timer timer;
+  List<String> doctorMails = [];
   @override
   void initState() {
+    fetchData();
     user = FirebaseAuth.instance.currentUser!;
     user.sendEmailVerification();
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      verifyUser( widget.name, widget.lastName, widget.email);
+      verifyUser(widget.name, widget.lastName, widget.email);
     });
     super.initState();
+  }
+
+  Future<void> fetchData() async {
+    final firestore = FirebaseFirestore.instance;
+
+    try {
+      // Reference to the Firestore collection containing doctor data
+      final collectionReference = firestore.collection('listMedecins');
+
+      // Query the collection to get the list of doctor names
+      final querySnapshot = await collectionReference.get();
+
+      // Extract the doctor names from the query snapshot
+      final mails =
+          querySnapshot.docs.map((doc) => doc['email'] as String).toList();
+
+      // Update the state with the list of doctor names
+      setState(() {
+        doctorMails = mails;
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error fetching data: $e');
+    }
   }
 
   @override
@@ -182,15 +208,23 @@ class _VerifyUserState extends State<VerifyUser> {
         timer.cancel();
         //create a new user on firestore database
         print(user.email);
-        if (user.email == "lo_cherguelaine@esi.dz")
-          await DatabaseService()
-              .intialiseMedecinData(user.uid, name, lastName, email);
-        else
-          await DatabaseService().intialiseUserData(
-              name, lastName, email); //initialise data of user
+        print("------------------------- la liste de nos medecins");
+        doctorMails.forEach((element) {
+          print(element);
+        });
+        if (doctorMails.contains(user.email)) {
+          print('doctor exists');
+        await DatabaseService()
+            .intialiseMedecinData(user.uid, name, lastName, email);
+        }
+        // if (user.email == "lo_cherguelaine@esi.dz")
+        else {
+        await DatabaseService().intialiseUserData(
+            name, lastName, email); //initialise data of user
+        }
         await Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Wrapper()),
+          MaterialPageRoute(builder: (context) => Wrapper(doctorsList: doctorMails,)),
           (Route<dynamic> route) =>
               false, // Supprime toutes les routes précédentes
         );
