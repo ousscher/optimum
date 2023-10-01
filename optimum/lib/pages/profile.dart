@@ -97,13 +97,14 @@ class _ProfileState extends State<Profile> {
                 width: screenSize.width * 0.26,
                 height: screenSize.width * 0.26,
                 child:
+                  (widget.patient!.getUrlPhoto() !=null)?
                   ClipOval(
                     child: FadeInImage(
                       placeholder: AssetImage('assets/images/profil_pic.png'), // Image de remplacement pendant le chargement.
-                      image: NetworkImage(widget.patient!.getUrlPhoto()!),
+                      image:NetworkImage(widget.patient!.getUrlPhoto()!)  ,
                       fit: BoxFit.cover,
                       ),
-                  ),),
+                  ):Image(image: AssetImage("assets/images/profil_pic.png"))),
             SizedBox(
               height: screenSize.height * 0.015,
             ),

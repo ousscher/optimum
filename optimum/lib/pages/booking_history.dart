@@ -18,7 +18,7 @@ class _BookinghistoryState extends State<Bookinghistory> {
     super.initState();
     // Start the timer to add a new surgery section every 10 seconds
     Timer.periodic(Duration(seconds: 10), (timer) {
-      addSurgerySection();
+      // addSurgerySection();
     });
   }
   void addSurgerySection() {
