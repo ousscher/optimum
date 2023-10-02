@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,11 @@ class _ScheduleState extends State<Schedule> {
     final medecinRef = FirebaseFirestore.instance
         .collection('meds')
         .doc(widget.medecin!.getUid());
+    final patientRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.patient!.getUid());
     final appointmentCollection = medecinRef.collection('appointments');
+    final appointmentCollection2 = patientRef.collection('appointments');
     appointmentCollection.snapshots().listen((QuerySnapshot snapshot) {
       // Ici, on traite les modifications
       //ici se fera la mise à jour du front
@@ -202,7 +207,7 @@ class _ScheduleState extends State<Schedule> {
                             height: screenSize.height * 0.001,
                           ),
                           Text(
-                            'Cardiologist',
+                            widget.medecin!.getSpecialite() ?? 'Doctor',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: screenSize.width * 0.03,
@@ -373,6 +378,21 @@ class _ScheduleState extends State<Schedule> {
                         child: (isExistAppoinmentMorning(index))? 
                         ElevatedButton(
                           onPressed: () {
+                            final snackBar = SnackBar(
+                              elevation: 0,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              content: AwesomeSnackbarContent(
+                                title: 'Oupsss!',
+                                message:
+                                'SORRY, this appointment has been already taken!',
+                                contentType: ContentType.warning,
+                              ),
+                            );
+
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar);
                           },
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all<double>(1),
@@ -457,6 +477,21 @@ class _ScheduleState extends State<Schedule> {
                         child: (isExistAppoinmentAfternoon(index2))? 
                         ElevatedButton(
                           onPressed: () {
+                            final snackBar = SnackBar(
+                              elevation: 0,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              content: AwesomeSnackbarContent(
+                                title: 'Oupsss!',
+                                message:
+                                'SORRY, this appointment has been already taken!',
+                                contentType: ContentType.warning,
+                              ),
+                            );
+
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar);
                           },
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all<double>(1),
@@ -537,7 +572,21 @@ class _ScheduleState extends State<Schedule> {
                             onPressed: () {
                               //on recupere l'heure de debut et de fin
                               //on fait l'exemple avec 08.00
+                              final snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                content: AwesomeSnackbarContent(
+                                  title: 'Success!',
+                                  message:
+                                  'Your appointment has been taken successfully!',
+                                  contentType: ContentType.success,
+                                ),
+                              );
 
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar);
                               if (selectedIndex != -1) {
                                 Map<String, dynamic> appoinment = {
                                   'idClient': widget.patient!.getUid(),
@@ -551,6 +600,7 @@ class _ScheduleState extends State<Schedule> {
                                 if (!existAppoinments) {
                                   setState(() {
                                     appointmentCollection.add(appoinment);
+                                    appointmentCollection2.add(appoinment);
                                     appoinmentsList.add(appoinment);
                                     selectedIndex = -1;
                                   });

@@ -56,6 +56,14 @@ class DatabaseService {
         .map((event) => appoinmentListFromSnapshot(event));
   }
 
+  static Stream<List<Map<String, dynamic>?>> get appoinmentsPatient {
+    final userRefernce = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid);
+    return userRefernce.collection('appointments')
+        .snapshots()
+        .map((event) => appoinmentListFromSnapshot(event));
+  }
   //----------------------------------------------------
 
   static List<UserOptimum> userListFromSnapshot(QuerySnapshot snapshot) {
@@ -89,6 +97,10 @@ class DatabaseService {
         lastName: data?['lastname'] ?? '',
         email: data?['email'] ?? '',
         urlPhoto: data?['profilePhotoURL'],
+        professionalCreer: data?['professionalCarrer'],
+        phone: data?['phone'],
+        specialite: data?['specialite'],
+        attendece:  data?['attendence'],
         // calender: data?['calender'] ?? Calender(),
         // calender: Calender(),
         // calender:

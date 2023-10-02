@@ -1,5 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../models/user.dart';
+import '../services/database.dart';
+
+
+class MedsListt extends StatefulWidget {
+
+  MedsListt({super.key});
+
+  @override
+  State<MedsListt> createState() => _MedsListState();
+}
+
+class _MedsListState extends State<MedsListt> {
+  @override
+  Widget build(BuildContext context) {
+    return StreamProvider<List<Medecin>?>.value(
+      initialData: null,
+      value: DatabaseService.meds,
+      child: Doctors(),
+    );
+  }
+}
 
 class Doctors extends StatefulWidget {
   const Doctors({super.key});
@@ -11,13 +35,18 @@ class Doctors extends StatefulWidget {
 class _DoctorsState extends State<Doctors> {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
-  final List<Widget> _pages = [
-    const DoctorOne(),
-    const DoctorTwo(),
-    const DoctorThree(),
-  ];
+  final List<Widget> _pages = [];
   @override
   Widget build(BuildContext context) {
+    final medecins = Provider.of<List<Medecin>?>(context);
+    print(medecins);
+    if (medecins != null) {
+      medecins.forEach((element) {
+        setState(() {
+          _pages.add(DoctorOne(medecin: element));
+        });
+      });
+    }
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -64,11 +93,19 @@ class _DoctorsState extends State<Doctors> {
 }
 
 class DoctorOne extends StatelessWidget {
-  const DoctorOne({super.key});
+  Medecin? medecin;
+   DoctorOne({super.key, required this.medecin});
 
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+    print(medecin!.getName());
+    print(medecin!.getLastName());
+    print(medecin!.getEmail());
+    print(medecin!.getPhone());
+    print(medecin!.getProfessionalCarrer());
+    print(medecin!.getSpecialite());
+    print(medecin!.getAttendence());
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -112,7 +149,7 @@ class DoctorOne extends StatelessWidget {
                             }
                             final Uri emailUri = Uri(
                               scheme: 'mailto',
-                              path: 'lm_soltani@esi.dz',
+                              path: '${medecin!.getEmail()}',
                               query: encodeQueryParameters(<String, String>{
                                 'subject': 'Patient Question',
                               }),
@@ -151,7 +188,7 @@ class DoctorOne extends StatelessWidget {
 
                           final Uri phoneUri = Uri(
                             scheme: 'tel',
-                            path: '0796698970',
+                            path: '${medecin!.getPhone()}',
                           );
                           try{
                             await launchUrl(phoneUri);
@@ -193,7 +230,7 @@ class DoctorOne extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Dr. Soltani Amine',
+                        'Dr. ${medecin!.getName()} ${medecin!.getLastName()}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: screenSize.height * 0.035,
@@ -204,7 +241,7 @@ class DoctorOne extends StatelessWidget {
                       ),
                       SizedBox(height: screenSize.height * 0.003,),
                       Text(
-                        'Cardiologist',
+                        medecin!.getSpecialite() ?? 'Doctor',
                         style: TextStyle(
                           color: Color(0xFFD9D9D9),
                           fontSize: screenSize.height * 0.02,
@@ -261,23 +298,7 @@ class DoctorOne extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                    style: TextStyle(
-                                      color: Color(0xFFD9D9D9),
-                                      fontSize: screenSize.height * 0.015,
-                                      letterSpacing: 1.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                    style: TextStyle(
-                                      color: Color(0xFFD9D9D9),
-                                      fontSize: screenSize.height * 0.015,
-                                      letterSpacing: 1.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
+                                    '${medecin!.getProfessionalCarrer()}',
                                     style: TextStyle(
                                       color: Color(0xFFD9D9D9),
                                       fontSize: screenSize.height * 0.015,
@@ -298,11 +319,11 @@ class DoctorOne extends StatelessWidget {
                           width: screenSize.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: Color(0xFF00CC66),
+                            color: (medecin!.getAttendence() == 'present')? Color(0xFF00CC66) : Colors.red,
                           ),
                           child: Center(
                             child: Text(
-                              'Present',
+                              medecin!.getAttendence() ?? 'Default',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: screenSize.height * 0.023,
@@ -324,529 +345,5 @@ class DoctorOne extends StatelessWidget {
         ),
         ),
       );
-  }
-}
-class DoctorTwo extends StatelessWidget {
-  const DoctorTwo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/drremp.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.06, screenSize.width * 0.7, 0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: Color(0xFFD37777),
-                ),
-                backgroundColor: Theme.of(context).shadowColor,
-              ),
-            ),
-            SizedBox(height: screenSize.height * 0.295,),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, screenSize.width * 0.07, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    width: screenSize.width * 0.15,
-                    height: screenSize.width * 0.15,
-                    child: TextButton(
-                      onPressed: () async {
-                        String? encodeQueryParameters(Map<String, String> params) {
-                          return params.entries
-                              .map((MapEntry<String, String> e) =>
-                          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                              .join('&');
-                        }
-                        final Uri emailUri = Uri(
-                          scheme: 'mailto',
-                          path: 'soltaniamine154@gmail.com',
-                          query: encodeQueryParameters(<String, String>{
-                            'subject': 'Patient Question',
-                          }),
-                        );
-                        try{
-                          await launchUrl(emailUri);
-                        }catch(e){
-                          print(e.toString());
-                        }
-                      },
-                      child:Image.asset(
-                        'assets/images/email_icon.png',
-                        width: screenSize.width * 0.1 ,
-                        height: screenSize.height * 0.1 ,
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            return Theme.of(context).shadowColor;
-                          },
-                        ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width * 0.04,),
-                  Container(
-                    width: screenSize.width * 0.15,
-                    height: screenSize.width * 0.15,
-                    child: TextButton(
-                      onPressed: () async {
-
-                        final Uri phoneUri = Uri(
-                          scheme: 'tel',
-                          path: '0734665501',
-                        );
-                        try{
-                          await launchUrl(phoneUri);
-                        }catch(e){
-                          print(e.toString());
-                        }
-                      },
-                      child: Image.asset(
-                        'assets/images/phone_icon.png',
-                        width: screenSize.width * 0.07 ,
-                        height: screenSize.height * 0.07 ,
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            return Theme.of(context).shadowColor;
-                          },
-                        ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: screenSize.height * 0.03,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                    Icons.chevron_left_sharp,
-                    color: Color(0xFFD37777),
-                  ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Dr. Elizabeth Blackwell',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenSize.height * 0.035,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Oswald',
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * 0.003,),
-                    Text(
-                      'Cardiologist',
-                      style: TextStyle(
-                        color: Color(0xFFD9D9D9),
-                        fontSize: screenSize.height * 0.02,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * 0.011,),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenSize.height * 0.03,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'About',
-                          style: TextStyle(
-                            color: Color(0xFFD9D9D9),
-                            fontSize: screenSize.height * 0.025,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        SizedBox(height: screenSize.height * 0.01,),
-                        Container(
-                          height: screenSize.height * 0.12,
-                          width: screenSize.width * 0.8,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontSize: screenSize.height * 0.015,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                                Text(
-                                  '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontSize: screenSize.height * 0.015,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                                Text(
-                                  '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontSize: screenSize.height * 0.015,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenSize.height * 0.03,),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(screenSize.width * 0.2, 0, 0, 0),
-                      child: Container(
-                        height: screenSize.height * 0.06,
-                        width: screenSize.width * 0.4,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.red,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Absent',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenSize.height * 0.023,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: screenSize.width * 0.02,),
-                Icon(
-                    Icons.navigate_next_sharp,
-                    color: Color(0xFFD37777),
-                  ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-class DoctorThree extends StatelessWidget {
-  const DoctorThree({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/drrem.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, screenSize.height * 0.06, screenSize.width * 0.7, 0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: Color(0xFFD37777),
-                ),
-                backgroundColor: Theme.of(context).shadowColor,
-              ),
-            ),
-            SizedBox(height: screenSize.height * 0.295,),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, screenSize.width * 0.07, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    width: screenSize.width * 0.15,
-                    height: screenSize.width * 0.15,
-                    child: TextButton(
-                      onPressed: () async {
-                        String? encodeQueryParameters(Map<String, String> params) {
-                          return params.entries
-                              .map((MapEntry<String, String> e) =>
-                          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                              .join('&');
-                        }
-                        final Uri emailUri = Uri(
-                          scheme: 'mailto',
-                          path: 'lo_cherguelaine@esi.dz',
-                          query: encodeQueryParameters(<String, String>{
-                            'subject': 'Patient Question',
-                          }),
-                        );
-                        try{
-                          await launchUrl(emailUri);
-                        }catch(e){
-                          print(e.toString());
-                        }
-                      },
-                      child:Image.asset(
-                        'assets/images/email_icon.png',
-                        width: screenSize.width * 0.1 ,
-                        height: screenSize.height * 0.1 ,
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            return Theme.of(context).shadowColor;
-                          },
-                        ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width * 0.04,),
-                  Container(
-                    width: screenSize.width * 0.15,
-                    height: screenSize.width * 0.15,
-                    child: TextButton(
-                      onPressed: () async {
-
-                        final Uri phoneUri = Uri(
-                          scheme: 'tel',
-                          path: '0675729683',
-                        );
-                        try{
-                          await launchUrl(phoneUri);
-                        }catch(e){
-                          print(e.toString());
-                        }
-                      },
-                      child: Image.asset(
-                        'assets/images/phone_icon.png',
-                        width: screenSize.width * 0.07 ,
-                        height: screenSize.height * 0.07 ,
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            return Theme.of(context).shadowColor;
-                          },
-                        ),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: screenSize.height * 0.03,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                    Icons.chevron_left_sharp,
-                    color: Color(0xFFD37777),
-                  ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Dr. Cherguelaine Oussama',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenSize.height * 0.035,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Oswald',
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * 0.003,),
-                    Text(
-                      'Cardiologist',
-                      style: TextStyle(
-                        color: Color(0xFFD9D9D9),
-                        fontSize: screenSize.height * 0.02,
-                      ),
-                    ),
-                    SizedBox(height: screenSize.height * 0.011,),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Color(0xFFD37777),
-                        ),
-                        SizedBox(width: screenSize.width * 0.005,),
-                        Icon(
-                          Icons.star,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenSize.height * 0.03,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'About',
-                          style: TextStyle(
-                            color: Color(0xFFD9D9D9),
-                            fontSize: screenSize.height * 0.025,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        SizedBox(height: screenSize.height * 0.01,),
-                        Container(
-                          height: screenSize.height * 0.12,
-                          width: screenSize.width * 0.8,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontSize: screenSize.height * 0.015,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                                Text(
-                                  '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontSize: screenSize.height * 0.015,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                                Text(
-                                  '  La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application et des plateformes.',
-                                  style: TextStyle(
-                                    color: Color(0xFFD9D9D9),
-                                    fontSize: screenSize.height * 0.015,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: screenSize.height * 0.03,),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(screenSize.width * 0.2, 0, 0, 0),
-                      child: Container(
-                        height: screenSize.height * 0.06,
-                        width: screenSize.width * 0.4,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.red,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Absent',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenSize.height * 0.023,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: screenSize.width * 0.02,),
-                Icon(
-                    Icons.navigate_next_sharp,
-                    color: Color(0xFFD37777),
-                  ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

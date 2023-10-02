@@ -18,7 +18,6 @@ class BookingsList extends StatefulWidget {
 class _BookingsListState extends State<BookingsList> {
   @override
   Widget build(BuildContext context) {
-    DatabaseService databaseServiceMedecin = DatabaseService();
     return StreamProvider<List<Map<String, dynamic>?>?>.value(
       initialData: null,
       value: DatabaseService.appoinments,
