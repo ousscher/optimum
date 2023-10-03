@@ -82,13 +82,13 @@ class _ListMedecinState extends State<ListMedecin> {
                   ),
                 ),
                 SizedBox(
-                  width: screenSize.width * 0.07,
+                  width: screenSize.width * 0.19,
                 ),
                 Padding(
                   padding:
                       EdgeInsets.fromLTRB(0, screenSize.height * 0.045, 0, 0),
                   child: Text(
-                    'Discover our doctors',
+                    'Doctors',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: screenSize.width * 0.06,
@@ -114,7 +114,7 @@ class _ListMedecinState extends State<ListMedecin> {
               height: screenSize.height * 0.007,
             ),
             Text(
-              'Our doctors',
+              'Discover our doctors',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: screenSize.height * 0.03,
@@ -162,7 +162,7 @@ class CardMedecin extends StatelessWidget {
     print(medecin!.getAttendence());
     print(medecin!.getEmail());
     return Container(
-      height: screenSize.height * 0.2,
+      height: screenSize.height * 0.3,
       width: screenSize.width * 0.93,
       child: InkWell(
         onTap: () {
@@ -172,23 +172,17 @@ class CardMedecin extends StatelessWidget {
                 builder: (context) => Schedule(patient: patient,medecin: medecin,),
               ));
         },
-        child: Card(
-          color: Theme.of(context).shadowColor,
-          elevation: 1.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(screenSize.width * 0.1),
-            side: BorderSide(
-              color: Color(0xFF70A4EA),
-              width: 2.0,
-            ),
-          ),
-          child: Row(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: screenSize.width * 0.2,
-                height: screenSize.width * 0.2,
+                width: screenSize.width * 0.4,
+                height: screenSize.width * 0.4,
                 decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color(0xFF70A4EA),
+                    width: 3.0,
+                  ),
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: medecin!.getUrlPhoto() == null
@@ -198,14 +192,10 @@ class CardMedecin extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: screenSize.width * 0.055,
+                height: screenSize.height * 0.01,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    '${medecin!.getName()} ${medecin!.getLastName()}',
+              Text(
+                    'Dr. ${medecin!.getName()} ${medecin!.getLastName()}',
                     style: TextStyle(
                       color: Color(0xFF70A4EA),
                       fontFamily: 'Oswald',
@@ -213,91 +203,8 @@ class CardMedecin extends StatelessWidget {
                       letterSpacing: 1.0,
                     ),
                   ),
-                  Text(
-                    medecin!.getSpecialite() ?? '',
-                    style: TextStyle(
-                      color: Color(0xFF70A4EA),
-                      fontFamily: 'Oswald',
-                      fontSize: screenSize.width * 0.045,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                  Text(
-                    medecin!.getAttendence() ?? '',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontFamily: 'Poppins',
-                      fontSize: screenSize.width * 0.04,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Status:',
-                        style: TextStyle(
-                          color: Color(0xFFD9D9D9),
-                          fontFamily: 'Oswald',
-                          fontSize: screenSize.width * 0.04,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                      SizedBox(
-                        width: screenSize.width * 0.04,
-                      ),
-                      Text(
-                        'On Time',
-                        style: TextStyle(
-                          color: Color(0xFFD37777),
-                          fontFamily: 'Poppins',
-                          fontSize: screenSize.width * 0.04,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenSize.height * 0.015,
-                  ),
-                  // shouldShowCancelButton
-                  //     ? Container(
-                  //         width: screenSize.width * 0.35,
-                  //         height: screenSize.height * 0.04,
-                  //         child: TextButton(
-                  //           style: ButtonStyle(
-                  //             backgroundColor:
-                  //                 MaterialStateProperty.resolveWith<Color>(
-                  //               (Set<MaterialState> states) {
-                  //                 return Color(0xFFD37777);
-                  //               },
-                  //             ),
-                  //             shape: MaterialStateProperty.all<
-                  //                 RoundedRectangleBorder>(
-                  //               RoundedRectangleBorder(
-                  //                 borderRadius: BorderRadius.circular(
-                  //                     screenSize.width * 0.1),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           onPressed: () {},
-                  //           child: Text(
-                  //             'Cancel',
-                  //             style: TextStyle(
-                  //               color: Colors.white,
-                  //               fontFamily: 'Oswald',
-                  //               letterSpacing: 1.0,
-                  //               fontSize: screenSize.height * 0.015,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       )
-                  //     : SizedBox(),
-                ],
-              ),
             ],
           ),
-        ),
       ),
     );
   }

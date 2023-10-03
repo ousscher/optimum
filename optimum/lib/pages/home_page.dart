@@ -329,7 +329,7 @@ class _HomeState extends State<Home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Doctors()),
+                                          builder: (context) => MedsListt()),
                                     );
                                   },
                                   child: Image.asset(
