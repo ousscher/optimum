@@ -36,8 +36,6 @@ class Bookinghistory extends StatefulWidget {
 class _BookinghistoryState extends State<Bookinghistory> {
   List<Widget> appoinmentsWidgets = [];
   @override
-
-
   /*void _deleteSurgerySection() {
     setState(() {
       // Use the removeLast() method to remove the last card from the list

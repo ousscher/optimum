@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:optimum/models/clinic.dart';
 import 'package:optimum/models/user.dart';
 
 class DatabaseService {
@@ -13,6 +14,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('users');
   static final CollectionReference medsCollections =
       FirebaseFirestore.instance.collection('meds');
+  static final CollectionReference clinicCollection =
+      FirebaseFirestore.instance.collection('clinic');
   Future intialiseUserData(String name, String lastName, String email) async {
     return await usersCollection.doc(uid).set({
       'name': name,
@@ -48,10 +51,10 @@ class DatabaseService {
   //users list from a snapshot
 
   static Stream<List<Map<String, dynamic>?>> get appoinments {
-    final medecinReference = FirebaseFirestore.instance
-        .collection('meds')
-        .doc(uid);
-    return medecinReference.collection('appointments')
+    final medecinReference =
+        FirebaseFirestore.instance.collection('meds').doc(uid);
+    return medecinReference
+        .collection('appointments')
         .snapshots()
         .map((event) => appoinmentListFromSnapshot(event));
   }
@@ -118,7 +121,6 @@ class DatabaseService {
   }
 
   //appoinment card
-
 
 //get user snapshot
   static Stream<Patient> get userData {
@@ -295,6 +297,43 @@ class DatabaseService {
       await FirebaseFirestore.instance
           .collection('meds')
           .doc(medecin.getUid())
+          .update(dataToUpdate);
+      print('Mise à jour réussie');
+    } catch (e) {
+      print('Erreur lors de la mise à jour : $e');
+    }
+  }
+
+  static Stream<Clinic> get clinicData {
+    return clinicCollection
+        .doc("4vWaNsKXtDBNEar4FvUZ")
+        .snapshots()
+        .map((event) {
+      return Clinic(
+          email: (event.data() as Map<dynamic, dynamic>)['email']??"",
+          phone: (event.data() as Map<dynamic, dynamic>)['phone']??"",
+          adress: (event.data() as Map<dynamic, dynamic>)['adress']??"",
+          facebookAccount: (event.data() as Map<dynamic, dynamic>)['facebookAccount']??"",
+          locationLink: (event.data() as Map<dynamic, dynamic>)['locationLink']??"",
+          instaAccount: (event.data() as Map<dynamic, dynamic>)['instaAccount']??"");
+    });
+  }
+
+    static Future<void> updateClinic(Clinic? clinic) async {
+    try {
+      // Créez un Map pour stocker les données à mettre à jour
+      final Map<String, dynamic> dataToUpdate = {};
+      dataToUpdate['adress'] = clinic!.getAdress();
+      dataToUpdate['email'] = clinic.getEmail();
+      dataToUpdate['facebookAccount'] = clinic.getFacebookAccount();
+      dataToUpdate['instaAccount'] = clinic.getInstaAccount();
+      dataToUpdate['locationLink'] = clinic.getLocationLink();
+      dataToUpdate['phone'] = clinic.getPhone();
+
+      
+
+      await clinicCollection
+          .doc("4vWaNsKXtDBNEar4FvUZ")
           .update(dataToUpdate);
       print('Mise à jour réussie');
     } catch (e) {

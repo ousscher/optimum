@@ -77,6 +77,7 @@ class _HomeState extends State<Home> {
                             setState(() {
                               patient = p;
                             });
+                            
                           }
                         }, // Menu button
                         child: Icon(

@@ -48,7 +48,7 @@ class _DrHomeState extends State<DrHome> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Medecin? medecin = snapshot.data;
-          print(medecin!.getName());
+          
           return StreamProvider<List<UserOptimum>?>.value(
             initialData: null,
             value: DatabaseService.users,
@@ -91,7 +91,7 @@ class _DrHomeState extends State<DrHome> {
                         children: <Widget>[
                           // UsersList(), get the users data (all users using this widget + the database model )
                           Text(
-                            'Hi, Dr.${medecin.getName()}!',
+                            'Hi, Dr.${medecin!.getName()}!',
                             style: TextStyle(
                               color: Color(0xFF66B3FF),
                               fontSize: screenSize.width * 0.11,
@@ -319,7 +319,6 @@ class _DrHomeState extends State<DrHome> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    print(medecin!.getUrlPhoto());
                                     Medecin? m = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -330,7 +329,6 @@ class _DrHomeState extends State<DrHome> {
                                     if (m != null) {
                                       setState(() {
                                         medecin = m;
-                                        print("done");
                                       });
                                     }
                                   },

@@ -87,14 +87,14 @@ class _MenuState extends State<Menu> {
                child: Container(
                 width: screenSize.width * 0.26,
                 height: screenSize.width * 0.26,
-                child:
+                child: (widget.malade!.getUrlPhoto() !=null)?
                   ClipOval(
                     child: FadeInImage(
                       placeholder: AssetImage('assets/images/profil_pic.png'), // Image de remplacement pendant le chargement.
-                      image: NetworkImage(widget.malade!.getUrlPhoto()!),
+                      image:NetworkImage(widget.malade!.getUrlPhoto()!)  ,
                       fit: BoxFit.cover,
                       ),
-                  ),
+                  ):Image(image: AssetImage("assets/images/profil_pic.png"))
                 
               //   child: widget.malade!.getUrlPhoto() == null ?
               //   AssetImage('assets/images/profil_pic.png'):
