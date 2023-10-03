@@ -10,16 +10,15 @@ import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
 import 'package:intl/intl.dart';
 
-class Schedule extends StatefulWidget {
+class ScheduleDoctor extends StatefulWidget {
   Medecin? medecin;
-  Patient? patient;
-  Schedule({super.key, required this.medecin, required this.patient});
+  ScheduleDoctor({super.key, required this.medecin});
 
   @override
-  State<Schedule> createState() => _ScheduleState();
+  State<ScheduleDoctor> createState() => _ScheduleDoctorState();
 }
 
-class _ScheduleState extends State<Schedule> {
+class _ScheduleDoctorState extends State<ScheduleDoctor> {
   String selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
   int selectedIndex = -1;
   int selectedIndex2 = -1;
@@ -79,7 +78,7 @@ class _ScheduleState extends State<Schedule> {
   Widget build(BuildContext context) {
     bool isExistAppoinmentMorning(int index) {
       Map<String, dynamic> appoinment = {
-        'idClient': widget.patient!.getUid(),
+        'idClient': "",
         'date': selectedDate,
         'hour': Morning[index],
       };
@@ -94,7 +93,7 @@ class _ScheduleState extends State<Schedule> {
 
     bool isExistAppoinmentAfternoon(int index) {
       Map<String, dynamic> appoinment = {
-        'idClient': widget.patient!.getUid(),
+        'idClient': "",
         'date': selectedDate,
         'hour': Afternoon[index],
       };
@@ -110,11 +109,7 @@ class _ScheduleState extends State<Schedule> {
     final medecinRef = FirebaseFirestore.instance
         .collection('meds')
         .doc(widget.medecin!.getUid());
-    final patientRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.patient!.getUid());
     final appointmentCollection = medecinRef.collection('appointments');
-    final appointmentCollection2 = patientRef.collection('appointments');
     appointmentCollection.snapshots().listen((QuerySnapshot snapshot) {
       // Ici, on traite les modifications
       //ici se fera la mise à jour du front
@@ -579,7 +574,7 @@ class _ScheduleState extends State<Schedule> {
 
                               if (selectedIndex != -1) {
                                 Map<String, dynamic> appoinment = {
-                                  'idClient': widget.patient!.getUid(),
+                                  'idClient': "",
                                   'date': selectedDate,
                                   'hour': Morning[selectedIndex],
                                 };
@@ -590,7 +585,6 @@ class _ScheduleState extends State<Schedule> {
                                 if (!existAppoinments) {
                                   setState(() {
                                     appointmentCollection.add(appoinment);
-                                    appointmentCollection2.add(appoinment);
                                     appoinmentsList.add(appoinment);
                                     selectedIndex = -1;
                                     final snackBar = SnackBar(
@@ -613,7 +607,7 @@ class _ScheduleState extends State<Schedule> {
                               } else {
                                 if (selectedIndex2 != -1) {
                                   Map<String, dynamic> appoinment = {
-                                    'idClient': widget.patient!.getUid(),
+                                    'idClient': "",
                                     'date': selectedDate,
                                     'hour': Afternoon[selectedIndex2],
                                   };
@@ -627,7 +621,6 @@ class _ScheduleState extends State<Schedule> {
                                     setState(() {
                                       appointmentCollection.add(appoinment);
                                       appoinmentsList.add(appoinment);
-                                      appointmentCollection2.add(appoinment);
                                       selectedIndex2 = -1;
                                       final snackBar = SnackBar(
                                         elevation: 0,

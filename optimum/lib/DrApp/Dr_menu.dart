@@ -86,8 +86,9 @@ class _DrMenuState extends State<DrMenu> {
                   SizedBox(
                     height: screenSize.height * 0.005,
                   ),
-                  (utilisateur!.email == "lo_cherguelaine@esi.dz")
-                      ? Column(
+                  // (utilisateur!.email == "lo_cherguelaine@esi.dz")
+                      // ?
+                      Column(
                           children: [
                             Divider(
                               height: screenSize.height * 0.01,
@@ -143,8 +144,8 @@ class _DrMenuState extends State<DrMenu> {
                               height: screenSize.height * 0.005,
                             ),
                           ],
-                        )
-                      : Container(),
+                        ),
+                      // : Container(),
                   Divider(
                     height: screenSize.height * 0.01,
                     color: Colors.grey[500],

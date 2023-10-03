@@ -340,4 +340,17 @@ class DatabaseService {
       print('Erreur lors de la mise à jour : $e');
     }
   }
+
+  static Future<void> deleteDocumentByFieldValue(String valueToDelete) async {
+  try {
+    CollectionReference collection = FirebaseFirestore.instance.collection("listMedecins");
+
+    QuerySnapshot querySnapshot = await collection.where("email", isEqualTo: valueToDelete).get();
+    for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+      await documentSnapshot.reference.delete();
+    }
+  } catch (e) {
+    print('Erreur lors de la suppression : $e');
+  }
+}
 }

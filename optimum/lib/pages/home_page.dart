@@ -277,7 +277,7 @@ class _HomeState extends State<Home> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Bookinghistory()),
+                                              BookingsListTwo()),
                                     );
                                   },
                                   child: Image.asset(

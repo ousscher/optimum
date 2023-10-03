@@ -86,23 +86,17 @@ class _DrProfileState extends State<DrProfile> {
               ],
             ),
                 Container(
-                  width: screenSize.width * 0.26,
-                  height: screenSize.width * 0.26,
-                  decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(screenSize.width * 0.15),
-                    border: Border.all(
-                      width: 2.0,
-                      color: Color(0xFFD37777),
-                    ),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: widget.medecin!.getUrlPhoto() == null
-                            ? AssetImage('assets/images/profil_pic.png')
-                            : Image.network(widget.medecin!.getUrlPhoto()!)
-                                .image,
-                        fit: BoxFit.cover),
-                  ),
-                ),
+                width: screenSize.width * 0.26,
+                height: screenSize.width * 0.26,
+                child:
+                  (widget.medecin!.getUrlPhoto() !=null)?
+                  ClipOval(
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/images/profil_pic.png'), // Image de remplacement pendant le chargement.
+                      image:NetworkImage(widget.medecin!.getUrlPhoto()!)  ,
+                      fit: BoxFit.cover,
+                      ),
+                  ):Image(image: AssetImage("assets/images/profil_pic.png"))),
             SizedBox(
               height: screenSize.height * 0.015,
             ),

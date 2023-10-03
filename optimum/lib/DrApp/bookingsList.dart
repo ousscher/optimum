@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -164,21 +165,20 @@ class _AppoinmentCardState extends State<AppoinmentCard> {
   Future<String?> getUserName(String uid) async {
     try {
       // Accédez à la collection "users" et utilisez la méthode "where" pour filtrer par UID.
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
+      DocumentSnapshot documentSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
       // Vérifiez si des documents correspondant à l'UID ont été trouvés.
       if (documentSnapshot.exists) {
         // Accédez au champ "nom" du premier document (s'il y en a plusieurs, prenez-en un).
-        Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
         String? userName = data['name'] as String?;
-        userName = userName!+" " + data['lastname'];
+        userName = userName! + " " + data['lastname'];
         print(userName);
         return userName;
       } else {
-        // L'utilisateur avec cet UID n'a pas été trouvé.
+        // l'utilisateur qui a fait la reservation
         return null;
       }
     } catch (e) {
@@ -315,7 +315,117 @@ class _AppoinmentCardState extends State<AppoinmentCard> {
               ),
             );
           } else {
-            return Text('L\'utilisateur n\'a pas été trouvé.');
+            String? userName = snapshot.data;
+            return Container(
+              height: screenSize.height * 0.14,
+              width: screenSize.width * 0.93,
+              child: Card(
+                color: Theme.of(context).shadowColor,
+                elevation: 1.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(screenSize.width * 0.1),
+                  side: BorderSide(
+                    color: Color(0xFF70A4EA),
+                    width: 2.0,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: screenSize.width * 0.2,
+                      height: screenSize.width * 0.2,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              return Colors.white;
+                            },
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  screenSize.width * 0.15),
+                              side: BorderSide(
+                                width: 1.0,
+                                color: Color(0xFFD37777),
+                              ),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          //Navigator.push(
+                          //context,
+                          //MaterialPageRoute(builder: (context) => Profile()),
+                          //);
+                        },
+                        child: Image.asset(
+                          'assets/images/profil_pic.png',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: screenSize.width * 0.035,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        AutoSizeText(
+                          "reservation has been done by you",
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Color(0xFF70A4EA),
+                            fontFamily: 'Oswald',
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        Text(
+                          '${widget.list!['date']} at ${widget.list!['hour']}',
+                          style: TextStyle(
+                            color: Color(0xFFD9D9D9),
+                            fontFamily: 'Poppins',
+                            fontSize: screenSize.width * 0.04,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Status',
+                              style: TextStyle(
+                                color: Color(0xFFD37777),
+                                fontFamily: 'Oswald',
+                                fontSize: screenSize.width * 0.045,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenSize.width * 0.04,
+                            ),
+                            Container(
+                              width: screenSize.width * 0.4,
+                              height: screenSize.height * 0.04,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFFD9D9D9)),
+                                borderRadius: BorderRadius.circular(40.0),
+                                color: Colors.grey.shade50,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: MyDropdownPage(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
         }
       },

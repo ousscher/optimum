@@ -140,7 +140,7 @@ class _DrContactState extends State<DrContact> {
 
                                 final Uri emailUri = Uri(
                                   scheme: 'mailto',
-                                  path: clinic!.getEmail(),
+                                  path: clinic.getEmail(),
                                   query: encodeQueryParameters(<String, String>{
                                     'subject': 'Patient Question',
                                   }),
@@ -175,7 +175,7 @@ class _DrContactState extends State<DrContact> {
                                 onPressed: () async {
                                   final Uri phoneUri = Uri(
                                     scheme: 'tel',
-                                    path: clinic!.getPhone(),
+                                    path: clinic.getPhone(),
                                   );
                                   try {
                                     await launchUrl(phoneUri);
@@ -212,7 +212,7 @@ class _DrContactState extends State<DrContact> {
                               onTap: () async {
                                 final Uri phoneUri = Uri(
                                   scheme: 'tel',
-                                  path: clinic!.getPhone(),
+                                  path: clinic.getPhone(),
                                 );
                                 try {
                                   await launchUrl(phoneUri);
@@ -229,27 +229,6 @@ class _DrContactState extends State<DrContact> {
                                 ),
                               ),
                             ),
-                            // GestureDetector(
-                            //   onTap: () async {
-                            //     final Uri phoneUri = Uri(
-                            //       scheme: 'tel',
-                            //       path: '0734665501',
-                            //     );
-                            //     try {
-                            //       await launchUrl(phoneUri);
-                            //     } catch (e) {
-                            //       print(e.toString());
-                            //     }
-                            //   },
-                            // child: Text(
-                            //   '/ O7 34 66 55 01',
-                            //   style: TextStyle(
-                            //     color: Theme.of(context).primaryColor,
-                            //     fontSize: screenSize.height * 0.025,
-                            //     fontFamily: 'Oswald',
-                            //   ),
-                            // ),
-                            // ),
                           ],
                         ),
                         SizedBox(
@@ -265,7 +244,7 @@ class _DrContactState extends State<DrContact> {
                                   final Uri mapsUri = Uri(
                                     scheme: 'https',
                                     host: 'www.google.dz',
-                                    path: clinic!.getLocationLink(),
+                                    path: clinic.getLocationLink(),
                                   );
                                   try {
                                     await launchUrl(mapsUri);
@@ -303,7 +282,7 @@ class _DrContactState extends State<DrContact> {
                                 final Uri mapsUri = Uri(
                                   scheme: 'https',
                                   host: 'www.google.dz',
-                                  path: clinic!.getLocationLink(),
+                                  path: clinic.getLocationLink(),
                                 );
                                 try {
                                   await launchUrl(mapsUri);
@@ -403,7 +382,7 @@ class _DrContactState extends State<DrContact> {
                                   final Uri instagramUri = Uri(
                                     scheme: 'https',
                                     host: 'instagram.com',
-                                    path: clinic!.getFacebookAccount(),
+                                    path: clinic.getFacebookAccount(),
                                   );
                                   try {
                                     await launchUrl(instagramUri);
@@ -441,7 +420,7 @@ class _DrContactState extends State<DrContact> {
                                 final Uri instagramUri = Uri(
                                   scheme: 'https',
                                   host: 'instagram.com',
-                                  path: clinic!.getInstaAccount(),
+                                  path: clinic.getInstaAccount(),
                                 );
                                 try {
                                   await launchUrl(instagramUri);
@@ -496,12 +475,6 @@ class _DrContactState extends State<DrContact> {
                                 setState(() {
                                   
                                 });
-                                // if (clinique != null) {
-                                //   print("clinique non null");
-                                //   setState(() {
-                                //     clinic = clinique;
-                                //   });
-                                // }
                               },
                               child: Text(
                                 'SET INFO',

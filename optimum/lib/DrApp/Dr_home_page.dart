@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/DrApp/Dr_contact_page.dart';
 import 'package:optimum/DrApp/Dr_profile.dart';
-import 'package:optimum/DrApp/bookings.dart';
+import 'package:optimum/DrApp/SchedduleDoctor.dart';
 import 'package:optimum/DrApp/bookingsList.dart';
 import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/Wrapper.dart';
@@ -156,11 +156,11 @@ class _DrHomeState extends State<DrHome> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => Schedule()),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ScheduleDoctor(medecin: medecin,)),
+                                    );
                                   },
                                   child: Image.asset(
                                     'assets/images/schedule_ico.png',

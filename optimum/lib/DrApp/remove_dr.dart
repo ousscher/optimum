@@ -2,9 +2,12 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/DrApp/Dr_profile.dart';
+import 'package:optimum/services/database.dart';
+import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 import '../provider/theme_provider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Removedr extends StatefulWidget {
   const Removedr({super.key});
@@ -61,6 +64,7 @@ class _RemovedrState extends State<Removedr> {
         // Handle errors
         print('Error fetching data: $e');
       }
+      if (!mounted) return [];
       setState(() {
         cardMedecins = mails
             .map(
@@ -121,12 +125,12 @@ class _RemovedrState extends State<Removedr> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
+                          AutoSizeText(
                             e,
+                            maxLines: 1,
                             style: TextStyle(
                               color: Color(0xFF70A4EA),
                               fontFamily: 'Oswald',
-                              fontSize: screenSize.width * 0.06,
                               letterSpacing: 1.0,
                             ),
                           ),
@@ -142,10 +146,10 @@ class _RemovedrState extends State<Removedr> {
                           Row(
                             children: <Widget>[
                               Icon(
-                                Icons.star,
-                                color: Color(0xFFD37777),
-                                size: screenSize.width * 0.03,
-                              ),
+                                  Icons.star,
+                                  color: const Color(0xFFD37777),
+                                  size: screenSize.width * 0.03,
+                                ),
                               SizedBox(
                                 width: screenSize.width * 0.005,
                               ),
@@ -187,7 +191,7 @@ class _RemovedrState extends State<Removedr> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          _deleteDoctor(e);
+                          DatabaseService.deleteDocumentByFieldValue(e);
                           final snackBar = SnackBar(
                             elevation: 0,
                             behavior: SnackBarBehavior.floating,
@@ -229,7 +233,7 @@ class _RemovedrState extends State<Removedr> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // Pendant le chargement
-          return CircularProgressIndicator(); // Ou tout autre indicateur de chargement
+          return Loading(); // Ou tout autre indicateur de chargement
         } else if (snapshot.hasError)
           return Text("erreur ! ${snapshot.error}");
         else
