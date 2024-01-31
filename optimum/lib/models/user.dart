@@ -78,7 +78,7 @@ class Patient extends UserOptimum {
   String? _dateOfBirth;
   String? _adress;
   String? _bloodType;
-  bool? _alergic;
+  String? _alergic;
   List<String>? _surgery;
   List<String>? _cronicDesease;
   Patient(
@@ -94,7 +94,7 @@ class Patient extends UserOptimum {
       String? dateOfBirth,
       String? adress,
       String? bloodType,
-      bool? alergic,
+      String? alergic,
       List<String>? surgery,
       List<String>? cronicDesease})
       : _location = location,
@@ -111,7 +111,9 @@ class Patient extends UserOptimum {
             name: patientName,
             lastName: patientLastName,
             email: patientEmail,
-            urlPhoto: urlPhoto);
+            urlPhoto: urlPhoto, 
+            phone: phone,
+            );
 
   String? getDateBirth() {
     return _dateOfBirth;
@@ -125,7 +127,7 @@ class Patient extends UserOptimum {
     return _bloodType;
   }
 
-  bool? getAlergic() {
+  String? getAlergic() {
     return _alergic;
   }
 
@@ -187,7 +189,7 @@ class Patient extends UserOptimum {
     _bloodType = bloodType;
   }
 
-  void setAlergic(bool? alergic) {
+  void setAlergic(String? alergic) {
     _alergic = alergic;
   }
 }

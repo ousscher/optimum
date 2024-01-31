@@ -1,17 +1,11 @@
-import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
-import 'package:optimum/pages/edit_pesonal_profile_page.dart';
-import 'package:optimum/pages/home_page.dart';
-import 'package:optimum/pages/menu.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
-import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
 import 'editChanger.dart';
@@ -306,9 +300,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     (widget.patient!.getAlergic() == null)
                                         ? "Not mentioned"
-                                        : (widget.patient!.getAlergic()!)
-                                            ? "alergic"
-                                            : "Not Alergic",
+                                        : widget.patient!.getAlergic()!,
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -336,7 +328,7 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    (widget.patient!.getWeight() == null)
+                                    (widget.patient!.getWeight() == null || widget.patient!.getWeight()=="" )
                                         ? "Not mentioned"
                                         : ("${widget.patient!.getWeight()}  KG"),
                                     style: TextStyle(
@@ -361,7 +353,7 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    (widget.patient!.getHeight() == null)
+                                    (widget.patient!.getHeight() == null || widget.patient!.getHeight()=="")
                                         ? "Not mentioned"
                                         : ("${widget.patient!.getHeight()}  CM"),
                                     style: TextStyle(

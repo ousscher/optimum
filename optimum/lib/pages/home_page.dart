@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +47,8 @@ class _HomeState extends State<Home> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Patient? patient = snapshot.data;
+          print(patient!.getPhone()); 
+          print(patient.getAdress()); 
           return StreamProvider<List<Medecin>?>.value(
             initialData: null,
             value: DatabaseService.meds,
@@ -77,7 +78,6 @@ class _HomeState extends State<Home> {
                             setState(() {
                               patient = p;
                             });
-                            
                           }
                         }, // Menu button
                         child: Icon(
@@ -165,7 +165,9 @@ class _HomeState extends State<Home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => MedsList(patient: patient,)),
+                                          builder: (context) => MedsList(
+                                                patient: patient,
+                                              )),
                                     );
                                   },
                                   child: Image.asset(

@@ -119,9 +119,8 @@ class _EditpersonalState extends State<Editpersonal> {
     return null;
   }
 
-  String prenom = "";
-  String nom = "";
-  String dateOfBirth = "";
+  String firstName  = "";
+  String lastName = "";
   String phoneNB = "";
   String adress = "";
   String error = '';
@@ -131,17 +130,15 @@ class _EditpersonalState extends State<Editpersonal> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    prenom = widget.malade!.getName();
-    nom = widget.malade!.getLastName();
-    dateOfBirth = (widget.malade!.getDateBirth().toString() == "" ||
-            widget.malade!.getDateBirth() == null)
-        ? ""
-        : widget.malade!.getDateBirth().toString();
+    firstName = widget.malade!.getName();
+    lastName = widget.malade!.getLastName();
     phoneNB = widget.malade!.getPhone() ?? "";
     adress = widget.malade!.getAdress() ?? "";
+    selectedDateText = widget.malade!.getDateBirth() ?? "";
   }
 
   Widget build(BuildContext context) {
+    print(widget.malade!.getDateBirth());
     final screenSize = MediaQuery.of(context).size;
     final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
         ? 'edit_profile_dark'
@@ -222,18 +219,19 @@ class _EditpersonalState extends State<Editpersonal> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               Patient? p = Patient(
-                                  uid: widget.malade!.getUid(),
-                                  patientName:  nom,
-                                  patientLastName: prenom,
-                                  urlPhoto: widget.malade!.getUrlPhoto(),
-                                  patientEmail: widget.malade!.getEmail(),
-                                  height: widget.malade!.getHeight(),
-                                  weight: widget.malade!.getWeight(),
-                                  bloodType: widget.malade!.getBloodType(),
-                                  cronicDesease: widget.malade!.getCronicDesease(),
-                                  surgery: widget.malade!.getSurgery(),
-                                  alergic: widget.malade!.getAlergic(),
-                                  );
+                                uid: widget.malade!.getUid(),
+                                patientName: firstName,
+                                patientLastName: lastName ,
+                                urlPhoto: widget.malade!.getUrlPhoto(),
+                                patientEmail: widget.malade!.getEmail(),
+                                height: widget.malade!.getHeight(),
+                                weight: widget.malade!.getWeight(),
+                                bloodType: widget.malade!.getBloodType(),
+                                cronicDesease:
+                                    widget.malade!.getCronicDesease(),
+                                surgery: widget.malade!.getSurgery(),
+                                alergic: widget.malade!.getAlergic(),
+                              );
                               p.setPhone(phoneNB);
                               p.setAdress(adress);
                               p.setDateBirth(selectedDateText);
@@ -380,9 +378,9 @@ class _EditpersonalState extends State<Editpersonal> {
                                 validator: (value) => validateName(value!),
                                 onChanged: (value) {
                                   setState(() {
-                                    prenom = value;
+                                    firstName  = value;
                                   });
-                                  prenom = prenom.trim();
+                                  firstName  = firstName .trim();
                                 },
                                 initialValue: widget.malade!.getName(),
                                 decoration: InputDecoration(
@@ -433,9 +431,9 @@ class _EditpersonalState extends State<Editpersonal> {
                               child: TextFormField(
                                 onChanged: (value) {
                                   setState(() {
-                                    nom = value;
+                                    lastName = value;
                                   });
-                                  nom = nom.trim();
+                                  lastName = lastName.trim();
                                 },
                                 validator: (value) => validateName(value!),
                                 initialValue: widget.malade!.getLastName(),

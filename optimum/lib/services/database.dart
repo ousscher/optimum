@@ -87,13 +87,6 @@ class DatabaseService {
     return snapshot.docs.map((doc) {
       final data =
           doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
-      // Map<String, dynamic> calenderData = data?['calender'];
-      // Calender calender = Calender();
-      // Map<String, dynamic> daysList = data?['days'];
-      // daysList.forEach((key, value) {
-      //   String date = value['date'];
-      //   print(date);
-      // });
       return Medecin(
         uid: data?['uid'] ?? '',
         name: data?['name'] ?? '',
@@ -132,7 +125,6 @@ class DatabaseService {
   }
 
   static Patient userFromSnapshot(DocumentSnapshot snapshot) {
-    // Stream<DocumentSnapshot> snapshot = usersCollection.doc(uid).snapshots();
     return Patient(
       uid: uid,
       patientName: (snapshot.data() as Map<dynamic, dynamic>)['name'],
@@ -146,43 +138,11 @@ class DatabaseService {
       dateOfBirth: (snapshot.data() as Map<dynamic, dynamic>)['dateOfBirth'],
       bloodType: (snapshot.data() as Map<dynamic, dynamic>)['bloodType'],
       alergic: (snapshot.data() as Map<dynamic, dynamic>)['allergic'],
+      surgery : List<String>.from((snapshot.data() as Map<String, dynamic>)['surgery']?.cast<String>() ?? []),
     );
   }
 
   static Medecin medFromSnapshot(DocumentSnapshot snapshot) {
-    // Stream<DocumentSnapshot> snapshot = usersCollection.doc(uid).snapshots();
-    // Map<String, dynamic> data =
-    //     (snapshot.data() as Map<dynamic, dynamic>)['calender'];
-    // Set<Day> days = Set<Day>();
-
-    // if (data.containsKey('days')) {
-    //   List<dynamic> daysData = data['days'];
-    //   for (var dayData in daysData) {
-    //     String date = dayData['date'];
-
-    //     Set<TimeSlot> timeSlots = Set<TimeSlot>();
-    //     if (dayData.containsKey('timeSlots')) {
-    //       List<dynamic> timeSlotsData = dayData['timeSlots'];
-    //       for (var slotData in timeSlotsData) {
-    //         String start = slotData['start'];
-    //         String end = slotData['end'];
-    //         bool available = slotData['available'];
-    //         TimeSlot timeSlot = TimeSlot(
-    //           start: start,
-    //           end: end,
-    //         );
-    //         timeSlot.setAvailability(available);
-    //         timeSlots.add(timeSlot);
-    //       }
-    //     }
-
-    //     Day day = Day(date: date, timeSlots: timeSlots);
-    //     days.add(day);
-    //   }
-    // }
-    // Calender calender = Calender();
-    // calender.setDays(days);
-
     return Medecin(
       uid: (snapshot.data() as Map<dynamic, dynamic>)['uid'],
       name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
@@ -194,8 +154,6 @@ class DatabaseService {
           (snapshot.data() as Map<dynamic, dynamic>)['professionalCarrer'],
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'],
       attendece: (snapshot.data() as Map<dynamic, dynamic>)['attendence'],
-      // calender: calender,
-      // calender: Calender(),
     );
   }
 
@@ -213,12 +171,12 @@ class DatabaseService {
       } else {
         dataToUpdate['adress'] = FieldValue.delete();
       }
-      if (patient.getWeight() != null) {
+      if (patient.getWeight() != ""&& patient.getWeight() !=null) {
         dataToUpdate['weight'] = patient.getWeight();
       } else {
         dataToUpdate['weight'] = FieldValue.delete();
       }
-      if (patient.getHeight() != null) {
+      if (patient.getHeight() != "" && patient.getHeight() !=null) {
         dataToUpdate['height'] = patient.getHeight();
       } else {
         dataToUpdate['height'] = FieldValue.delete();
@@ -242,6 +200,11 @@ class DatabaseService {
         dataToUpdate['allergic'] = patient.getAlergic();
       } else {
         dataToUpdate['allergic'] = FieldValue.delete();
+      }
+      if (patient.getSurgery() !=[] && patient.getSurgery()!=null) {
+        dataToUpdate['surgery'] = patient.getSurgery()!.toSet().toList();
+      } else {
+        dataToUpdate['surgery'] = FieldValue.delete();
       }
       await FirebaseFirestore.instance
           .collection('users')
@@ -288,11 +251,6 @@ class DatabaseService {
       } else {
         dataToUpdate['profilePhotoURL'] = FieldValue.delete();
       }
-      // if (medecin.getCalender() != null) {
-      //   dataToUpdate['calender'] = medecin.getCalender();
-      // } else {
-      //   dataToUpdate['calender'] = FieldValue.delete();
-      // }
 
       await FirebaseFirestore.instance
           .collection('meds')
