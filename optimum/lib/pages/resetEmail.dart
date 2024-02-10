@@ -60,16 +60,15 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                            'Reset Your Password',
-                            style: TextStyle(
-                              color: Color(0xFF66B3FF),
-                              fontSize: screenWidth * 0.08,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.0,
-                              fontFamily: 'Oswald',
-                            ),
+                          'Reset Your Password',
+                          style: TextStyle(
+                            color: Color(0xFF66B3FF),
+                            fontSize: screenWidth * 0.08,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.0,
+                            fontFamily: 'Oswald',
                           ),
-
+                        ),
                         SizedBox(height: screenHeight * 0.005),
                         Text(
                           'Please enter your email',
@@ -80,7 +79,6 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                             fontFamily: 'Poppins',
                           ),
                         ),
-
                         SizedBox(height: screenHeight * 0.01),
                         Padding(
                           padding: EdgeInsets.fromLTRB(
@@ -148,8 +146,7 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(screenWidth * 0.05),
+                                  borderRadius:BorderRadius.circular(screenWidth * 0.05),
                                 ),
                               ),
                             ),
@@ -157,19 +154,20 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                               //la validation de la requete
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
-                                loading = true;
+                                  loading = true;
                                 });
                                 AuthService.getAuth()
                                     .sendPasswordResetEmail(email: email)
                                     .then((_) {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Authenticate(showSignIn: true)),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Authenticate(showSignIn: true)),
                                   );
                                 }).catchError((e) {
                                   setState(() {
-                                    error =
-                                        'Could not find those credentials';
+                                    error = 'Could not find those credentials';
                                     loading = false;
                                   });
                                 });
@@ -180,7 +178,7 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
                                   content: AwesomeSnackbarContent(
                                     title: 'Let\'s go to mail!',
                                     message:
-                                    'We gave you a chance to change your password. Please check your inbox and set a new password inorder to Sign in!',
+                                        'We gave you a chance to change your password. Please check your inbox and set a new password inorder to Sign in!',
                                     contentType: ContentType.warning,
                                   ),
                                 );
@@ -228,4 +226,3 @@ class _ResetEmailPageState extends State<ResetEmailPage> {
           );
   }
 }
-

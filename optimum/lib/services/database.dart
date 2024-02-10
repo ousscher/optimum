@@ -16,21 +16,23 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('meds');
   static final CollectionReference clinicCollection =
       FirebaseFirestore.instance.collection('clinic');
-  Future intialiseUserData(String name, String lastName, String email) async {
+  Future intialiseUserData(String name, String lastName, String email , String gender) async {
     return await usersCollection.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
+      'gender':gender
     });
   }
 
   Future intialiseMedecinData(
-      String uid, String name, String lastName, String email) async {
+      String uid, String name, String lastName, String email , String gender) async {
     return await medsCollections.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
       'uid': uid,
+      'gender':gender
     });
   }
 
@@ -78,6 +80,7 @@ class DatabaseService {
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
         email: data?['email'] ?? '',
+        gender: data?["gender"]??'',
         urlPhoto: data?['urlPhoto'],
       );
     }).toList();
@@ -87,26 +90,17 @@ class DatabaseService {
     return snapshot.docs.map((doc) {
       final data =
           doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
-      // Map<String, dynamic> calenderData = data?['calender'];
-      // Calender calender = Calender();
-      // Map<String, dynamic> daysList = data?['days'];
-      // daysList.forEach((key, value) {
-      //   String date = value['date'];
-      //   print(date);
-      // });
       return Medecin(
         uid: data?['uid'] ?? '',
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
+        gender: data?['gender']??"",
         email: data?['email'] ?? '',
         urlPhoto: data?['profilePhotoURL'],
         professionalCreer: data?['professionalCarrer'],
         phone: data?['phone'],
         specialite: data?['specialite'],
         attendece:  data?['attendence'],
-        // calender: data?['calender'] ?? Calender(),
-        // calender: Calender(),
-        // calender:
       );
     }).toList();
   }
@@ -138,6 +132,7 @@ class DatabaseService {
       patientName: (snapshot.data() as Map<dynamic, dynamic>)['name'],
       patientLastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       patientEmail: (snapshot.data() as Map<dynamic, dynamic>)['email'],
+      gender: (snapshot.data()as Map<dynamic,dynamic>)['gender'],
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'],
       urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
       weight: (snapshot.data() as Map<dynamic, dynamic>)['weight'],
@@ -150,44 +145,13 @@ class DatabaseService {
   }
 
   static Medecin medFromSnapshot(DocumentSnapshot snapshot) {
-    // Stream<DocumentSnapshot> snapshot = usersCollection.doc(uid).snapshots();
-    // Map<String, dynamic> data =
-    //     (snapshot.data() as Map<dynamic, dynamic>)['calender'];
-    // Set<Day> days = Set<Day>();
-
-    // if (data.containsKey('days')) {
-    //   List<dynamic> daysData = data['days'];
-    //   for (var dayData in daysData) {
-    //     String date = dayData['date'];
-
-    //     Set<TimeSlot> timeSlots = Set<TimeSlot>();
-    //     if (dayData.containsKey('timeSlots')) {
-    //       List<dynamic> timeSlotsData = dayData['timeSlots'];
-    //       for (var slotData in timeSlotsData) {
-    //         String start = slotData['start'];
-    //         String end = slotData['end'];
-    //         bool available = slotData['available'];
-    //         TimeSlot timeSlot = TimeSlot(
-    //           start: start,
-    //           end: end,
-    //         );
-    //         timeSlot.setAvailability(available);
-    //         timeSlots.add(timeSlot);
-    //       }
-    //     }
-
-    //     Day day = Day(date: date, timeSlots: timeSlots);
-    //     days.add(day);
-    //   }
-    // }
-    // Calender calender = Calender();
-    // calender.setDays(days);
 
     return Medecin(
       uid: (snapshot.data() as Map<dynamic, dynamic>)['uid'],
       name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
       lastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       email: (snapshot.data() as Map<dynamic, dynamic>)['email'],
+      gender: (snapshot.data()as Map<dynamic,dynamic>)['gender'],
       urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
       specialite: (snapshot.data() as Map<dynamic, dynamic>)['specialite'],
       professionalCreer:

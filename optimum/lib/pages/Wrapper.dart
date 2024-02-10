@@ -28,7 +28,6 @@ class _WrapperState extends State<Wrapper> {
       if (utilisateur!.emailVerified) {
         //Creer l'instance de l'utilisateur avant de passer par le homeScreen
         // verifier si c'est un medecin
-        print(utilisateur!.email);
         if (widget.doctorsList.contains(utilisateur!.email)) {
           // if (utilisateur!.email == "lo_cherguelaine@esi.dz") {
           print("we are DRhome");
