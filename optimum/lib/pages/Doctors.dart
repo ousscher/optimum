@@ -100,7 +100,7 @@ class DoctorOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final Drgender = 'Woman';
+    final Drgender = this.medecin!.getGender();
     final img = Drgender == 'Man'
         ? 'drprin'
         : 'drremp';
