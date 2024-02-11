@@ -40,6 +40,7 @@ class _DoctorsState extends State<Doctors> {
   Widget build(BuildContext context) {
     final medecins = Provider.of<List<Medecin>?>(context);
     print(medecins);
+    _pages.clear();
     if (medecins != null) {
       medecins.forEach((element) {
         setState(() {
@@ -99,6 +100,10 @@ class DoctorOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+    final Drgender = 'Woman';
+    final img = Drgender == 'Man'
+        ? 'drprin'
+        : 'drremp';
     print(medecin!.getName());
     print(medecin!.getLastName());
     print(medecin!.getEmail());
@@ -108,9 +113,9 @@ class DoctorOne extends StatelessWidget {
     print(medecin!.getAttendence());
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/drprin.png'),
+            image: AssetImage('assets/images/' + '$img' + '.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -319,7 +324,7 @@ class DoctorOne extends StatelessWidget {
                           width: screenSize.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
-                            color: (medecin!.getAttendence() == 'present')? Color(0xFF00CC66) : Colors.red,
+                            color: (medecin!.getAttendence() == 'Present')? Color(0xFF00CC66) : Colors.red,
                           ),
                           child: Center(
                             child: Text(
