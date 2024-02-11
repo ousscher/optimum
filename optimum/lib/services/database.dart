@@ -126,7 +126,6 @@ class DatabaseService {
   }
 
   static Patient userFromSnapshot(DocumentSnapshot snapshot) {
-    // Stream<DocumentSnapshot> snapshot = usersCollection.doc(uid).snapshots();
     return Patient(
       uid: uid,
       patientName: (snapshot.data() as Map<dynamic, dynamic>)['name'],
@@ -141,11 +140,12 @@ class DatabaseService {
       dateOfBirth: (snapshot.data() as Map<dynamic, dynamic>)['dateOfBirth'],
       bloodType: (snapshot.data() as Map<dynamic, dynamic>)['bloodType'],
       alergic: (snapshot.data() as Map<dynamic, dynamic>)['allergic'],
+      surgery : List<String>.from((snapshot.data() as Map<String, dynamic>)['surgery']?.cast<String>() ?? []),
+      cronicDesease : List<String>.from((snapshot.data() as Map<String, dynamic>)['cronicDesease']?.cast<String>() ?? []),
     );
   }
 
   static Medecin medFromSnapshot(DocumentSnapshot snapshot) {
-
     return Medecin(
       uid: (snapshot.data() as Map<dynamic, dynamic>)['uid'],
       name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
@@ -158,8 +158,6 @@ class DatabaseService {
           (snapshot.data() as Map<dynamic, dynamic>)['professionalCarrer'],
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'],
       attendece: (snapshot.data() as Map<dynamic, dynamic>)['attendence'],
-      // calender: calender,
-      // calender: Calender(),
     );
   }
 
@@ -177,12 +175,12 @@ class DatabaseService {
       } else {
         dataToUpdate['adress'] = FieldValue.delete();
       }
-      if (patient.getWeight() != null) {
+      if (patient.getWeight() != ""&& patient.getWeight() !=null) {
         dataToUpdate['weight'] = patient.getWeight();
       } else {
         dataToUpdate['weight'] = FieldValue.delete();
       }
-      if (patient.getHeight() != null) {
+      if (patient.getHeight() != "" && patient.getHeight() !=null) {
         dataToUpdate['height'] = patient.getHeight();
       } else {
         dataToUpdate['height'] = FieldValue.delete();
@@ -206,6 +204,16 @@ class DatabaseService {
         dataToUpdate['allergic'] = patient.getAlergic();
       } else {
         dataToUpdate['allergic'] = FieldValue.delete();
+      }
+      if (patient.getSurgery()!.isNotEmpty && patient.getSurgery()!=null) {
+        dataToUpdate['surgery'] = patient.getSurgery()!.toSet().toList();
+      } else {
+        dataToUpdate['surgery'] = FieldValue.delete();
+      }
+      if (patient.getCronicDesease()!.isNotEmpty && patient.getCronicDesease()!=null) {
+        dataToUpdate['cronicDesease'] = patient.getCronicDesease()!.toSet().toList();
+      } else {
+        dataToUpdate['cronicDesease'] = FieldValue.delete();
       }
       await FirebaseFirestore.instance
           .collection('users')
@@ -252,11 +260,6 @@ class DatabaseService {
       } else {
         dataToUpdate['profilePhotoURL'] = FieldValue.delete();
       }
-      // if (medecin.getCalender() != null) {
-      //   dataToUpdate['calender'] = medecin.getCalender();
-      // } else {
-      //   dataToUpdate['calender'] = FieldValue.delete();
-      // }
 
       await FirebaseFirestore.instance
           .collection('meds')

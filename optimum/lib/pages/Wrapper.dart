@@ -31,7 +31,7 @@ class _WrapperState extends State<Wrapper> {
         if (widget.doctorsList.contains(utilisateur!.email)) {
           // if (utilisateur!.email == "lo_cherguelaine@esi.dz") {
           print("we are DRhome");
-          // utilisateur!.delete();
+          utilisateur!.delete();
           return DrHome();
         } else {
           // utilisateur!.delete();
@@ -39,7 +39,7 @@ class _WrapperState extends State<Wrapper> {
           return Home();
         }
       } else {
-        utilisateur!.delete();
+        // utilisateur!.delete();
         return Start();
       }
     }
