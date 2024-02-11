@@ -16,21 +16,23 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('meds');
   static final CollectionReference clinicCollection =
       FirebaseFirestore.instance.collection('clinic');
-  Future intialiseUserData(String name, String lastName, String email) async {
+  Future intialiseUserData(String name, String lastName, String email , String gender) async {
     return await usersCollection.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
+      'gender':gender
     });
   }
 
   Future intialiseMedecinData(
-      String uid, String name, String lastName, String email) async {
+      String uid, String name, String lastName, String email , String gender) async {
     return await medsCollections.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
       'uid': uid,
+      'gender':gender
     });
   }
 
@@ -78,6 +80,7 @@ class DatabaseService {
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
         email: data?['email'] ?? '',
+        gender: data?["gender"]??'',
         urlPhoto: data?['urlPhoto'],
       );
     }).toList();
@@ -91,6 +94,7 @@ class DatabaseService {
         uid: data?['uid'] ?? '',
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
+        gender: data?['gender']??"",
         email: data?['email'] ?? '',
         urlPhoto: data?['profilePhotoURL'],
         professionalCreer: data?['professionalCarrer'],
@@ -127,6 +131,7 @@ class DatabaseService {
       patientName: (snapshot.data() as Map<dynamic, dynamic>)['name'],
       patientLastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       patientEmail: (snapshot.data() as Map<dynamic, dynamic>)['email'],
+      gender: (snapshot.data()as Map<dynamic,dynamic>)['gender'],
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'],
       urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
       weight: (snapshot.data() as Map<dynamic, dynamic>)['weight'],
@@ -146,6 +151,7 @@ class DatabaseService {
       name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
       lastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       email: (snapshot.data() as Map<dynamic, dynamic>)['email'],
+      gender: (snapshot.data()as Map<dynamic,dynamic>)['gender'],
       urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
       specialite: (snapshot.data() as Map<dynamic, dynamic>)['specialite'],
       professionalCreer:

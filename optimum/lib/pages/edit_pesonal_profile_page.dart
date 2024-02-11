@@ -222,6 +222,7 @@ class _EditpersonalState extends State<Editpersonal> {
                                 uid: widget.malade!.getUid(),
                                 patientName: firstName,
                                 patientLastName: lastName ,
+                                gender: widget.malade!.getGender(),
                                 urlPhoto: widget.malade!.getUrlPhoto(),
                                 patientEmail: widget.malade!.getEmail(),
                                 height: widget.malade!.getHeight(),

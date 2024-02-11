@@ -14,11 +14,13 @@ class VerifyUser extends StatefulWidget {
   String name;
   String lastName;
   String email;
+  String gender;
   VerifyUser({
     super.key,
     required this.name,
     required this.lastName,
     required this.email,
+    required this.gender
   });
 
   @override
@@ -35,7 +37,7 @@ class _VerifyUserState extends State<VerifyUser> {
     user = FirebaseAuth.instance.currentUser!;
     user.sendEmailVerification();
     timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      verifyUser(widget.name, widget.lastName, widget.email);
+      verifyUser(widget.name, widget.lastName, widget.email, widget.gender);
     });
     super.initState();
   }
@@ -200,7 +202,8 @@ class _VerifyUserState extends State<VerifyUser> {
     super.dispose();
   }
 
-  Future verifyUser(String name, String lastName, String email) async {
+  Future verifyUser(
+      String name, String lastName, String email, String gender) async {
     try {
       User user = FirebaseAuth.instance.currentUser!;
       await user.reload();
@@ -214,17 +217,20 @@ class _VerifyUserState extends State<VerifyUser> {
         });
         if (doctorMails.contains(user.email)) {
           print('doctor exists');
-        await DatabaseService()
-            .intialiseMedecinData(user.uid, name, lastName, email);
+          await DatabaseService()
+              .intialiseMedecinData(user.uid, name, lastName, email, gender);
         }
         // if (user.email == "lo_cherguelaine@esi.dz")
         else {
-        await DatabaseService().intialiseUserData(
-            name, lastName, email); //initialise data of user
+          await DatabaseService().intialiseUserData(
+              name, lastName, email, gender); //initialise data of user
         }
         await Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Wrapper(doctorsList: doctorMails,)),
+          MaterialPageRoute(
+              builder: (context) => Wrapper(
+                    doctorsList: doctorMails,
+                  )),
           (Route<dynamic> route) =>
               false, // Supprime toutes les routes précédentes
         );

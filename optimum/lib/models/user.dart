@@ -1,9 +1,9 @@
-
 class UserOptimum {
   String _uid;
   String _name;
   String _lastName;
   String _email;
+  String _gender;
   String? _urlPhoto;
   String? _phone;
 
@@ -12,6 +12,7 @@ class UserOptimum {
     required String name,
     required String lastName,
     required String email,
+    required String gender,
     String? urlPhoto,
     String? phone,
   })  : _uid = uid,
@@ -19,7 +20,8 @@ class UserOptimum {
         _name = name,
         _email = email,
         _urlPhoto = urlPhoto,
-        _phone = phone;
+        _phone = phone,
+        _gender = gender;
 
   String getUid() {
     return this._uid;
@@ -37,6 +39,10 @@ class UserOptimum {
     return _email;
   }
 
+  String getGender() {
+    return _gender;
+  }
+
   void setName(String name) {
     _name = name;
   }
@@ -47,6 +53,11 @@ class UserOptimum {
 
   void setEmail(String email) {
     _email = email;
+  }
+
+
+  void setGender(String gender) {
+    _gender = gender;
   }
 
   String? getUrlPhoto() {
@@ -86,6 +97,7 @@ class Patient extends UserOptimum {
       required String patientName,
       required String patientLastName,
       required String patientEmail,
+      required String gender,
       String? urlPhoto,
       String? location,
       String? phone,
@@ -111,6 +123,7 @@ class Patient extends UserOptimum {
             name: patientName,
             lastName: patientLastName,
             email: patientEmail,
+            gender : gender,
             urlPhoto: urlPhoto, 
             phone: phone,
             );
@@ -203,6 +216,7 @@ class Medecin extends UserOptimum {
     required String name,
     required String lastName,
     required String email,
+    required String gender,
     String? specialite,
     String? phone,
     String? urlPhoto,
@@ -217,8 +231,8 @@ class Medecin extends UserOptimum {
             name: name,
             uid: uid,
             phone: phone,
-            
-            urlPhoto: urlPhoto);
+            urlPhoto: urlPhoto,
+            gender: gender);
   //les guetteurs et les seuteurs
   String? getAttendence() {
     return _attendence;
@@ -243,8 +257,4 @@ class Medecin extends UserOptimum {
   void setSpecialite(String? sp) {
     _specialite = sp;
   }
-
-
-
-
 }
