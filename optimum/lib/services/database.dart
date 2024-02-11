@@ -97,9 +97,6 @@ class DatabaseService {
         phone: data?['phone'],
         specialite: data?['specialite'],
         attendece:  data?['attendence'],
-        // calender: data?['calender'] ?? Calender(),
-        // calender: Calender(),
-        // calender:
       );
     }).toList();
   }
@@ -139,6 +136,7 @@ class DatabaseService {
       bloodType: (snapshot.data() as Map<dynamic, dynamic>)['bloodType'],
       alergic: (snapshot.data() as Map<dynamic, dynamic>)['allergic'],
       surgery : List<String>.from((snapshot.data() as Map<String, dynamic>)['surgery']?.cast<String>() ?? []),
+      cronicDesease : List<String>.from((snapshot.data() as Map<String, dynamic>)['cronicDesease']?.cast<String>() ?? []),
     );
   }
 
@@ -201,10 +199,15 @@ class DatabaseService {
       } else {
         dataToUpdate['allergic'] = FieldValue.delete();
       }
-      if (patient.getSurgery() !=[] && patient.getSurgery()!=null) {
+      if (patient.getSurgery()!.isNotEmpty && patient.getSurgery()!=null) {
         dataToUpdate['surgery'] = patient.getSurgery()!.toSet().toList();
       } else {
         dataToUpdate['surgery'] = FieldValue.delete();
+      }
+      if (patient.getCronicDesease()!.isNotEmpty && patient.getCronicDesease()!=null) {
+        dataToUpdate['cronicDesease'] = patient.getCronicDesease()!.toSet().toList();
+      } else {
+        dataToUpdate['cronicDesease'] = FieldValue.delete();
       }
       await FirebaseFirestore.instance
           .collection('users')
