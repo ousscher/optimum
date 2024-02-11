@@ -23,10 +23,86 @@ class Editmedical extends StatefulWidget {
 
 class _EditmedicalState extends State<Editmedical> {
   final _formKey = GlobalKey<FormState>();
-  String? height;
-  String? weight;
+  String height = "";
+  String weight = "";
   List<Widget> additionalSurgeryCodeSections = [];
   List<Widget> additionalChronicCodeSections = [];
+  void initSurgerySections(dynamic screenSize) {
+    widget.malade!.getSurgery()!.forEach((element) {
+      setState(() {
+        additionalSurgeryCodeSections.add(
+          Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: screenSize.width * 0.3,
+                  ),
+                  Container(
+                    width: screenSize.width * 0.6,
+                    height: screenSize.height * 0.068,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xFFD9D9D9)),
+                      borderRadius: BorderRadius.circular(40.0),
+                      color: Colors.grey.shade50,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MyDropdownPageee(
+                        patient: widget.malade,
+                        hint: element,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: screenSize.height * 0.02,
+              ),
+            ],
+          ),
+        );
+      });
+    });
+  }
+
+  void initChronicSections(dynamic screenSize) {
+    widget.malade!.getCronicDesease()!.forEach((element) {
+      additionalChronicCodeSections.add(
+        Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: screenSize.width * 0.3,
+                ),
+                Container(
+                  width: screenSize.width * 0.6,
+                  height: screenSize.height * 0.068,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xFFD9D9D9)),
+                    borderRadius: BorderRadius.circular(40.0),
+                    color: Colors.grey.shade50,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MyDropdownPageeee(
+                      patient: widget.malade,
+                      hint: element,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: screenSize.height * 0.02,
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
   void addSurgerySection() {
     final screenSize = MediaQuery.of(context).size;
     setState(() {
@@ -48,7 +124,10 @@ class _EditmedicalState extends State<Editmedical> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: MyDropdownPageee(),
+                    child: MyDropdownPageee(
+                      patient: widget.malade,
+                      hint: "Not mentionned",
+                    ),
                   ),
                 ),
               ],
@@ -83,7 +162,10 @@ class _EditmedicalState extends State<Editmedical> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: MyDropdownPageeee(),
+                    child: MyDropdownPageeee(
+                      patient: widget.malade,
+                      hint: "Not Mentionned",
+                    ),
                   ),
                 ),
               ],
@@ -101,7 +183,8 @@ class _EditmedicalState extends State<Editmedical> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.malade!.getBloodType());
+    weight = widget.malade!.getWeight() ?? "";
+    height = widget.malade!.getHeight() ?? "";
   }
 
   Widget build(BuildContext context) {
@@ -109,6 +192,8 @@ class _EditmedicalState extends State<Editmedical> {
         ? 'edit_profile_dark'
         : 'edit_profile';
     final screenSize = MediaQuery.of(context).size;
+    initSurgerySections(screenSize);
+    initChronicSections(screenSize);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -332,15 +417,10 @@ class _EditmedicalState extends State<Editmedical> {
                                       ),
                                       child: TextFormField(
                                         initialValue:
-                                            (widget.malade!.getWeight() == null)
-                                                ? ""
-                                                : widget.malade!.getWeight(),
+                                            (widget.malade!.getWeight()) ?? "",
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
-                                          if (value.isEmpty)
-                                            weight = "0";
-                                          else
-                                            weight = value;
+                                          weight = value;
                                         },
                                         decoration: InputDecoration(
                                           hintText: 'Weight',
@@ -393,15 +473,10 @@ class _EditmedicalState extends State<Editmedical> {
                                       ),
                                       child: TextFormField(
                                         initialValue:
-                                            (widget.malade!.getHeight() == null)
-                                                ? ""
-                                                : widget.malade!.getHeight(),
+                                            widget.malade!.getHeight() ?? "",
                                         keyboardType: TextInputType.number,
                                         onChanged: (value) {
-                                          if (value.isEmpty)
-                                            height = "0";
-                                          else
-                                            height = value;
+                                          height = value;
                                         },
                                         decoration: InputDecoration(
                                           hintText: 'Height',
@@ -491,7 +566,10 @@ class _EditmedicalState extends State<Editmedical> {
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: MyDropdownPageee(),
+                                        child: MyDropdownPageee(
+                                          patient: widget.malade,
+                                          hint: "New surgery",
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -554,7 +632,10 @@ class _EditmedicalState extends State<Editmedical> {
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: MyDropdownPageeee(),
+                                        child: MyDropdownPageeee(
+                                          patient: widget.malade,
+                                          hint: "New Chronic Disease",
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -681,6 +762,7 @@ class MyDropdownPagee extends StatefulWidget {
 
 class _MyDropdownPageeState extends State<MyDropdownPagee> {
   String? _dropdownValuee;
+
   static const list2 = [
     DropdownMenuItem(child: Text("Not Mentioned"), value: "Not Mentioned"),
     DropdownMenuItem(child: Text("Allergic"), value: "Allergic"),
@@ -693,14 +775,11 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
         _dropdownValuee = selectedValue;
         if (selectedValue == "Not Mentioned") {
           widget.patient!.setAlergic(null);
-        } else if (selectedValue == "Allergic")
-          widget.patient!.setAlergic(true);
-        else
-          widget.patient!.setAlergic(false);
+        } else {
+          widget.patient!.setAlergic(selectedValue);
+        }
       });
     }
-    // Print the selected value
-    print("Selected value: $_dropdownValuee");
   }
 
   @override
@@ -711,23 +790,20 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
         child: Padding(
           padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
           child: DropdownButton(
-            items: list2,
-            value: _dropdownValuee,
-            onChanged: dropdownCallbackk,
-            isExpanded: true,
-            borderRadius: BorderRadius.circular(20.0),
-            iconEnabledColor: Color(0xFFD37777),
-            iconSize: 26.0,
-            icon: Icon(
-              Icons.arrow_drop_down_circle_outlined,
-              color: Color(0xFFD37777),
-            ),
-            hint: widget.patient!.getAlergic() == null
-                ? Text('Not Metioned')
-                : widget.patient!.getAlergic() == "Allergic"
-                    ? Text("Allergic")
-                    : Text("Not Allergic"),
-          ),
+              items: list2,
+              value: _dropdownValuee,
+              onChanged: dropdownCallbackk,
+              isExpanded: true,
+              borderRadius: BorderRadius.circular(20.0),
+              iconEnabledColor: Color(0xFFD37777),
+              iconSize: 26.0,
+              icon: Icon(
+                Icons.arrow_drop_down_circle_outlined,
+                color: Color(0xFFD37777),
+              ),
+              hint: widget.patient!.getAlergic() == null
+                  ? Text('Not Metioned')
+                  : Text(widget.patient!.getAlergic()!)),
         ),
       ),
     );
@@ -735,7 +811,9 @@ class _MyDropdownPageeState extends State<MyDropdownPagee> {
 }
 
 class MyDropdownPageee extends StatefulWidget {
-  MyDropdownPageee({super.key});
+  Patient? patient;
+  String hint;
+  MyDropdownPageee({super.key, required this.patient, required this.hint});
   @override
   _MyDropdownPageeeState createState() => _MyDropdownPageeeState();
 }
@@ -757,33 +835,38 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
     if (selectedValue is String) {
       setState(() {
         _dropdownValueee = selectedValue;
+        if (widget.patient!.getSurgery()!.contains(widget.hint)) {
+          widget.patient!.getSurgery()!.remove(widget.hint);
+        }
+        widget.hint = selectedValue;
+        if (selectedValue != "Not Mentioned") {
+          //delete the old value
+          if (!widget.patient!.getSurgery()!.contains(selectedValue))
+            widget.patient!.addSurgery(selectedValue);
+        }
       });
     }
-    // Print the selected value
-    print("Selected value: $_dropdownValueee");
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
         child: Padding(
           padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
           child: DropdownButton(
-            items: list3,
-            value: _dropdownValueee,
-            onChanged: dropdownCallbackkk,
-            isExpanded: true,
-            borderRadius: BorderRadius.circular(20.0),
-            iconEnabledColor: Color(0xFFD37777),
-            iconSize: 26.0,
-            icon: Icon(
-              Icons.arrow_drop_down_circle_outlined,
-              color: Color(0xFFD37777),
-            ),
-            hint: Text('Not Metioned'),
-          ),
+              items: list3,
+              value: _dropdownValueee,
+              onChanged: dropdownCallbackkk,
+              isExpanded: true,
+              borderRadius: BorderRadius.circular(20.0),
+              iconEnabledColor: Color(0xFFD37777),
+              iconSize: 26.0,
+              icon: Icon(
+                Icons.arrow_drop_down_circle_outlined,
+                color: Color(0xFFD37777),
+              ),
+              hint: Text(widget.hint)),
         ),
       ),
     );
@@ -791,7 +874,9 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
 }
 
 class MyDropdownPageeee extends StatefulWidget {
-  MyDropdownPageeee({super.key});
+  Patient? patient;
+  String hint;
+  MyDropdownPageeee({super.key, required this.hint, required this.patient});
   @override
   _MyDropdownPageeeeState createState() => _MyDropdownPageeeeState();
 }
@@ -813,10 +898,16 @@ class _MyDropdownPageeeeState extends State<MyDropdownPageeee> {
     if (selectedValue is String) {
       setState(() {
         _dropdownValueeee = selectedValue;
+        if (widget.patient!.getCronicDesease()!.contains(widget.hint)) {
+          widget.patient!.getCronicDesease()!.remove(widget.hint);
+        }
+        widget.hint = selectedValue;
+        if (selectedValue != "Not Mentioned") {
+          if (!widget.patient!.getCronicDesease()!.contains(selectedValue))
+            widget.patient!.addChronicDisease(selectedValue);
+        }
       });
     }
-    // Print the selected value
-    print("Selected value: $_dropdownValueeee");
   }
 
   @override
@@ -838,7 +929,7 @@ class _MyDropdownPageeeeState extends State<MyDropdownPageeee> {
               Icons.arrow_drop_down_circle_outlined,
               color: Color(0xFFD37777),
             ),
-            hint: Text('Not Metioned'),
+            hint: Text(widget.hint),
           ),
         ),
       ),

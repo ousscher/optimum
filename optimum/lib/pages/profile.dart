@@ -1,23 +1,18 @@
-import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
-import 'package:optimum/pages/edit_pesonal_profile_page.dart';
-import 'package:optimum/pages/home_page.dart';
-import 'package:optimum/pages/menu.dart';
 import 'package:optimum/services/auth.dart';
 import 'package:optimum/services/database.dart';
-import 'package:optimum/shared/loading.dart';
 import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
 import 'editChanger.dart';
 
 class Profile extends StatefulWidget {
   Patient? patient;
+
   Profile({super.key, required this.patient});
 
   @override
@@ -25,16 +20,16 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  @override
+  // Instance variables should be declared at the beginning of the class
   final user = AuthService.getAuth().currentUser;
 
-  @override
-  
-  Widget build(BuildContext context) {
-    Future<Uint8List?> downloadImage(String imageUrl) async {
+  // Function to download image
+  Future<Uint8List?> downloadImage(String imageUrl) async {
     // Votre code de téléchargement d'image ici...
-
   }
+
+  @override
+  Widget build(BuildContext context) {
     final img = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.light
         ? 'menu_dark'
         : 'menu';
@@ -49,6 +44,7 @@ class _ProfileState extends State<Profile> {
         ),
         child: Column(
           children: <Widget>[
+            // Header Section
             Row(
               children: <Widget>[
                 Column(
@@ -59,7 +55,7 @@ class _ProfileState extends State<Profile> {
                       child: FloatingActionButton(
                         onPressed: () {
                           Navigator.pop(context, widget.patient);
-                        }, // Menu button
+                        },
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           color: Color(0xFFD37777),
@@ -93,18 +89,21 @@ class _ProfileState extends State<Profile> {
                 ),
               ],
             ),
+            // Profile Picture Section
             Container(
-                width: screenSize.width * 0.26,
-                height: screenSize.width * 0.26,
-                child:
-                  (widget.patient!.getUrlPhoto() !=null)?
-                  ClipOval(
-                    child: FadeInImage(
-                      placeholder: AssetImage('assets/images/profil_pic.png'), // Image de remplacement pendant le chargement.
-                      image:NetworkImage(widget.patient!.getUrlPhoto()!)  ,
-                      fit: BoxFit.cover,
+              width: screenSize.width * 0.26,
+              height: screenSize.width * 0.26,
+              child: (widget.patient!.getUrlPhoto() != null)
+                  ? ClipOval(
+                      child: FadeInImage(
+                        placeholder: AssetImage('assets/images/profil_pic.png'),
+                        image: NetworkImage(widget.patient!.getUrlPhoto()!),
+                        fit: BoxFit.cover,
                       ),
-                  ):Image(image: AssetImage("assets/images/profil_pic.png"))),
+                    )
+                  : Image(image: AssetImage("assets/images/profil_pic.png")),
+            ),
+            // User Name Section
             SizedBox(
               height: screenSize.height * 0.015,
             ),
@@ -116,6 +115,7 @@ class _ProfileState extends State<Profile> {
                 color: Theme.of(context).primaryColor,
               ),
             ),
+            // Details Section
             Padding(
               padding: EdgeInsets.fromLTRB(
                   screenSize.height * 0.01, 0, screenSize.height * 0.01, 0),
@@ -131,6 +131,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
+                  // Contact and Address Section
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
@@ -138,9 +139,11 @@ class _ProfileState extends State<Profile> {
                           EdgeInsets.fromLTRB(screenSize.width * 0.01, 0, 0, 0),
                       child: Row(
                         children: <Widget>[
+                          // Phone and Schedule
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              // Phone
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -165,6 +168,7 @@ class _ProfileState extends State<Profile> {
                               SizedBox(
                                 height: screenSize.height * 0.013,
                               ),
+                              // Schedule
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -194,9 +198,11 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             width: screenSize.width * 0.15,
                           ),
+                          // Email and Location
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              // Email
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -220,6 +226,7 @@ class _ProfileState extends State<Profile> {
                               SizedBox(
                                 height: screenSize.height * 0.015,
                               ),
+                              // Address
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -247,8 +254,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
-                  //-------------------------------------
-
+                  // Other Details Section
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
@@ -259,6 +265,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
+                  // Blood Type, Allergies, Weight, Height
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
@@ -266,9 +273,11 @@ class _ProfileState extends State<Profile> {
                           EdgeInsets.fromLTRB(0, 0, screenSize.width * 0.05, 0),
                       child: Row(
                         children: <Widget>[
+                          // Blood Type and Allergies
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              // Blood Type
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -293,6 +302,7 @@ class _ProfileState extends State<Profile> {
                               SizedBox(
                                 height: screenSize.height * 0.013,
                               ),
+                              // Allergies
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -306,9 +316,7 @@ class _ProfileState extends State<Profile> {
                                   Text(
                                     (widget.patient!.getAlergic() == null)
                                         ? "Not mentioned"
-                                        : (widget.patient!.getAlergic()!)
-                                            ? "alergic"
-                                            : "Not Alergic",
+                                        : widget.patient!.getAlergic()!,
                                     style: TextStyle(
                                       fontFamily: 'Oswald',
                                       fontSize: screenSize.height * 0.02,
@@ -322,9 +330,11 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             width: screenSize.width * 0.15,
                           ),
+                          // Weight and Height
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              // Weight
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -336,7 +346,8 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    (widget.patient!.getWeight() == null)
+                                    (widget.patient!.getWeight() == null ||
+                                            widget.patient!.getWeight() == "")
                                         ? "Not mentioned"
                                         : ("${widget.patient!.getWeight()}  KG"),
                                     style: TextStyle(
@@ -350,6 +361,7 @@ class _ProfileState extends State<Profile> {
                               SizedBox(
                                 height: screenSize.height * 0.015,
                               ),
+                              // Height
                               Row(
                                 children: <Widget>[
                                   Image.asset(
@@ -361,7 +373,8 @@ class _ProfileState extends State<Profile> {
                                     width: screenSize.width * 0.04,
                                   ),
                                   Text(
-                                    (widget.patient!.getHeight() == null)
+                                    (widget.patient!.getHeight() == null ||
+                                            widget.patient!.getHeight() == "")
                                         ? "Not mentioned"
                                         : ("${widget.patient!.getHeight()}  CM"),
                                     style: TextStyle(
@@ -378,6 +391,7 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
+                  // Surgery and Chronic Disease Section
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
@@ -388,6 +402,7 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: screenSize.height * 0.01,
                   ),
+                  // Surgery and Chronic Disease Details
                   Container(
                     height: screenSize.height * 0.22,
                     child: SingleChildScrollView(
@@ -397,6 +412,7 @@ class _ProfileState extends State<Profile> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            // Surgery Details
                             Column(
                               children: [
                                 Row(
@@ -425,7 +441,8 @@ class _ProfileState extends State<Profile> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: (widget.patient!.getSurgery() !=
-                                          null)
+                                              null &&
+                                          widget.patient!.getSurgery()!.isNotEmpty)
                                       ? widget.patient!
                                           .getSurgery()!
                                           .map((item) {
@@ -485,6 +502,7 @@ class _ProfileState extends State<Profile> {
                             SizedBox(
                               width: screenSize.width * 0.15,
                             ),
+                            // Line Separator
                             Container(
                               width: 0.6,
                               height: screenSize.height * 0.3,
@@ -493,6 +511,7 @@ class _ProfileState extends State<Profile> {
                             SizedBox(
                               width: screenSize.width * 0.07,
                             ),
+                            // Chronic Disease Details
                             Column(
                               children: [
                                 Row(
@@ -520,10 +539,11 @@ class _ProfileState extends State<Profile> {
                                 ),
                                 Column(
                                   children: (widget.patient!
-                                              .getCronicDesease() !=
-                                          null)
+                                                  .getCronicDesease() !=
+                                              null &&
+                                          widget.patient!.getCronicDesease()!.isNotEmpty)
                                       ? widget.patient!
-                                          .getSurgery()!
+                                          .getCronicDesease()!
                                           .map((item) {
                                           return Column(
                                             children: [
@@ -583,54 +603,57 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                   ),
+                  // Set Info Button
                   SizedBox(
                     height: screenSize.height * 0.015,
                   ),
-                ],
-              ),
-            ),
-            Container(
-              width: screenSize.width * 0.45,
-              height: screenSize.height * 0.06,
-              child: TextButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      return Color(0xFFD37777);
-                    },
-                  ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(screenSize.width * 0.1),
+                  Container(
+                    width: screenSize.width * 0.45,
+                    height: screenSize.height * 0.06,
+                    child: TextButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            return Color(0xFFD37777);
+                          },
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(screenSize.width * 0.1),
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        print(widget.patient!.getBloodType());
+                        Patient? p = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditChanger(
+                                    malade: widget.patient,
+                                  )),
+                        );
+                        if (p != null) {
+                          setState(() {
+                            widget.patient = p;
+                          });
+                          //update the user on firestore
+                          DatabaseService.updateUser(widget.patient);
+                        }
+                      },
+                      child: Text(
+                        'SET INFO',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Oswald',
+                          fontSize: screenSize.height * 0.027,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                onPressed: () async {
-                  print(widget.patient!.getBloodType());
-                  Patient? p = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditChanger(
-                              malade: widget.patient,
-                            )),
-                  );
-                  if (p != null) {
-                    setState(() {
-                      widget.patient = p;
-                    });
-                    //update the user on firestore
-                    DatabaseService.updateUser(widget.patient);
-                  }
-                },
-                child: Text(
-                  'SET INFO',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Oswald',
-                    fontSize: screenSize.height * 0.027,
-                  ),
-                ),
+                ],
               ),
             ),
           ],
