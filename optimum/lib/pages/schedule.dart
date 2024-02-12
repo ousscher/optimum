@@ -580,6 +580,8 @@ class _ScheduleState extends State<Schedule> {
                               if (selectedIndex != -1) {
                                 Map<String, dynamic> appoinment = {
                                   'idClient': widget.patient!.getUid(),
+                                  'idDoctor': widget.medecin!.getUid(),
+                                  'drname': widget.medecin!.getLastName(),
                                   'date': selectedDate,
                                   'hour': Morning[selectedIndex],
                                 };
