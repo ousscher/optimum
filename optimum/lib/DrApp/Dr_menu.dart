@@ -127,7 +127,7 @@ class _DrMenuState extends State<DrMenu> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Removedr()),
+                                      builder: (context) => Removedr(),),
                                 );
                               },
                               child: Text(
@@ -154,7 +154,23 @@ class _DrMenuState extends State<DrMenu> {
                     height: screenSize.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      final snackBar = SnackBar(
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                          title: 'English Mode!',
+                          message:
+                          'Our app currently only supports English; other languages have not been added yet',
+                          contentType: ContentType.failure,
+                        ),
+                      );
+
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(snackBar);
+                    },
                     child: Text(
                       'Language',
                       style: TextStyle(

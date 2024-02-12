@@ -129,7 +129,7 @@ class _DrcreateaccountState extends State<Drcreateaccount> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                             0,
-                            screenHeight * 0.15,
+                            screenHeight * 0.246,
                             screenWidth * 0.3,
                             0,
                           ),
@@ -403,7 +403,7 @@ class _DrcreateaccountState extends State<Drcreateaccount> {
                                     fontSize: 14.0,
                                   ),
                                 ),
-                                SizedBox(height: screenHeight * 0.073),
+                                SizedBox(height: screenHeight * 0.3),
                               ],
                             ),
                           ),
