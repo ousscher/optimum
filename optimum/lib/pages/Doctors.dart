@@ -238,7 +238,7 @@ class DoctorOne extends StatelessWidget {
                         'Dr. ${medecin!.getName()} ${medecin!.getLastName()}',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: screenSize.height * 0.035,
+                          fontSize: screenSize.width * 0.065,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Oswald',
                           letterSpacing: 1.0,
