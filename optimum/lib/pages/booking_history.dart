@@ -324,7 +324,7 @@ class _HistoryCardState extends State<HistoryCard> {
                     ),
                     SizedBox(width: screenSize.width * 0.04,),
                     Text(
-                      'On Time',
+                      '${widget.list!['status']}',
                       style: TextStyle(
                         color: Color(0xFFD37777),
                         fontFamily: 'Poppins',

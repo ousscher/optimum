@@ -71,8 +71,6 @@ class _ScheduleState extends State<Schedule> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
@@ -123,6 +121,7 @@ class _ScheduleState extends State<Schedule> {
         Map<String, dynamic> newAppoinment = {
           "date": doc['date'],
           "hour": doc['hour'],
+          "status": doc['status'],
         };
         bool existAppoinments = appoinmentsList.any((element) =>
             element['date'] == newAppoinment['date'] &&
@@ -132,12 +131,6 @@ class _ScheduleState extends State<Schedule> {
             appoinmentsList.add(newAppoinment);
           });
         }
-        // print("new our list    ");
-        // appoinmentsList.forEach((element) {
-        //   print(element['date']);
-        //   print(element['hour']);
-        // });
-        // Accédez aux données du document (par exemple, doc['date'], doc['medecinId'], etc.)
       });
     });
     // -----------------------------------------------------------------
@@ -575,8 +568,6 @@ class _ScheduleState extends State<Schedule> {
                             ),
                             onPressed: () {
                               //on recupere l'heure de debut et de fin
-                              //on fait l'exemple avec 08.00
-
                               if (selectedIndex != -1) {
                                 Map<String, dynamic> appoinment = {
                                   'idClient': widget.patient!.getUid(),
@@ -584,6 +575,7 @@ class _ScheduleState extends State<Schedule> {
                                   'drname': widget.medecin!.getLastName(),
                                   'date': selectedDate,
                                   'hour': Morning[selectedIndex],
+                                  'status': 'On Time',
                                 };
                                 bool existAppoinments = appoinmentsList.any(
                                     (element) =>
@@ -618,6 +610,9 @@ class _ScheduleState extends State<Schedule> {
                                     'idClient': widget.patient!.getUid(),
                                     'date': selectedDate,
                                     'hour': Afternoon[selectedIndex2],
+                                    'idDoctor': widget.medecin!.getUid(),
+                                    'drname': widget.medecin!.getLastName(),
+                                    'status': 'On Time',
                                   };
                                   bool existAppoinments = appoinmentsList.any(
                                       (element) =>

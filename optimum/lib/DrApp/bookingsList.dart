@@ -55,8 +55,7 @@ class _AppoinmentListState extends State<AppoinmentList> {
           ));
         });
       });
-    } else
-      print("tu es dans le null");
+    }
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
