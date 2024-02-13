@@ -111,8 +111,8 @@ class _ScheduleState extends State<Schedule> {
     final patientRef = FirebaseFirestore.instance
         .collection('users')
         .doc(widget.patient!.getUid());
-    final appointmentCollection = medecinRef.collection('appointments');
-    final appointmentCollection2 = patientRef.collection('appointments');
+    final appointmentCollection2 = medecinRef.collection('appointments');
+    final appointmentCollection = patientRef.collection('appointments');
     appointmentCollection.snapshots().listen((QuerySnapshot snapshot) {
       // Ici, on traite les modifications
       //ici se fera la mise à jour du front
@@ -566,8 +566,8 @@ class _ScheduleState extends State<Schedule> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              //on recupere l'heure de debut et de fin
+                            onPressed: () async {
+                              // on récupère l'heure de début et de fin
                               if (selectedIndex != -1) {
                                 Map<String, dynamic> appoinment = {
                                   'idClient': widget.patient!.getUid(),
@@ -577,77 +577,90 @@ class _ScheduleState extends State<Schedule> {
                                   'hour': Morning[selectedIndex],
                                   'status': 'On Time',
                                 };
+
+                                bool existAppoinments = appoinmentsList.any(
+                                    (element) =>
+                                        element['date'] == appoinment['date'] &&
+                                        element['hour'] == appoinment['hour']);
+
+                                if (!existAppoinments) {
+                                  DocumentReference appointmentReferenceUser =
+                                      await appointmentCollection
+                                          .add(appoinment);
+                                  Map<String, dynamic> appoinmentDoctor =
+                                      appoinment;
+                                  appoinmentDoctor['id_appoinment_user'] =
+                                      appointmentReferenceUser.id;
+                                  await appointmentCollection2
+                                      .add(appoinmentDoctor);
+                                  appoinmentsList.add(appoinment);
+                                  setState(() {
+                                    selectedIndex = -1;
+                                  });
+                                  final snackBar = SnackBar(
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.transparent,
+                                    content: AwesomeSnackbarContent(
+                                      title: 'Success!',
+                                      message:
+                                          'Your appointment has been taken successfully!',
+                                      contentType: ContentType.success,
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(snackBar);
+                                } else {
+                                  print("rendez vous déjà réservé");
+                                }
+                              } else if (selectedIndex2 != -1) {
+                                Map<String, dynamic> appoinment = {
+                                  'idClient': widget.patient!.getUid(),
+                                  'date': selectedDate,
+                                  'hour': Afternoon[selectedIndex2],
+                                  'idDoctor': widget.medecin!.getUid(),
+                                  'drname': widget.medecin!.getLastName(),
+                                  'status': 'On Time',
+                                };
                                 bool existAppoinments = appoinmentsList.any(
                                     (element) =>
                                         element['date'] == appoinment['date'] &&
                                         element['hour'] == appoinment['hour']);
                                 if (!existAppoinments) {
+                                  DocumentReference appointmentReferenceUser =
+                                      await appointmentCollection
+                                          .add(appoinment);
+                                  Map<String, dynamic> appoinmentDoctor =
+                                      appoinment;
+                                  appoinmentDoctor['id_appoinment_user'] =
+                                      appointmentReferenceUser.id;
+                                  await appointmentCollection2
+                                      .add(appoinmentDoctor);
+                                  appoinmentsList.add(appoinment);
                                   setState(() {
-                                    appointmentCollection.add(appoinment);
-                                    appointmentCollection2.add(appoinment);
-                                    appoinmentsList.add(appoinment);
-                                    selectedIndex = -1;
-                                    final snackBar = SnackBar(
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.transparent,
-                                      content: AwesomeSnackbarContent(
-                                        title: 'Success!',
-                                        message:
-                                            'Your appointment has been taken successfully!',
-                                        contentType: ContentType.success,
-                                      ),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(snackBar);
+                                    selectedIndex2 = -1;
                                   });
-                                } else
-                                  print("rendez vous deja reserve");
-                              } else {
-                                if (selectedIndex2 != -1) {
-                                  Map<String, dynamic> appoinment = {
-                                    'idClient': widget.patient!.getUid(),
-                                    'date': selectedDate,
-                                    'hour': Afternoon[selectedIndex2],
-                                    'idDoctor': widget.medecin!.getUid(),
-                                    'drname': widget.medecin!.getLastName(),
-                                    'status': 'On Time',
-                                  };
-                                  bool existAppoinments = appoinmentsList.any(
-                                      (element) =>
-                                          element['date'] ==
-                                              appoinment['date'] &&
-                                          element['hour'] ==
-                                              appoinment['hour']);
-                                  if (!existAppoinments) {
-                                    setState(() {
-                                      appointmentCollection.add(appoinment);
-                                      appoinmentsList.add(appoinment);
-                                      appointmentCollection2.add(appoinment);
-                                      selectedIndex2 = -1;
-                                      final snackBar = SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.transparent,
-                                        content: AwesomeSnackbarContent(
-                                          title: 'Success!',
-                                          message:
-                                              'Your appointment has been taken successfully!',
-                                          contentType: ContentType.success,
-                                        ),
-                                      );
-                                      ScaffoldMessenger.of(context)
-                                        ..hideCurrentSnackBar()
-                                        ..showSnackBar(snackBar);
-                                    });
-                                  } else {
-                                    print("rendez vous deja reserve");
-                                    setState(() {
-                                      selectedIndex = -1;
-                                      selectedIndex2 = -1;
-                                    });
-                                  }
+                                  final snackBar = SnackBar(
+                                    elevation: 0,
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.transparent,
+                                    content: AwesomeSnackbarContent(
+                                      title: 'Success!',
+                                      message:
+                                          'Your appointment has been taken successfully!',
+                                      contentType: ContentType.success,
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(snackBar);
+                                } else {
+                                  print("rendez vous déjà réservé");
+                                  setState(() {
+                                    selectedIndex = -1;
+                                    selectedIndex2 = -1;
+                                  });
                                 }
                               }
                             },

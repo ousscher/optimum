@@ -118,21 +118,17 @@ class _ScheduleDoctorState extends State<ScheduleDoctor> {
         Map<String, dynamic> newAppoinment = {
           "date": doc['date'],
           "hour": doc['hour'],
+          "status": doc['status']
         };
         bool existAppoinments = appoinmentsList.any((element) =>
             element['date'] == newAppoinment['date'] &&
             element['hour'] == newAppoinment['hour']);
+
         if (!existAppoinments) {
           setState(() {
             appoinmentsList.add(newAppoinment);
           });
         }
-        // print("new our list    ");
-        // appoinmentsList.forEach((element) {
-        //   print(element['date']);
-        //   print(element['hour']);
-        // });
-        // Accédez aux données du document (par exemple, doc['date'], doc['medecinId'], etc.)
       });
     });
     // -----------------------------------------------------------------
@@ -577,6 +573,8 @@ class _ScheduleDoctorState extends State<ScheduleDoctor> {
                                   'idClient': "",
                                   'date': selectedDate,
                                   'hour': Morning[selectedIndex],
+                                  'status': "On Time",
+                                  'idDoctor': widget.medecin!.getUid(),
                                 };
                                 bool existAppoinments = appoinmentsList.any(
                                     (element) =>
@@ -610,6 +608,8 @@ class _ScheduleDoctorState extends State<ScheduleDoctor> {
                                     'idClient': "",
                                     'date': selectedDate,
                                     'hour': Afternoon[selectedIndex2],
+                                    'status': "On Time", 
+                                    'idDoctor': widget.medecin!.getUid(),
                                   };
                                   bool existAppoinments = appoinmentsList.any(
                                       (element) =>

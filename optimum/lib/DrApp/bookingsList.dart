@@ -302,7 +302,14 @@ class _AppoinmentCardState extends State<AppoinmentCard> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
-                                child: MyDropdownPage(),
+                                child: MyDropdownPage(
+                                  hint: '${widget.list!['status']}',
+                                  idAppoinmentDoctor: '${widget.list!['id']}',
+                                  idAppoinmentUser:
+                                      '${widget.list!['id_appoinment_user']}',
+                                  idDoctor: '${widget.list!['idDoctor']}',
+                                  idUser: '${widget.list!['idClient']}',
+                                ),
                               ),
                             ),
                           ],
@@ -414,7 +421,14 @@ class _AppoinmentCardState extends State<AppoinmentCard> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
-                                child: MyDropdownPage(),
+                                child: MyDropdownPage(
+                                  hint: '${widget.list!['status']}',
+                                  idAppoinmentDoctor: '${widget.list!['id']}',
+                                  idAppoinmentUser:
+                                      '${widget.list!['id_appoinment_user']}',
+                                  idDoctor: '${widget.list!['idDoctor']}',
+                                  idUser: '${widget.list!['idClient']}',
+                                ),
                               ),
                             ),
                           ],
@@ -433,7 +447,18 @@ class _AppoinmentCardState extends State<AppoinmentCard> {
 }
 
 class MyDropdownPage extends StatefulWidget {
-  MyDropdownPage({super.key});
+  String hint;
+  String? idAppoinmentUser;
+  String idUser;
+  String idDoctor;
+  String idAppoinmentDoctor;
+  MyDropdownPage(
+      {super.key,
+      required this.hint,
+      required this.idAppoinmentUser,
+      required this.idDoctor,
+      required this.idUser,
+      required this.idAppoinmentDoctor});
   @override
   _MyDropdownPageState createState() => _MyDropdownPageState();
 }
@@ -452,11 +477,11 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
+        //update the status on the backend
         _dropdownValue = selectedValue;
       });
-
-      // Print the selected value
-      print("Selected value: $_dropdownValue");
+      DatabaseService.updateStatus(selectedValue, widget.idUser,
+          widget.idDoctor, widget.idAppoinmentUser, widget.idAppoinmentDoctor);
     }
   }
 
@@ -479,7 +504,7 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
               Icons.arrow_drop_down_circle_outlined,
               color: Color(0xFFD37777),
             ),
-            hint: Text('Status'),
+            hint: Text(widget.hint),
           ),
         ),
       ),

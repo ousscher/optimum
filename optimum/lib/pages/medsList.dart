@@ -158,9 +158,6 @@ class CardMedecin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    print(medecin!.getUrlPhoto());
-    print(medecin!.getAttendence());
-    print(medecin!.getEmail());
     return Container(
       height: screenSize.height * 0.3,
       width: screenSize.width * 0.93,
