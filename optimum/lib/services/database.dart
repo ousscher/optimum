@@ -16,23 +16,20 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('meds');
   static final CollectionReference clinicCollection =
       FirebaseFirestore.instance.collection('clinic');
-  Future intialiseUserData(String name, String lastName, String email , String gender) async {
-    return await usersCollection.doc(uid).set({
-      'name': name,
-      'lastname': lastName,
-      'email': email,
-      'gender':gender
-    });
+  Future intialiseUserData(
+      String name, String lastName, String email, String gender) async {
+    return await usersCollection.doc(uid).set(
+        {'name': name, 'lastname': lastName, 'email': email, 'gender': gender});
   }
 
-  Future intialiseMedecinData(
-      String uid, String name, String lastName, String email , String gender) async {
+  Future intialiseMedecinData(String uid, String name, String lastName,
+      String email, String gender) async {
     return await medsCollections.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
       'uid': uid,
-      'gender':gender
+      'gender': gender
     });
   }
 
@@ -62,10 +59,59 @@ class DatabaseService {
   }
 
   static Stream<List<Map<String, dynamic>?>> get appoinmentsPatient {
-    final userRefernce = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid);
-    return userRefernce.collection('appointments')
+    final userRefernce =
+        FirebaseFirestore.instance.collection('users').doc(uid);
+    return userRefernce
+        .collection('appointments')
+        .snapshots()
+        .map((event) => appoinmentListFromSnapshot(event));
+  }
+
+  static Future<void> updateStatus(
+    String status,
+    String idUser,
+    String idDoctor,
+    String? idAppoinmentUser,
+    String idAppoinmentDoctor,
+  ) async {
+    final medecinRef =
+        FirebaseFirestore.instance.collection('meds').doc(idDoctor);
+    final appointmentCollection = medecinRef.collection('appointments');
+    try {
+      await appointmentCollection.doc(idAppoinmentDoctor).update({
+        'status': status,
+      });
+    } catch (e) {
+      print('Error updating document: $e');
+    }
+    if (idUser.isNotEmpty) {
+      try {
+        final patientRef =
+            FirebaseFirestore.instance.collection('users').doc(idUser);
+        final appointmentCollection2 = patientRef.collection('appointments');
+        await appointmentCollection2.doc(idAppoinmentUser).update({
+          'status': status,
+        });
+      } catch (e) {
+        print('Erreur lors de la mise à jour : $e');
+      }
+    }
+  }
+
+  static Stream<List<Map<String, dynamic>?>> get n {
+    final medecinReference =
+        FirebaseFirestore.instance.collection('meds').doc(uid);
+    return medecinReference
+        .collection('appointments')
+        .snapshots()
+        .map((event) => appoinmentListFromSnapshot(event));
+  }
+
+  static Stream<List<Map<String, dynamic>?>> get a {
+    final userRefernce =
+        FirebaseFirestore.instance.collection('users').doc(uid);
+    return userRefernce
+        .collection('appointments')
         .snapshots()
         .map((event) => appoinmentListFromSnapshot(event));
   }
@@ -80,7 +126,7 @@ class DatabaseService {
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
         email: data?['email'] ?? '',
-        gender: data?["gender"]??'',
+        gender: data?["gender"] ?? '',
         urlPhoto: data?['urlPhoto'],
       );
     }).toList();
@@ -94,13 +140,13 @@ class DatabaseService {
         uid: data?['uid'] ?? '',
         name: data?['name'] ?? '',
         lastName: data?['lastname'] ?? '',
-        gender: data?['gender']??"",
+        gender: data?['gender'] ?? "",
         email: data?['email'] ?? '',
         urlPhoto: data?['profilePhotoURL'],
         professionalCreer: data?['professionalCarrer'],
         phone: data?['phone'],
         specialite: data?['specialite'],
-        attendece:  data?['attendence'],
+        attendece: data?['attendence'],
       );
     }).toList();
   }
@@ -108,8 +154,9 @@ class DatabaseService {
   static List<Map<String, dynamic>?> appoinmentListFromSnapshot(
       QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      final data =
-          doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
+      final data = doc.data() as Map<String, dynamic>?;
+      // Cast to Map<String, dynamic>
+      data!['id'] = doc.id;
       return data;
     }).toList();
   }
@@ -131,7 +178,7 @@ class DatabaseService {
       patientName: (snapshot.data() as Map<dynamic, dynamic>)['name'],
       patientLastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       patientEmail: (snapshot.data() as Map<dynamic, dynamic>)['email'],
-      gender: (snapshot.data()as Map<dynamic,dynamic>)['gender'],
+      gender: (snapshot.data() as Map<dynamic, dynamic>)['gender'],
       phone: (snapshot.data() as Map<dynamic, dynamic>)['phone'],
       urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
       weight: (snapshot.data() as Map<dynamic, dynamic>)['weight'],
@@ -140,8 +187,14 @@ class DatabaseService {
       dateOfBirth: (snapshot.data() as Map<dynamic, dynamic>)['dateOfBirth'],
       bloodType: (snapshot.data() as Map<dynamic, dynamic>)['bloodType'],
       alergic: (snapshot.data() as Map<dynamic, dynamic>)['allergic'],
-      surgery : List<String>.from((snapshot.data() as Map<String, dynamic>)['surgery']?.cast<String>() ?? []),
-      cronicDesease : List<String>.from((snapshot.data() as Map<String, dynamic>)['cronicDesease']?.cast<String>() ?? []),
+      surgery: List<String>.from(
+          (snapshot.data() as Map<String, dynamic>)['surgery']
+                  ?.cast<String>() ??
+              []),
+      cronicDesease: List<String>.from(
+          (snapshot.data() as Map<String, dynamic>)['cronicDesease']
+                  ?.cast<String>() ??
+              []),
     );
   }
 
@@ -151,7 +204,7 @@ class DatabaseService {
       name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
       lastName: (snapshot.data() as Map<dynamic, dynamic>)['lastname'],
       email: (snapshot.data() as Map<dynamic, dynamic>)['email'],
-      gender: (snapshot.data()as Map<dynamic,dynamic>)['gender'],
+      gender: (snapshot.data() as Map<dynamic, dynamic>)['gender'],
       urlPhoto: (snapshot.data() as Map<dynamic, dynamic>)['profilePhotoURL'],
       specialite: (snapshot.data() as Map<dynamic, dynamic>)['specialite'],
       professionalCreer:
@@ -175,12 +228,12 @@ class DatabaseService {
       } else {
         dataToUpdate['adress'] = FieldValue.delete();
       }
-      if (patient.getWeight() != ""&& patient.getWeight() !=null) {
+      if (patient.getWeight() != "" && patient.getWeight() != null) {
         dataToUpdate['weight'] = patient.getWeight();
       } else {
         dataToUpdate['weight'] = FieldValue.delete();
       }
-      if (patient.getHeight() != "" && patient.getHeight() !=null) {
+      if (patient.getHeight() != "" && patient.getHeight() != null) {
         dataToUpdate['height'] = patient.getHeight();
       } else {
         dataToUpdate['height'] = FieldValue.delete();
@@ -205,13 +258,15 @@ class DatabaseService {
       } else {
         dataToUpdate['allergic'] = FieldValue.delete();
       }
-      if (patient.getSurgery()!.isNotEmpty && patient.getSurgery()!=null) {
+      if (patient.getSurgery()!.isNotEmpty && patient.getSurgery() != null) {
         dataToUpdate['surgery'] = patient.getSurgery()!.toSet().toList();
       } else {
         dataToUpdate['surgery'] = FieldValue.delete();
       }
-      if (patient.getCronicDesease()!.isNotEmpty && patient.getCronicDesease()!=null) {
-        dataToUpdate['cronicDesease'] = patient.getCronicDesease()!.toSet().toList();
+      if (patient.getCronicDesease()!.isNotEmpty &&
+          patient.getCronicDesease() != null) {
+        dataToUpdate['cronicDesease'] =
+            patient.getCronicDesease()!.toSet().toList();
       } else {
         dataToUpdate['cronicDesease'] = FieldValue.delete();
       }
@@ -277,16 +332,19 @@ class DatabaseService {
         .snapshots()
         .map((event) {
       return Clinic(
-          email: (event.data() as Map<dynamic, dynamic>)['email']??"",
-          phone: (event.data() as Map<dynamic, dynamic>)['phone']??"",
-          adress: (event.data() as Map<dynamic, dynamic>)['adress']??"",
-          facebookAccount: (event.data() as Map<dynamic, dynamic>)['facebookAccount']??"",
-          locationLink: (event.data() as Map<dynamic, dynamic>)['locationLink']??"",
-          instaAccount: (event.data() as Map<dynamic, dynamic>)['instaAccount']??"");
+          email: (event.data() as Map<dynamic, dynamic>)['email'] ?? "",
+          phone: (event.data() as Map<dynamic, dynamic>)['phone'] ?? "",
+          adress: (event.data() as Map<dynamic, dynamic>)['adress'] ?? "",
+          facebookAccount:
+              (event.data() as Map<dynamic, dynamic>)['facebookAccount'] ?? "",
+          locationLink:
+              (event.data() as Map<dynamic, dynamic>)['locationLink'] ?? "",
+          instaAccount:
+              (event.data() as Map<dynamic, dynamic>)['instaAccount'] ?? "");
     });
   }
 
-    static Future<void> updateClinic(Clinic? clinic) async {
+  static Future<void> updateClinic(Clinic? clinic) async {
     try {
       // Créez un Map pour stocker les données à mettre à jour
       final Map<String, dynamic> dataToUpdate = {};
@@ -297,11 +355,7 @@ class DatabaseService {
       dataToUpdate['locationLink'] = clinic.getLocationLink();
       dataToUpdate['phone'] = clinic.getPhone();
 
-      
-
-      await clinicCollection
-          .doc("4vWaNsKXtDBNEar4FvUZ")
-          .update(dataToUpdate);
+      await clinicCollection.doc("4vWaNsKXtDBNEar4FvUZ").update(dataToUpdate);
       print('Mise à jour réussie');
     } catch (e) {
       print('Erreur lors de la mise à jour : $e');
@@ -309,15 +363,17 @@ class DatabaseService {
   }
 
   static Future<void> deleteDocumentByFieldValue(String valueToDelete) async {
-  try {
-    CollectionReference collection = FirebaseFirestore.instance.collection("listMedecins");
+    try {
+      CollectionReference collection =
+          FirebaseFirestore.instance.collection("listMedecins");
 
-    QuerySnapshot querySnapshot = await collection.where("email", isEqualTo: valueToDelete).get();
-    for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-      await documentSnapshot.reference.delete();
+      QuerySnapshot querySnapshot =
+          await collection.where("email", isEqualTo: valueToDelete).get();
+      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+        await documentSnapshot.reference.delete();
+      }
+    } catch (e) {
+      print('Erreur lors de la suppression : $e');
     }
-  } catch (e) {
-    print('Erreur lors de la suppression : $e');
   }
-}
 }
