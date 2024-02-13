@@ -210,13 +210,10 @@ class _VerifyUserState extends State<VerifyUser> {
       if (user.emailVerified) {
         timer.cancel();
         //create a new user on firestore database
-        print(user.email);
-        print("------------------------- la liste de nos medecins");
         doctorMails.forEach((element) {
           print(element);
         });
         if (doctorMails.contains(user.email)) {
-          print('doctor exists');
           await DatabaseService()
               .intialiseMedecinData(user.uid, name, lastName, email, gender);
         }
