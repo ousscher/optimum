@@ -16,6 +16,7 @@ class _EditcontactState extends State<Editcontact> {
   String email = "";
   String phone = "";
   String adress = "";
+  String link = "";
   String facebook = "";
   String insta = "";
   final _formKey = GlobalKey<FormState>();
@@ -30,6 +31,9 @@ class _EditcontactState extends State<Editcontact> {
     adress = (widget.clinic!.getAdress() == "default")
         ? ""
         : widget.clinic!.getAdress();
+    link = (widget.clinic!.getLocationLink() == "default")
+        ? ""
+        : widget.clinic!.getLocationLink();
     facebook = (widget.clinic!.getFacebookAccount() == "default")
         ? ""
         : widget.clinic!.getFacebookAccount();
@@ -133,6 +137,8 @@ class _EditcontactState extends State<Editcontact> {
                                 print(phone);
                                 widget.clinic!.setAdress(
                                     adress == "" ? "default" : adress);
+                                widget.clinic!.setLocationLink(
+                                    link == "" ? "default" : link);
                                 widget.clinic!
                                     .setEmail(email == "" ? "default" : email);
                                 widget.clinic!.setFacebookAccount(
@@ -180,7 +186,7 @@ class _EditcontactState extends State<Editcontact> {
                   ),
                 ),
                 SizedBox(
-                  height: screenSize.height * 0.13,
+                  height: screenSize.height * 0.1,
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
@@ -325,6 +331,63 @@ class _EditcontactState extends State<Editcontact> {
                                       borderRadius: BorderRadius.circular(40.0),
                                       borderSide:
                                           BorderSide(color: Color(0xFFD9D9D9)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenSize.height * 0.02,
+                        ),
+                        Padding(
+                          padding:
+                          EdgeInsets.only(left: screenSize.width * 0.01),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'LinkGPS',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: screenSize.height * 0.023,
+                                  color: Color(0xFF66B3FF),
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenSize.width * 0.1,
+                              ),
+                              Container(
+                                width: screenSize.width * 0.6,
+                                height: screenSize.height * 0.068,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                  color: Colors.grey.shade50,
+                                ),
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      link = value;
+                                    });
+                                    link = link.trim();
+                                  },
+                                  initialValue: link,
+                                  decoration: InputDecoration(
+                                    hintText: 'LinkGPS',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
+                                      borderSide:
+                                      BorderSide(color: Color(0xFFD9D9D9)),
                                     ),
                                   ),
                                 ),
@@ -508,7 +571,7 @@ class _EditcontactState extends State<Editcontact> {
                   ],
                 ),
                 SizedBox(
-                  height: screenSize.height * 0.148,
+                  height: screenSize.height * 0.09,
                 ),
               ],
             ),
