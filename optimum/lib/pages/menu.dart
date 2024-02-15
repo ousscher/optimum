@@ -4,6 +4,7 @@ import 'package:optimum/models/user.dart';
 import 'package:optimum/pages/home_page.dart';
 import 'package:optimum/pages/profile.dart';
 import 'package:optimum/pages/start.dart';
+import 'package:optimum/pages/feedback.dart';
 import 'package:optimum/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -286,9 +287,14 @@ class _MenuState extends State<Menu> {
                     height: screenSize.height * 0.005,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => feedback()),
+                      );
+                    },
                     child: Text(
-                      'Help',
+                      'Feedback',
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontSize: screenSize.width * 0.05,

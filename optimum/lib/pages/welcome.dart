@@ -45,7 +45,7 @@ class Welcome extends StatelessWidget {
                     ),
                     SizedBox(height: 6.0),
                     Text(
-                      'La taille standard d\'un logo d\'application peut varier en fonction des besoins spécifiques de l\'application',
+                      'Welcome to our medical app for hassle-free appointments with trusted healthcare professionals',
                       style: TextStyle(
                         fontSize: screenWidth * 0.04,
                         letterSpacing: 2.0,
