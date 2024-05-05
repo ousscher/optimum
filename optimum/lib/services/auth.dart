@@ -26,8 +26,6 @@ class AuthService {
     }
   }
 
-
-
 //sign in with email & pass
 
   static Future signInWithEmailAndPasswd(String email, String passwd) async {
