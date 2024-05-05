@@ -21,7 +21,7 @@ class _BookingsListState extends State<BookingsList> {
   Widget build(BuildContext context) {
     return StreamProvider<List<Map<String, dynamic>?>?>.value(
       initialData: null,
-      value: DatabaseService.appoinments,
+      value: DatabaseService().appoinments,
       child: AppoinmentList(),
     );
   }
@@ -480,7 +480,7 @@ class _MyDropdownPageState extends State<MyDropdownPage> {
         //update the status on the backend
         _dropdownValue = selectedValue;
       });
-      DatabaseService.updateStatus(selectedValue, widget.idUser,
+      DatabaseService().updateStatus(selectedValue, widget.idUser,
           widget.idDoctor, widget.idAppoinmentUser, widget.idAppoinmentDoctor);
     }
   }

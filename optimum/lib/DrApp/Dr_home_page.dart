@@ -44,14 +44,14 @@ class _DrHomeState extends State<DrHome> {
         : 'home_page';
     return Scaffold(
         body: StreamBuilder<Medecin>(
-      stream: DatabaseService.medData,
+      stream: DatabaseService().medData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Medecin? medecin = snapshot.data;
           
           return StreamProvider<List<UserOptimum>?>.value(
             initialData: null,
-            value: DatabaseService.users,
+            value: DatabaseService().users,
             child: Scaffold(
               body: Container(
                 decoration: BoxDecoration(

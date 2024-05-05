@@ -147,7 +147,7 @@ class _EditcontactState extends State<Editcontact> {
                                     insta == "" ? "default" : insta);
                                 widget.clinic!
                                     .setPhone(phone == "" ? "default" : phone);
-                                DatabaseService.updateClinic(widget.clinic);
+                                DatabaseService().updateClinic(widget.clinic);
                                 Navigator.pop(context);
                               }
                             },

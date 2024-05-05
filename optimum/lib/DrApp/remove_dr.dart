@@ -252,7 +252,7 @@ class _RemovedrState extends State<Removedr> {
                         GestureDetector(
                           onTap: () {
                             deletedr(e);
-                            DatabaseService.deleteDocumentByFieldValue(e);
+                            DatabaseService().deleteDocumentByFieldValue(e);
                             final snackBar = SnackBar(
                               elevation: 0,
                               behavior: SnackBarBehavior.floating,

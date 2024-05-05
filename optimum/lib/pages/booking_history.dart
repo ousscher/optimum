@@ -23,7 +23,7 @@ class _AppointListState extends State<AppointListt> {
 
     return StreamProvider<List<Map<String, dynamic>?>?>.value(
       initialData: null,
-      value: DatabaseService.appoinmentsPatient,
+      value: DatabaseService().appoinmentsPatient,
       child: Bookinghistory(list: const {}),
     );
   }

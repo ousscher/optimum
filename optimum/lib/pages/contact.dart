@@ -24,7 +24,7 @@ class _ContactState extends State<Contact> {
 
     return Scaffold(
       body: StreamBuilder<Clinic>(
-        stream: DatabaseService.clinicData,
+        stream: DatabaseService().clinicData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             Clinic? clinic = snapshot.data;

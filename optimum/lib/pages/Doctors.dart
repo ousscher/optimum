@@ -19,7 +19,7 @@ class _MedsListState extends State<MedsListt> {
   Widget build(BuildContext context) {
     return StreamProvider<List<Medecin>?>.value(
       initialData: null,
-      value: DatabaseService.meds,
+      value: DatabaseService().meds,
       child: Doctors(),
     );
   }
