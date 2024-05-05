@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
         : 'home_page';
     return Scaffold(
         body: StreamBuilder<Patient>(
-      stream: DatabaseService.userData,
+      stream: DatabaseService().userData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Patient? patient = snapshot.data;
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
           print(patient.getAdress()); 
           return StreamProvider<List<Medecin>?>.value(
             initialData: null,
-            value: DatabaseService.meds,
+            value: DatabaseService().meds,
             child: Scaffold(
               body: Container(
                 decoration: BoxDecoration(

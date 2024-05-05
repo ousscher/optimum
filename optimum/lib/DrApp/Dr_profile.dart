@@ -325,7 +325,7 @@ class _DrProfileState extends State<DrProfile> {
                       widget.medecin = m;
                     });
                     //update the doctor on firestore
-                    DatabaseService.updateDoctor(widget.medecin);
+                    DatabaseService().updateDoctor(widget.medecin);
                   }
                 },
                 child: Text(

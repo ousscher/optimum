@@ -8,23 +8,21 @@ import 'package:optimum/models/user.dart';
 
 class DatabaseService {
   // collection reference
-  static String uid = FirebaseAuth.instance.currentUser!.uid;
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  User? user = FirebaseAuth.instance.currentUser;
   DatabaseService();
-  static final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
-  static final CollectionReference medsCollections =
-      FirebaseFirestore.instance.collection('meds');
-  static final CollectionReference clinicCollection =
-      FirebaseFirestore.instance.collection('clinic');
+  final CollectionReference _usersCollection = FirebaseFirestore.instance.collection('users');
+  final CollectionReference _medsCollections = FirebaseFirestore.instance.collection('meds');
+  final CollectionReference _clinicCollection = FirebaseFirestore.instance.collection('clinic');
   Future intialiseUserData(
       String name, String lastName, String email, String gender) async {
-    return await usersCollection.doc(uid).set(
+    return await _usersCollection.doc(uid).set(
         {'name': name, 'lastname': lastName, 'email': email, 'gender': gender});
   }
 
   Future intialiseMedecinData(String uid, String name, String lastName,
       String email, String gender) async {
-    return await medsCollections.doc(uid).set({
+    return await _medsCollections.doc(uid).set({
       'name': name,
       'lastname': lastName,
       'email': email,
@@ -35,21 +33,21 @@ class DatabaseService {
 
   // get nom d'utilisateur
 
-  static Stream<List<Medecin>> get meds {
-    return medsCollections
+  Stream<List<Medecin>> get meds {
+    return _medsCollections
         .snapshots()
         .map((event) => medecinListFromSnapshot(event));
   }
 
-  static Stream<List<UserOptimum>> get users {
-    return usersCollection
+  Stream<List<UserOptimum>> get users {
+    return _usersCollection
         .snapshots()
         .map((event) => userListFromSnapshot(event));
   }
 
   //users list from a snapshot
 
-  static Stream<List<Map<String, dynamic>?>> get appoinments {
+  Stream<List<Map<String, dynamic>?>> get appoinments {
     final medecinReference =
         FirebaseFirestore.instance.collection('meds').doc(uid);
     return medecinReference
@@ -58,7 +56,7 @@ class DatabaseService {
         .map((event) => appoinmentListFromSnapshot(event));
   }
 
-  static Stream<List<Map<String, dynamic>?>> get appoinmentsPatient {
+  Stream<List<Map<String, dynamic>?>> get appoinmentsPatient {
     final userRefernce =
         FirebaseFirestore.instance.collection('users').doc(uid);
     return userRefernce
@@ -67,7 +65,7 @@ class DatabaseService {
         .map((event) => appoinmentListFromSnapshot(event));
   }
 
-  static Future<void> updateStatus(
+  Future<void> updateStatus(
     String status,
     String idUser,
     String idDoctor,
@@ -98,7 +96,7 @@ class DatabaseService {
     }
   }
 
-  static Stream<List<Map<String, dynamic>?>> get n {
+  Stream<List<Map<String, dynamic>?>> get n {
     final medecinReference =
         FirebaseFirestore.instance.collection('meds').doc(uid);
     return medecinReference
@@ -107,7 +105,7 @@ class DatabaseService {
         .map((event) => appoinmentListFromSnapshot(event));
   }
 
-  static Stream<List<Map<String, dynamic>?>> get a {
+  Stream<List<Map<String, dynamic>?>> get a {
     final userRefernce =
         FirebaseFirestore.instance.collection('users').doc(uid);
     return userRefernce
@@ -117,7 +115,7 @@ class DatabaseService {
   }
   //----------------------------------------------------
 
-  static List<UserOptimum> userListFromSnapshot(QuerySnapshot snapshot) {
+  List<UserOptimum> userListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       final data =
           doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
@@ -132,7 +130,7 @@ class DatabaseService {
     }).toList();
   }
 
-  static List<Medecin> medecinListFromSnapshot(QuerySnapshot snapshot) {
+  List<Medecin> medecinListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       final data =
           doc.data() as Map<String, dynamic>?; // Cast to Map<String, dynamic>
@@ -151,7 +149,7 @@ class DatabaseService {
     }).toList();
   }
 
-  static List<Map<String, dynamic>?> appoinmentListFromSnapshot(
+  List<Map<String, dynamic>?> appoinmentListFromSnapshot(
       QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       final data = doc.data() as Map<String, dynamic>?;
@@ -164,15 +162,15 @@ class DatabaseService {
   //appoinment card
 
 //get user snapshot
-  static Stream<Patient> get userData {
-    return usersCollection.doc(uid).snapshots().map(userFromSnapshot);
+  Stream<Patient> get userData {
+    return _usersCollection.doc(uid).snapshots().map(userFromSnapshot);
   }
 
-  static Stream<Medecin> get medData {
-    return medsCollections.doc(uid).snapshots().map(medFromSnapshot);
+  Stream<Medecin> get medData {
+    return _medsCollections.doc(uid).snapshots().map(medFromSnapshot);
   }
 
-  static Patient userFromSnapshot(DocumentSnapshot snapshot) {
+  Patient userFromSnapshot(DocumentSnapshot snapshot) {
     return Patient(
       uid: uid,
       patientName: (snapshot.data() as Map<dynamic, dynamic>)['name'],
@@ -198,7 +196,7 @@ class DatabaseService {
     );
   }
 
-  static Medecin medFromSnapshot(DocumentSnapshot snapshot) {
+  Medecin medFromSnapshot(DocumentSnapshot snapshot) {
     return Medecin(
       uid: (snapshot.data() as Map<dynamic, dynamic>)['uid'],
       name: (snapshot.data() as Map<dynamic, dynamic>)['name'],
@@ -215,7 +213,7 @@ class DatabaseService {
   }
 
   //updating user information
-  static Future<void> updateUser(Patient? patient) async {
+  Future<void> updateUser(Patient? patient) async {
     try {
       // Créez un Map pour stocker les données à mettre à jour
       final Map<String, dynamic> dataToUpdate = {};
@@ -280,7 +278,7 @@ class DatabaseService {
     }
   }
 
-  static Future<void> updateDoctor(Medecin? medecin) async {
+  Future<void> updateDoctor(Medecin? medecin) async {
     try {
       // Créez un Map pour stocker les données à mettre à jour
       final Map<String, dynamic> dataToUpdate = {};
@@ -326,8 +324,8 @@ class DatabaseService {
     }
   }
 
-  static Stream<Clinic> get clinicData {
-    return clinicCollection
+  Stream<Clinic> get clinicData {
+    return _clinicCollection
         .doc("4vWaNsKXtDBNEar4FvUZ")
         .snapshots()
         .map((event) {
@@ -344,7 +342,7 @@ class DatabaseService {
     });
   }
 
-  static Future<void> updateClinic(Clinic? clinic) async {
+  Future<void> updateClinic(Clinic? clinic) async {
     try {
       // Créez un Map pour stocker les données à mettre à jour
       final Map<String, dynamic> dataToUpdate = {};
@@ -355,14 +353,14 @@ class DatabaseService {
       dataToUpdate['locationLink'] = clinic.getLocationLink();
       dataToUpdate['phone'] = clinic.getPhone();
 
-      await clinicCollection.doc("4vWaNsKXtDBNEar4FvUZ").update(dataToUpdate);
+      await _clinicCollection.doc("4vWaNsKXtDBNEar4FvUZ").update(dataToUpdate);
       print('Mise à jour réussie');
     } catch (e) {
       print('Erreur lors de la mise à jour : $e');
     }
   }
 
-  static Future<void> deleteDocumentByFieldValue(String valueToDelete) async {
+  Future<void> deleteDocumentByFieldValue(String valueToDelete) async {
     try {
       CollectionReference collection =
           FirebaseFirestore.instance.collection("listMedecins");

@@ -640,7 +640,7 @@ class _ProfileState extends State<Profile> {
                             widget.patient = p;
                           });
                           //update the user on firestore
-                          DatabaseService.updateUser(widget.patient);
+                          DatabaseService().updateUser(widget.patient);
                         }
                       },
                       child: Text(
