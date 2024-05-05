@@ -273,7 +273,9 @@ class _SignState extends State<Sign> {
                                   Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Wrapper(doctorsList: doctorMails,)),
+                                        builder: (context) => Wrapper(
+                                              doctorsList: doctorMails,
+                                            )),
                                     (Route<dynamic> route) =>
                                         false, // Supprime toutes les routes précédentes
                                   );

@@ -201,7 +201,6 @@ class _MenuState extends State<Menu> {
                           contentType: ContentType.failure,
                         ),
                       );
-
                       ScaffoldMessenger.of(context)
                         ..hideCurrentSnackBar()
                         ..showSnackBar(snackBar);
