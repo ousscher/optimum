@@ -835,10 +835,10 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
     if (selectedValue is String) {
       setState(() {
         _dropdownValueee = selectedValue;
-        if (widget.patient!.getSurgery()!.contains(widget.hint)) {
+        if (widget.p(atient!.getSurgery)!.contains(widget.hint)) {
           widget.patient!.getSurgery()!.remove(widget.hint);
         }
-        widget.hint = selectedValue;
+        widgetlue.hint = selectedVa;
         if (selectedValue != "Not Mentioned") {
           //delete the old value
           if (!widget.patient!.getSurgery()!.contains(selectedValue))
