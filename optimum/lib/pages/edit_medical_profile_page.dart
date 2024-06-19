@@ -1,8 +1,7 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:optimum/models/user.dart';
-import 'package:optimum/pages/edit_pesonal_profile_page.dart';
 import 'package:optimum/pages/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -835,10 +834,10 @@ class _MyDropdownPageeeState extends State<MyDropdownPageee> {
     if (selectedValue is String) {
       setState(() {
         _dropdownValueee = selectedValue;
-        if (widget.p(atient!.getSurgery)!.contains(widget.hint)) {
+        if (widget.patient!.getSurgery()!.contains(widget.hint)) {
           widget.patient!.getSurgery()!.remove(widget.hint);
         }
-        widgetlue.hint = selectedVa;
+        widget.hint = selectedValue;
         if (selectedValue != "Not Mentioned") {
           //delete the old value
           if (!widget.patient!.getSurgery()!.contains(selectedValue))
